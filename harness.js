@@ -60,7 +60,7 @@ const PAGE_HTML = `<!doctype html><html><head><meta charset="utf-8">
 <body style="margin:0;background:#000">
 <video id="v" muted playsinline style="width:${dispW}px;height:${dispH}px"></video>
 <script>
-window.__t = { quality_timeline: [], stalls: [], events: [] };
+window.__t = { quality_timeline: [], stalls: [], events: [], playback_start_epoch: null };
 (function () {
   var v = document.getElementById('v');
   var player = dashjs.MediaPlayer().create();
@@ -82,7 +82,7 @@ window.__t = { quality_timeline: [], stalls: [], events: [] };
     });
   }
 
-  var started = false, stallStartWall = null, stallPos = null;
+  var started = false, stallStartWall = null, stallPos = null, stallEpoch = null;
 
   player.on(dashjs.MediaPlayer.events.QUALITY_CHANGE_RENDERED, function (e) {
     if (e && e.mediaType === 'video') recordQuality(e.newQuality, v.currentTime || 0);
@@ -91,19 +91,30 @@ window.__t = { quality_timeline: [], stalls: [], events: [] };
   // Stalling via event native <video> (stabil lintas-versi dash.js).
   v.addEventListener('waiting', function () {
     stallStartWall = performance.now();
+    stallEpoch = Date.now() / 1000;          // epoch: untuk penyelarasan dgn agen QoS
     stallPos = v.currentTime || 0;
     window.__t.events.push(['waiting', +(+stallPos).toFixed(3)]);
   });
   v.addEventListener('playing', function () {
     window.__t.events.push(['playing', +(+(v.currentTime || 0)).toFixed(3)]);
-    if (!started) {                                   // seed segmen awal (kualitas di t=0)
+    if (!started) {
       started = true;
-      recordQuality(player.getQualityFor('video'), 0);
+      window.__t.playback_start_epoch = Date.now() / 1000;   // media t=0 terjadi di sini
+      // Seed kualitas awal HANYA bila belum ada entri. Event 'playing' dan
+      // QUALITY_CHANGE_RENDERED saling berlomba; bila seed (yang memaksa
+      // t_media=0) menyala setelah event kualitas pertama, timeline jadi tidak
+      // urut dan setelah diurutkan kualitas awal yang rendah akan terentang
+      // ke seluruh sesi -> label sistematis terlalu rendah.
+      if (window.__t.quality_timeline.length === 0) {
+        recordQuality(player.getQualityFor('video'), 0);
+      }
     }
     if (stallStartWall !== null) {                    // tutup satu event stall
       var dur = (performance.now() - stallStartWall) / 1000;
-      if (dur > 0.05) window.__t.stalls.push({ position: +(+stallPos).toFixed(3), duration: +dur.toFixed(3) });
-      stallStartWall = null; stallPos = null;
+      if (dur > 0.05) window.__t.stalls.push({ position: +(+stallPos).toFixed(3),
+                                              duration: +dur.toFixed(3),
+                                              t_epoch: stallEpoch });
+      stallStartWall = null; stallPos = null; stallEpoch = null;
     }
   });
 
@@ -223,6 +234,7 @@ async function detectFps(mpdUrl) {
       mpd: MPD,
       captured_at: new Date().toISOString(),
       media_duration: +tel.mediaDuration.toFixed(3),
+      playback_start_epoch: tel.data.playback_start_epoch,   // untuk penyelarasan X<->y
       fps_assumed: FPS,
       codec: CODEC,
       display: { width: dispW, height: dispH },

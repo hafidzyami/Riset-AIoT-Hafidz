@@ -1,0 +1,98 @@
+{
+  "run_id": "S3B_ElephantsDream_rep1",
+  "mpd": "http://192.168.50.10:8080/ElephantsDream/ElephantsDream_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-08-17T13:44:05.240Z",
+  "media_duration": 299.252,
+  "playback_start_epoch": 1786973945.35,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 2394,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.238,
+      "bitrate_kbps": 792,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 4.114,
+      "bitrate_kbps": 2394,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 8.109,
+      "bitrate_kbps": 2087,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 12.086,
+      "bitrate_kbps": 2908,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 16.071,
+      "bitrate_kbps": 2394,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 24.07,
+      "bitrate_kbps": 2087,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 52.246,
+      "bitrate_kbps": 4067,
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 1.077,
+      "t_epoch": 1786973944.274
+    },
+    {
+      "position": 3.962,
+      "duration": 0.639,
+      "t_epoch": 1786973949.311
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.002
+    ],
+    [
+      "waiting",
+      3.962
+    ],
+    [
+      "playing",
+      3.962
+    ]
+  ]
+}

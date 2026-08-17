@@ -50,6 +50,12 @@ def build_p1203_report(meta, device, display=None):
             "fps": fps,
             "codec": codec,
         })
+    # Entri pertama bisa mulai > 0 bila event kualitas pertama menyala setelah
+    # pemutaran dimulai. Rekatkan ke 0 agar I13 menutupi seluruh sesi tanpa celah.
+    if segments and segments[0]["start"] > 0:
+        segments[0]["duration"] = round(segments[0]["duration"] + segments[0]["start"], 3)
+        segments[0]["start"] = 0.0
+
     if not segments:        # fallback aman bila timeline kosong
         segments = [{"start": 0, "duration": max(dur, 1.0),
                      "bitrate": 500, "resolution": "640x360", "fps": fps, "codec": codec}]

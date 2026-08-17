@@ -1,0 +1,67 @@
+{
+  "run_id": "S4A_RedBullPlayStreets_rep1",
+  "mpd": "http://192.168.50.10:8080/RedBullPlayStreets/RedBull_4_simple_2014_05_09.mpd",
+  "captured_at": "2026-08-17T14:31:13.268Z",
+  "media_duration": 300.243,
+  "playback_start_epoch": 1786976772.163,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 395,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 0.057,
+      "bitrate_kbps": 892,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.047,
+      "bitrate_kbps": 5936,
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.097,
+      "t_epoch": 1786976772.066
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.002
+    ],
+    [
+      "waiting",
+      0.057
+    ],
+    [
+      "playing",
+      0.058
+    ],
+    [
+      "waiting",
+      300.243
+    ]
+  ]
+}

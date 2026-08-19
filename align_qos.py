@@ -29,6 +29,7 @@ import sys
 
 FIELDS = ["run_id", "window_index", "t_media_start", "t_wall_start", "t_wall_end",
           "throughput_mean", "throughput_std", "throughput_min", "throughput_max",
+          "jitter_mean", "jitter_p95", "reorder_rate", "reorder_count",
           "total_bytes", "total_packets", "active_flows", "n_samples"]
 
 
@@ -43,11 +44,23 @@ def load_stalls(meta):
     return [(float(s["position"]), float(s["duration"])) for s in meta.get("stalls", [])]
 
 
+def p95(v):
+    if not v:
+        return 0.0
+    v = sorted(v)
+    i = min(len(v) - 1, int(math.ceil(0.95 * len(v))) - 1)
+    return v[max(i, 0)]
+
+
 def summarize(rows):
-    """rows = list dict cuplikan mentah -> fitur throughput."""
+    """rows = list dict cuplikan mentah -> fitur QoS per window.
+
+    bytes/packets/retrans bersifat KUMULATIF di kernel sehingga cuplikan sudah
+    berisi selisih; jitter adalah LEVEL (EWMA) sehingga nilainya dipakai apa adanya.
+    """
     if not rows:
         return None
-    mbps, tb, tp, af = [], 0, 0, 0
+    mbps, jit, tb, tp, tr, af = [], [], 0, 0, 0, 0
     for r in rows:
         dt = float(r["dt"])
         b = int(r["delta_bytes"])
@@ -55,6 +68,8 @@ def summarize(rows):
             mbps.append(b * 8.0 / (dt * 1e6))
         tb += b
         tp += int(r["delta_packets"])
+        tr += int(r.get("delta_reorder", r.get("delta_retrans", 0)) or 0)
+        jit.append(float(r.get("jitter_ns", 0) or 0) / 1e6)      # ns -> ms
         af = max(af, int(r["active_flows"]))
     if not mbps:
         return None
@@ -66,6 +81,11 @@ def summarize(rows):
         "throughput_std": round(math.sqrt(var), 6),
         "throughput_min": round(min(mbps), 6),
         "throughput_max": round(max(mbps), 6),
+        "jitter_mean": round(sum(jit) / len(jit), 6) if jit else 0.0,
+        "jitter_p95": round(p95(jit), 6),
+        # BUKAN packet loss: gabungan reordering + retransmisi
+        "reorder_rate": round(tr / tp * 100.0, 6) if tp else 0.0,
+        "reorder_count": tr,
         "total_bytes": tb, "total_packets": tp,
         "active_flows": af, "n_samples": n,
     }
@@ -130,13 +150,17 @@ def self_test():
         aktif = 1 if 1023 <= t < 1033 else 0
         samples.append({"run_id": "T", "t_epoch": float(t + 1), "dt": "1.0",
                         "delta_bytes": 1_250_000 * aktif, "delta_packets": 830 * aktif,
+                        "delta_reorder": 4 * aktif, "jitter_ns": 2_000_000 * aktif,
                         "active_flows": aktif})
     rows = align(meta, samples, window=10.0)
     got = [r["window_index"] for r in rows if r["throughput_mean"] > 1.0]
     assert got == [2], f"window bertrafik seharusnya [2], dapat {got}"
     assert abs(rows[2]["throughput_mean"] - 10.0) < 0.2, rows[2]
+    assert abs(rows[2]["jitter_mean"] - 2.0) < 0.01, rows[2]["jitter_mean"]
+    assert abs(rows[2]["reorder_rate"] - 4 / 830 * 100) < 0.01, rows[2]["reorder_rate"]
     print(f"  [OK] penyelarasan: trafik jatuh tepat di window {got[0]} "
-          f"({rows[2]['throughput_mean']:.2f} Mbps)")
+          f"({rows[2]['throughput_mean']:.2f} Mbps, jitter {rows[2]['jitter_mean']:.2f} ms, "
+          f"reorder {rows[2]['reorder_rate']:.2f}%)")
 
     # TANPA koreksi stall, trafik akan salah jatuh ke window lain
     meta_tanpa = dict(meta); meta_tanpa["stalls"] = []

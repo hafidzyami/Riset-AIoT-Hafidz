@@ -29,6 +29,7 @@ from collections import Counter
 
 # Fitur jaringan yang boleh menjadi X (tersedia juga saat Fase 2 / inference)
 FEATURES = ["throughput_mean", "throughput_std", "throughput_min", "throughput_max",
+            "jitter_mean", "jitter_p95", "reorder_rate", "reorder_count",
             "total_bytes", "total_packets", "active_flows"]
 
 # Kolom yang HARAM menjadi fitur (turunan label / sisi klien)
@@ -74,15 +75,13 @@ def gabung(qos_rows, label_rows, keep_window0=False, min_samples=0):
 
 
 def self_test():
-    qos = [{"run_id": "R1", "window_index": "0", "throughput_mean": "20", "throughput_std": "5",
-            "throughput_min": "0", "throughput_max": "40", "total_bytes": "100",
-            "total_packets": "10", "active_flows": "1", "n_samples": "10"},
-           {"run_id": "R1", "window_index": "1", "throughput_mean": "5", "throughput_std": "2",
-            "throughput_min": "0", "throughput_max": "9", "total_bytes": "50",
-            "total_packets": "5", "active_flows": "1", "n_samples": "10"},
-           {"run_id": "R1", "window_index": "6", "throughput_mean": "0", "throughput_std": "0",
-            "throughput_min": "0", "throughput_max": "0", "total_bytes": "0",
-            "total_packets": "0", "active_flows": "0", "n_samples": "11"}]
+    def q(w, tp, ns="10"):
+        return {"run_id": "R1", "window_index": str(w), "throughput_mean": str(tp),
+                "throughput_std": "2", "throughput_min": "0", "throughput_max": "9",
+                "jitter_mean": "1.5", "jitter_p95": "4.2", "reorder_rate": "0.8",
+                "reorder_count": "7", "total_bytes": "50", "total_packets": "5",
+                "active_flows": "1", "n_samples": ns}
+    qos = [q(0, 20), q(1, 5), q(6, 0, "11")]
     lab = [{"run_id": "R1", "window_index": "0", "mean_o22": "4.3", "stall_s": "1.9", "label": "Critical"},
            {"run_id": "R1", "window_index": "1", "mean_o22": "4.4", "stall_s": "0", "label": "Excellent"}]
 

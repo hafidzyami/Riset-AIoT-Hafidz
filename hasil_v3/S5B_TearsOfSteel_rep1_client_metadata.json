@@ -1,0 +1,125 @@
+{
+  "run_id": "S5B_TearsOfSteel_rep1",
+  "mpd": "http://192.168.50.10:8080/TearsOfSteel/TearsOfSteel_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-08-19T09:59:52.684Z",
+  "media_duration": 299.123,
+  "playback_start_epoch": 1787133292.047,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0.083,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 4.02,
+      "bitrate_kbps": 10045,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 8.005,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 16.769,
+      "bitrate_kbps": 2416,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 20.224,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 64.049,
+      "bitrate_kbps": 2416,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 104.16,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 153.831,
+      "bitrate_kbps": 2416,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 156.223,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 207.488,
+      "bitrate_kbps": 2416,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 208.02,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 216.253,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 244.144,
+      "bitrate_kbps": 2416,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 252.113,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.292,
+      "t_epoch": 1787133291.754
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.084
+    ],
+    [
+      "waiting",
+      299.123
+    ]
+  ]
+}

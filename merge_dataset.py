@@ -30,6 +30,7 @@ from collections import Counter
 # Fitur jaringan yang boleh menjadi X (tersedia juga saat Fase 2 / inference)
 FEATURES = ["throughput_mean", "throughput_std", "throughput_min", "throughput_max",
             "jitter_mean", "jitter_p95", "reorder_rate", "reorder_count",
+            "rtt_mean", "rtt_p95", "rtt_std",
             "total_bytes", "total_packets", "active_flows"]
 
 # Kolom yang HARAM menjadi fitur (turunan label / sisi klien)
@@ -39,7 +40,7 @@ TERLARANG = {"mean_o22", "stall_s", "t_start", "t_media_start",
 # Metadata (BUKAN fitur): dibawa agar window parsial bisa disaring belakangan.
 # Window terakhir tiap run selalu parsial, sehingga total_bytes/total_packets-nya
 # rendah karena window-nya pendek, bukan karena trafiknya sedikit.
-META = ["n_samples"]
+META = ["n_samples", "rtt_samples"]
 
 OUT_FIELDS = ["run_id", "window_index"] + META + FEATURES + ["label"]
 
@@ -79,7 +80,9 @@ def self_test():
         return {"run_id": "R1", "window_index": str(w), "throughput_mean": str(tp),
                 "throughput_std": "2", "throughput_min": "0", "throughput_max": "9",
                 "jitter_mean": "1.5", "jitter_p95": "4.2", "reorder_rate": "0.8",
-                "reorder_count": "7", "total_bytes": "50", "total_packets": "5",
+                "reorder_count": "7",
+                "rtt_mean": "150.2", "rtt_p95": "180.0", "rtt_std": "12.3",
+                "rtt_samples": "9", "total_bytes": "50", "total_packets": "5",
                 "active_flows": "1", "n_samples": ns}
     qos = [q(0, 20), q(1, 5), q(6, 0, "11")]
     lab = [{"run_id": "R1", "window_index": "0", "mean_o22": "4.3", "stall_s": "1.9", "label": "Critical"},

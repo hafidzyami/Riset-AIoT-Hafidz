@@ -1,0 +1,67 @@
+{
+  "run_id": "S4A_Valkaama_rep1",
+  "mpd": "http://192.168.50.10:8080/Valkaama/Valkaama_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-08-19T07:02:05.761Z",
+  "media_duration": 300.225,
+  "playback_start_epoch": 1787122624.798,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 4118,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 0.139,
+      "bitrate_kbps": 983,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 4.121,
+      "bitrate_kbps": 4561,
+      "width": 1440,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.135,
+      "t_epoch": 1787122624.663
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      117.694
+    ],
+    [
+      "playing",
+      117.694
+    ],
+    [
+      "waiting",
+      300.225
+    ]
+  ]
+}

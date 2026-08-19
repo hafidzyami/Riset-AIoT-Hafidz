@@ -1,0 +1,492 @@
+
+=== mulai 2026-08-19 09:14:33 (98 run) ===
+09:14:33 S1_BigBuckBunny_rep1 tc: (bersih)
+09:14:38 S1_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+09:19:42 S1_BigBuckBunny_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 299.966s
+09:19:46 S1_BigBuckBunny_rep1 label: {'Degraded': 1, 'Excellent': 29}
+09:19:46 S1_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+09:19:46 S1_ElephantsDream_rep1 tc: (bersih)
+09:19:51 S1_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+09:24:54 S1_ElephantsDream_rep1 harness: OK: 3 perpindahan kualitas, 2 stall, media 299.211s
+09:24:58 S1_ElephantsDream_rep1 label: {'Degraded': 2, 'Excellent': 28}
+09:24:58 S1_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.792 detik (0.08 window)
+09:24:58 S1_OfForestAndMen_rep1 tc: (bersih)
+09:25:03 S1_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+09:30:08 S1_OfForestAndMen_rep1 harness: OK: 3 perpindahan kualitas, 0 stall, media 299.977s
+09:30:12 S1_OfForestAndMen_rep1 label: {'Excellent': 30}
+09:30:12 S1_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+09:30:12 S1_RedBullPlayStreets_rep1 tc: (bersih)
+09:30:17 S1_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+09:35:23 S1_RedBullPlayStreets_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 300.23s
+09:35:27 S1_RedBullPlayStreets_rep1 label: {'Degraded': 1, 'Excellent': 29}
+09:35:27 S1_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+09:35:28 S1_TearsOfSteel_rep1 tc: (bersih)
+09:35:33 S1_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+09:40:39 S1_TearsOfSteel_rep1 harness: OK: 2 perpindahan kualitas, 1 stall, media 299.124s
+09:40:43 S1_TearsOfSteel_rep1 label: {'Degraded': 1, 'Excellent': 29}
+09:40:43 S1_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+09:40:44 S1_Valkaama_rep1 tc: (bersih)
+09:40:48 S1_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+09:45:52 S1_Valkaama_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 300.231s
+09:45:56 S1_Valkaama_rep1 label: {'Degraded': 1, 'Excellent': 29}
+09:45:56 S1_Valkaama_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+09:45:56 S1_TheSwissAccount_rep1 tc: (bersih)
+09:46:01 S1_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+09:51:09 S1_TheSwissAccount_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 299.957s
+09:51:14 S1_TheSwissAccount_rep1 label: {'Excellent': 29, 'Degraded': 1}
+09:51:14 S1_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.755 detik (0.08 window)
+09:51:14 S2A_BigBuckBunny_rep1 tc: tbf rate 3mbit burst 32k latency 50ms
+09:51:19 S2A_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+09:56:26 S2A_BigBuckBunny_rep1 harness: OK: 28 perpindahan kualitas, 3 stall, media 299.843s
+09:56:30 S2A_BigBuckBunny_rep1 label: {'Degraded': 2, 'Excellent': 28}
+09:56:30 S2A_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.902 detik (0.09 window)
+09:56:30 S2A_ElephantsDream_rep1 tc: tbf rate 3mbit burst 32k latency 50ms
+09:56:35 S2A_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:01:39 S2A_ElephantsDream_rep1 harness: OK: 25 perpindahan kualitas, 2 stall, media 299.908s
+10:01:43 S2A_ElephantsDream_rep1 label: {'Critical': 1, 'Excellent': 29}
+10:01:43 S2A_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.177 detik (0.02 window)
+10:01:43 S2A_OfForestAndMen_rep1 tc: tbf rate 3mbit burst 32k latency 50ms
+10:01:48 S2A_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:06:51 S2A_OfForestAndMen_rep1 harness: OK: 48 perpindahan kualitas, 1 stall, media 299.978s
+10:06:55 S2A_OfForestAndMen_rep1 label: {'Degraded': 1, 'Excellent': 29}
+10:06:55 S2A_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+10:06:56 S2A_RedBullPlayStreets_rep1 tc: tbf rate 3mbit burst 32k latency 50ms
+10:07:00 S2A_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:12:04 S2A_RedBullPlayStreets_rep1 harness: OK: 30 perpindahan kualitas, 2 stall, media 298.952s
+10:12:08 S2A_RedBullPlayStreets_rep1 label: {'Critical': 1, 'Excellent': 27, 'Good': 2}
+10:12:08 S2A_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 1.890 detik (0.19 window)
+10:12:08 S2A_TearsOfSteel_rep1 tc: tbf rate 3mbit burst 32k latency 50ms
+10:12:13 S2A_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:17:20 S2A_TearsOfSteel_rep1 harness: OK: 19 perpindahan kualitas, 1 stall, media 299.124s
+10:17:24 S2A_TearsOfSteel_rep1 label: {'Degraded': 1, 'Excellent': 25, 'Good': 4}
+10:17:24 S2A_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+10:17:24 S2A_Valkaama_rep1 tc: tbf rate 3mbit burst 32k latency 50ms
+10:17:29 S2A_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:22:33 S2A_Valkaama_rep1 harness: OK: 7 perpindahan kualitas, 1 stall, media 299.762s
+10:22:37 S2A_Valkaama_rep1 label: {'Critical': 1, 'Excellent': 29}
+10:22:37 S2A_Valkaama_rep1 selaras: pergeseran akibat stall: 1.231 detik (0.12 window)
+10:22:38 S2A_TheSwissAccount_rep1 tc: tbf rate 3mbit burst 32k latency 50ms
+10:22:43 S2A_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:27:47 S2A_TheSwissAccount_rep1 harness: OK: 6 perpindahan kualitas, 1 stall, media 300.252s
+10:27:51 S2A_TheSwissAccount_rep1 label: {'Degraded': 1, 'Excellent': 29}
+10:27:51 S2A_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+10:27:52 S2B_BigBuckBunny_rep1 tc: tbf rate 700kbit burst 15k latency 50ms
+10:27:56 S2B_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:33:00 S2B_BigBuckBunny_rep1 harness: OK: 13 perpindahan kualitas, 2 stall, media 295.908s
+10:33:04 S2B_BigBuckBunny_rep1 label: {'Critical': 1, 'Good': 26, 'Degraded': 3}
+10:33:04 S2B_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.797 detik (0.08 window)
+10:33:04 S2B_ElephantsDream_rep1 tc: tbf rate 700kbit burst 15k latency 50ms
+10:33:09 S2B_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:38:14 S2B_ElephantsDream_rep1 harness: OK: 38 perpindahan kualitas, 2 stall, media 297.154s
+10:38:18 S2B_ElephantsDream_rep1 label: {'Critical': 1, 'Good': 20, 'Degraded': 9}
+10:38:18 S2B_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.233 detik (0.02 window)
+10:38:18 S2B_OfForestAndMen_rep1 tc: tbf rate 700kbit burst 15k latency 50ms
+10:38:23 S2B_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:43:26 S2B_OfForestAndMen_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 297.656s
+10:43:30 S2B_OfForestAndMen_rep1 label: {'Critical': 1, 'Good': 29}
+10:43:30 S2B_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+10:43:31 S2B_RedBullPlayStreets_rep1 tc: tbf rate 700kbit burst 15k latency 50ms
+10:43:36 S2B_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:48:42 S2B_RedBullPlayStreets_rep1 harness: OK: 4 perpindahan kualitas, 2 stall, media 300.221s
+10:48:46 S2B_RedBullPlayStreets_rep1 label: {'Critical': 1, 'Good': 29}
+10:48:46 S2B_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.997 detik (0.10 window)
+10:48:47 S2B_TearsOfSteel_rep1 tc: tbf rate 700kbit burst 15k latency 50ms
+10:48:51 S2B_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:53:56 S2B_TearsOfSteel_rep1 harness: OK: 19 perpindahan kualitas, 2 stall, media 299.119s
+10:54:00 S2B_TearsOfSteel_rep1 label: {'Degraded': 24, 'Good': 6}
+10:54:00 S2B_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.339 detik (0.03 window)
+10:54:00 S2B_Valkaama_rep1 tc: tbf rate 700kbit burst 15k latency 50ms
+10:54:05 S2B_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+10:59:09 S2B_Valkaama_rep1 harness: OK: 8 perpindahan kualitas, 2 stall, media 300.225s
+10:59:14 S2B_Valkaama_rep1 label: {'Degraded': 1, 'Good': 29}
+10:59:14 S2B_Valkaama_rep1 selaras: pergeseran akibat stall: 0.455 detik (0.05 window)
+10:59:14 S2B_TheSwissAccount_rep1 tc: tbf rate 700kbit burst 15k latency 50ms
+10:59:19 S2B_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:04:23 S2B_TheSwissAccount_rep1 harness: OK: 25 perpindahan kualitas, 1 stall, media 300.242s
+11:04:27 S2B_TheSwissAccount_rep1 label: {'Degraded': 7, 'Good': 23}
+11:04:27 S2B_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+11:04:27 S2C_BigBuckBunny_rep1 tc: tbf rate 400kbit burst 15k latency 50ms
+11:04:32 S2C_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:09:39 S2C_BigBuckBunny_rep1 harness: OK: 37 perpindahan kualitas, 1 stall, media 294.22s
+11:09:43 S2C_BigBuckBunny_rep1 label: {'Critical': 1, 'Degraded': 29}
+11:09:43 S2C_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+11:09:43 S2C_ElephantsDream_rep1 tc: tbf rate 400kbit burst 15k latency 50ms
+11:09:48 S2C_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:14:51 S2C_ElephantsDream_rep1 harness: OK: 40 perpindahan kualitas, 2 stall, media 294.334s
+11:14:55 S2C_ElephantsDream_rep1 label: {'Critical': 1, 'Degraded': 29}
+11:14:55 S2C_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.147 detik (0.01 window)
+11:14:56 S2C_OfForestAndMen_rep1 tc: tbf rate 400kbit burst 15k latency 50ms
+11:15:01 S2C_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:20:04 S2C_OfForestAndMen_rep1 harness: OK: 32 perpindahan kualitas, 1 stall, media 295.465s
+11:20:08 S2C_OfForestAndMen_rep1 label: {'Critical': 1, 'Degraded': 29}
+11:20:09 S2C_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+11:20:09 S2C_RedBullPlayStreets_rep1 tc: tbf rate 400kbit burst 15k latency 50ms
+11:20:14 S2C_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:25:17 S2C_RedBullPlayStreets_rep1 harness: OK: 5 perpindahan kualitas, 2 stall, media 300.11s
+11:25:22 S2C_RedBullPlayStreets_rep1 label: {'Degraded': 30}
+11:25:22 S2C_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.920 detik (0.09 window)
+11:25:22 S2C_TearsOfSteel_rep1 tc: tbf rate 400kbit burst 15k latency 50ms
+11:25:27 S2C_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:30:30 S2C_TearsOfSteel_rep1 harness: OK: 2 perpindahan kualitas, 3 stall, media 295.918s
+11:30:34 S2C_TearsOfSteel_rep1 label: {'Degraded': 29, 'Critical': 1}
+11:30:34 S2C_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 3.579 detik (0.36 window)
+11:30:34 S2C_Valkaama_rep1 tc: tbf rate 400kbit burst 15k latency 50ms
+11:30:39 S2C_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:35:45 S2C_Valkaama_rep1 harness: OK: 29 perpindahan kualitas, 2 stall, media 300.218s
+11:35:49 S2C_Valkaama_rep1 label: {'Degraded': 28, 'Good': 2}
+11:35:49 S2C_Valkaama_rep1 selaras: pergeseran akibat stall: 0.316 detik (0.03 window)
+11:35:50 S2C_TheSwissAccount_rep1 tc: tbf rate 400kbit burst 15k latency 50ms
+11:35:55 S2C_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:40:58 S2C_TheSwissAccount_rep1 harness: OK: 6 perpindahan kualitas, 1 stall, media 300.233s
+11:41:02 S2C_TheSwissAccount_rep1 label: {'Degraded': 29, 'Good': 1}
+11:41:02 S2C_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+11:41:03 S2D_BigBuckBunny_rep1 tc: tbf rate 150kbit burst 15k latency 50ms
+11:41:07 S2D_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:46:12 S2D_BigBuckBunny_rep1 harness: OK: 23 perpindahan kualitas, 2 stall, media 290.461s
+11:46:16 S2D_BigBuckBunny_rep1 label: {'Critical': 27, 'Degraded': 2}
+11:46:16 S2D_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 2.534 detik (0.25 window)
+11:46:16 S2D_ElephantsDream_rep1 tc: tbf rate 150kbit burst 15k latency 50ms
+11:46:21 S2D_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:51:25 S2D_ElephantsDream_rep1 harness: OK: 44 perpindahan kualitas, 4 stall, media 288.337s
+11:51:29 S2D_ElephantsDream_rep1 label: {'Critical': 26, 'Degraded': 3}
+11:51:29 S2D_ElephantsDream_rep1 selaras: pergeseran akibat stall: 4.436 detik (0.44 window)
+11:51:29 S2D_OfForestAndMen_rep1 tc: tbf rate 150kbit burst 15k latency 50ms
+11:51:34 S2D_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+11:56:38 S2D_OfForestAndMen_rep1 harness: OK: 30 perpindahan kualitas, 1 stall, media 293.976s
+11:56:42 S2D_OfForestAndMen_rep1 label: {'Critical': 30}
+11:56:43 S2D_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+11:56:43 S2D_RedBullPlayStreets_rep1 tc: tbf rate 150kbit burst 15k latency 50ms
+11:56:48 S2D_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:01:52 S2D_RedBullPlayStreets_rep1 harness: OK: 26 perpindahan kualitas, 1 stall, media 298.872s
+12:01:56 S2D_RedBullPlayStreets_rep1 label: {'Critical': 30}
+12:01:56 S2D_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 2.152 detik (0.22 window)
+12:01:57 S2D_TearsOfSteel_rep1 tc: tbf rate 150kbit burst 15k latency 50ms
+12:02:02 S2D_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:07:05 S2D_TearsOfSteel_rep1 harness: OK: 2 perpindahan kualitas, 32 stall, media 130.666s
+12:07:09 S2D_TearsOfSteel_rep1 label: {'Critical': 12, 'Degraded': 1}
+12:07:09 S2D_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 168.671 detik (16.87 window)
+12:07:10 S2D_Valkaama_rep1 tc: tbf rate 150kbit burst 15k latency 50ms
+12:07:14 S2D_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:12:19 S2D_Valkaama_rep1 harness: OK: 19 perpindahan kualitas, 1 stall, media 299.808s
+12:12:23 S2D_Valkaama_rep1 label: {'Critical': 27, 'Degraded': 3}
+12:12:23 S2D_Valkaama_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+12:12:24 S2D_TheSwissAccount_rep1 tc: tbf rate 150kbit burst 15k latency 50ms
+12:12:28 S2D_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:17:32 S2D_TheSwissAccount_rep1 harness: OK: 17 perpindahan kualitas, 2 stall, media 298.668s
+12:17:36 S2D_TheSwissAccount_rep1 label: {'Critical': 26, 'Degraded': 4}
+12:17:36 S2D_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.670 detik (0.07 window)
+12:17:37 S3A_BigBuckBunny_rep1 tc: netem delay 250ms 50ms distribution normal
+12:17:41 S3A_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:22:45 S3A_BigBuckBunny_rep1 harness: OK: 39 perpindahan kualitas, 9 stall, media 267.669s
+12:22:48 S3A_BigBuckBunny_rep1 label: {'Critical': 10, 'Degraded': 11, 'Good': 4, 'Excellent': 2}
+12:22:49 S3A_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 19.227 detik (1.92 window)
+12:22:49 S3A_ElephantsDream_rep1 tc: netem delay 250ms 50ms distribution normal
+12:22:54 S3A_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:27:58 S3A_ElephantsDream_rep1 harness: OK: 29 perpindahan kualitas, 6 stall, media 275.911s
+12:28:02 S3A_ElephantsDream_rep1 label: {'Critical': 8, 'Degraded': 11, 'Excellent': 6, 'Good': 3}
+12:28:02 S3A_ElephantsDream_rep1 selaras: pergeseran akibat stall: 12.073 detik (1.21 window)
+12:28:03 S3A_OfForestAndMen_rep1 tc: netem delay 250ms 50ms distribution normal
+12:28:07 S3A_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:33:12 S3A_OfForestAndMen_rep1 harness: OK: 26 perpindahan kualitas, 4 stall, media 284.158s
+12:33:16 S3A_OfForestAndMen_rep1 label: {'Critical': 10, 'Degraded': 13, 'Good': 2, 'Excellent': 4}
+12:33:16 S3A_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 11.640 detik (1.16 window)
+12:33:16 S3A_RedBullPlayStreets_rep1 tc: netem delay 250ms 50ms distribution normal
+12:33:21 S3A_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:38:26 S3A_RedBullPlayStreets_rep1 harness: OK: 31 perpindahan kualitas, 1 stall, media 300.007s
+12:38:30 S3A_RedBullPlayStreets_rep1 label: {'Degraded': 12, 'Critical': 3, 'Good': 13, 'Excellent': 2}
+12:38:30 S3A_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+12:38:31 S3A_TearsOfSteel_rep1 tc: netem delay 250ms 50ms distribution normal
+12:38:35 S3A_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:43:39 S3A_TearsOfSteel_rep1 harness: OK: 23 perpindahan kualitas, 2 stall, media 298.789s
+12:43:43 S3A_TearsOfSteel_rep1 label: {'Degraded': 16, 'Good': 14}
+12:43:43 S3A_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.951 detik (0.10 window)
+12:43:44 S3A_Valkaama_rep1 tc: netem delay 250ms 50ms distribution normal
+12:43:48 S3A_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:48:53 S3A_Valkaama_rep1 harness: OK: 36 perpindahan kualitas, 7 stall, media 291.827s
+12:48:57 S3A_Valkaama_rep1 label: {'Critical': 4, 'Degraded': 14, 'Good': 8, 'Excellent': 4}
+12:48:57 S3A_Valkaama_rep1 selaras: pergeseran akibat stall: 7.943 detik (0.79 window)
+12:48:57 S3A_TheSwissAccount_rep1 tc: netem delay 250ms 50ms distribution normal
+12:49:02 S3A_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:54:07 S3A_TheSwissAccount_rep1 harness: OK: 29 perpindahan kualitas, 4 stall, media 297.96s
+12:54:11 S3A_TheSwissAccount_rep1 label: {'Critical': 4, 'Good': 9, 'Degraded': 14, 'Excellent': 3}
+12:54:11 S3A_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 1.959 detik (0.20 window)
+12:54:12 S3B_BigBuckBunny_rep1 tc: netem delay 100ms 30ms 25%
+12:54:16 S3B_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+12:59:21 S3B_BigBuckBunny_rep1 harness: OK: 5 perpindahan kualitas, 1 stall, media 298.387s
+12:59:25 S3B_BigBuckBunny_rep1 label: {'Critical': 1, 'Excellent': 29}
+12:59:25 S3B_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+12:59:26 S3B_ElephantsDream_rep1 tc: netem delay 100ms 30ms 25%
+12:59:30 S3B_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:04:35 S3B_ElephantsDream_rep1 harness: OK: 8 perpindahan kualitas, 1 stall, media 298.825s
+13:04:39 S3B_ElephantsDream_rep1 label: {'Critical': 1, 'Excellent': 29}
+13:04:39 S3B_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:04:40 S3B_OfForestAndMen_rep1 tc: netem delay 100ms 30ms 25%
+13:04:44 S3B_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:09:48 S3B_OfForestAndMen_rep1 harness: OK: 7 perpindahan kualitas, 1 stall, media 299.038s
+13:09:52 S3B_OfForestAndMen_rep1 label: {'Critical': 1, 'Excellent': 29}
+13:09:52 S3B_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:09:53 S3B_RedBullPlayStreets_rep1 tc: netem delay 100ms 30ms 25%
+13:09:57 S3B_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:15:01 S3B_RedBullPlayStreets_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 300.248s
+13:15:05 S3B_RedBullPlayStreets_rep1 label: {'Degraded': 1, 'Excellent': 29}
+13:15:05 S3B_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:15:06 S3B_TearsOfSteel_rep1 tc: netem delay 100ms 30ms 25%
+13:15:10 S3B_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:20:17 S3B_TearsOfSteel_rep1 harness: OK: 8 perpindahan kualitas, 1 stall, media 299.124s
+13:20:21 S3B_TearsOfSteel_rep1 label: {'Degraded': 1, 'Excellent': 29}
+13:20:21 S3B_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:20:22 S3B_Valkaama_rep1 tc: netem delay 100ms 30ms 25%
+13:20:26 S3B_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:25:30 S3B_Valkaama_rep1 harness: OK: 5 perpindahan kualitas, 1 stall, media 300.234s
+13:25:34 S3B_Valkaama_rep1 label: {'Degraded': 1, 'Excellent': 29}
+13:25:34 S3B_Valkaama_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:25:34 S3B_TheSwissAccount_rep1 tc: netem delay 100ms 30ms 25%
+13:25:39 S3B_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:30:43 S3B_TheSwissAccount_rep1 harness: OK: 7 perpindahan kualitas, 1 stall, media 300.234s
+13:30:47 S3B_TheSwissAccount_rep1 label: {'Degraded': 1, 'Excellent': 29}
+13:30:47 S3B_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:30:48 S4A_BigBuckBunny_rep1 tc: netem delay 50ms
+13:30:52 S4A_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:35:57 S4A_BigBuckBunny_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 299.952s
+13:36:01 S4A_BigBuckBunny_rep1 label: {'Degraded': 1, 'Excellent': 29}
+13:36:01 S4A_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:36:01 S4A_ElephantsDream_rep1 tc: netem delay 50ms
+13:36:06 S4A_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:41:10 S4A_ElephantsDream_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 299.914s
+13:41:15 S4A_ElephantsDream_rep1 label: {'Degraded': 1, 'Excellent': 29}
+13:41:15 S4A_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:41:15 S4A_OfForestAndMen_rep1 tc: netem delay 50ms
+13:41:20 S4A_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:46:23 S4A_OfForestAndMen_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 299.988s
+13:46:27 S4A_OfForestAndMen_rep1 label: {'Degraded': 1, 'Excellent': 29}
+13:46:27 S4A_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:46:28 S4A_RedBullPlayStreets_rep1 tc: netem delay 50ms
+13:46:33 S4A_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:51:37 S4A_RedBullPlayStreets_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 300.246s
+13:51:41 S4A_RedBullPlayStreets_rep1 label: {'Degraded': 1, 'Excellent': 29}
+13:51:41 S4A_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:51:41 S4A_TearsOfSteel_rep1 tc: netem delay 50ms
+13:51:46 S4A_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+13:56:51 S4A_TearsOfSteel_rep1 harness: OK: 2 perpindahan kualitas, 1 stall, media 299.124s
+13:56:55 S4A_TearsOfSteel_rep1 label: {'Degraded': 1, 'Excellent': 29}
+13:56:55 S4A_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+13:56:55 S4A_Valkaama_rep1 tc: netem delay 50ms
+13:57:00 S4A_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:02:07 S4A_Valkaama_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 300.225s
+14:02:11 S4A_Valkaama_rep1 label: {'Degraded': 1, 'Excellent': 29}
+14:02:11 S4A_Valkaama_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+14:02:11 S4A_TheSwissAccount_rep1 tc: netem delay 50ms
+14:02:16 S4A_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:07:23 S4A_TheSwissAccount_rep1 harness: OK: 3 perpindahan kualitas, 2 stall, media 300.251s
+14:07:27 S4A_TheSwissAccount_rep1 label: {'Degraded': 2, 'Excellent': 28}
+14:07:27 S4A_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.758 detik (0.08 window)
+14:07:27 S4B_BigBuckBunny_rep1 tc: netem delay 150ms
+14:07:32 S4B_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:12:36 S4B_BigBuckBunny_rep1 harness: OK: 3 perpindahan kualitas, 2 stall, media 299.579s
+14:12:40 S4B_BigBuckBunny_rep1 label: {'Degraded': 2, 'Excellent': 28}
+14:12:41 S4B_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.808 detik (0.08 window)
+14:12:41 S4B_ElephantsDream_rep1 tc: netem delay 150ms
+14:12:46 S4B_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:17:53 S4B_ElephantsDream_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 299.941s
+14:17:57 S4B_ElephantsDream_rep1 label: {'Degraded': 1, 'Excellent': 29}
+14:17:57 S4B_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+14:17:57 S4B_OfForestAndMen_rep1 tc: netem delay 150ms
+14:18:02 S4B_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:23:07 S4B_OfForestAndMen_rep1 harness: OK: 6 perpindahan kualitas, 1 stall, media 299.985s
+14:23:11 S4B_OfForestAndMen_rep1 label: {'Degraded': 1, 'Excellent': 29}
+14:23:11 S4B_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+14:23:11 S4B_RedBullPlayStreets_rep1 tc: netem delay 150ms
+14:23:16 S4B_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:28:20 S4B_RedBullPlayStreets_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 300.243s
+14:28:24 S4B_RedBullPlayStreets_rep1 label: {'Degraded': 1, 'Excellent': 29}
+14:28:24 S4B_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+14:28:25 S4B_TearsOfSteel_rep1 tc: netem delay 150ms
+14:28:29 S4B_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:33:34 S4B_TearsOfSteel_rep1 harness: OK: 5 perpindahan kualitas, 1 stall, media 299.123s
+14:33:39 S4B_TearsOfSteel_rep1 label: {'Degraded': 1, 'Excellent': 29}
+14:33:39 S4B_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+14:33:39 S4B_Valkaama_rep1 tc: netem delay 150ms
+14:33:44 S4B_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:38:47 S4B_Valkaama_rep1 harness: OK: 3 perpindahan kualitas, 2 stall, media 299.828s
+14:38:51 S4B_Valkaama_rep1 label: {'Degraded': 2, 'Excellent': 28}
+14:38:51 S4B_Valkaama_rep1 selaras: pergeseran akibat stall: 0.753 detik (0.08 window)
+14:38:52 S4B_TheSwissAccount_rep1 tc: netem delay 150ms
+14:38:56 S4B_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:44:01 S4B_TheSwissAccount_rep1 harness: OK: 3 perpindahan kualitas, 2 stall, media 300.158s
+14:44:05 S4B_TheSwissAccount_rep1 label: {'Critical': 1, 'Excellent': 29}
+14:44:05 S4B_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.826 detik (0.08 window)
+14:44:06 S4C_BigBuckBunny_rep1 tc: netem delay 300ms
+14:44:10 S4C_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:49:14 S4C_BigBuckBunny_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 298.765s
+14:49:19 S4C_BigBuckBunny_rep1 label: {'Critical': 1, 'Excellent': 29}
+14:49:19 S4C_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+14:49:19 S4C_ElephantsDream_rep1 tc: netem delay 300ms
+14:49:24 S4C_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:54:29 S4C_ElephantsDream_rep1 harness: OK: 3 perpindahan kualitas, 1 stall, media 298.692s
+14:54:33 S4C_ElephantsDream_rep1 label: {'Critical': 1, 'Excellent': 29}
+14:54:33 S4C_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+14:54:33 S4C_OfForestAndMen_rep1 tc: netem delay 300ms
+14:54:38 S4C_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+14:59:45 S4C_OfForestAndMen_rep1 harness: OK: 5 perpindahan kualitas, 1 stall, media 298.738s
+14:59:49 S4C_OfForestAndMen_rep1 label: {'Critical': 1, 'Excellent': 29}
+14:59:49 S4C_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+14:59:50 S4C_RedBullPlayStreets_rep1 tc: netem delay 300ms
+14:59:54 S4C_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:04:59 S4C_RedBullPlayStreets_rep1 harness: OK: 31 perpindahan kualitas, 1 stall, media 299.942s
+15:05:03 S4C_RedBullPlayStreets_rep1 label: {'Degraded': 1, 'Excellent': 27, 'Good': 2}
+15:05:03 S4C_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+15:05:03 S4C_TearsOfSteel_rep1 tc: netem delay 300ms
+15:05:08 S4C_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:10:12 S4C_TearsOfSteel_rep1 harness: OK: 4 perpindahan kualitas, 1 stall, media 299.124s
+15:10:16 S4C_TearsOfSteel_rep1 label: {'Degraded': 1, 'Excellent': 29}
+15:10:16 S4C_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+15:10:17 S4C_Valkaama_rep1 tc: netem delay 300ms
+15:10:21 S4C_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:15:26 S4C_Valkaama_rep1 harness: OK: 4 perpindahan kualitas, 1 stall, media 299.627s
+15:15:30 S4C_Valkaama_rep1 label: {'Degraded': 1, 'Excellent': 29}
+15:15:30 S4C_Valkaama_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+15:15:30 S4C_TheSwissAccount_rep1 tc: netem delay 300ms
+15:15:35 S4C_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:20:39 S4C_TheSwissAccount_rep1 harness: OK: 4 perpindahan kualitas, 1 stall, media 299.553s
+15:20:43 S4C_TheSwissAccount_rep1 label: {'Degraded': 1, 'Excellent': 29}
+15:20:43 S4C_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+15:20:43 S5F_BigBuckBunny_rep1 tc: netem delay 100ms 20ms loss 5%
+15:20:48 S5F_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:25:52 S5F_BigBuckBunny_rep1 harness: OK: 41 perpindahan kualitas, 4 stall, media 293.296s
+15:25:56 S5F_BigBuckBunny_rep1 label: {'Critical': 2, 'Degraded': 22, 'Good': 6}
+15:25:56 S5F_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 6.151 detik (0.62 window)
+15:25:56 S5F_ElephantsDream_rep1 tc: netem delay 100ms 20ms loss 5%
+15:26:01 S5F_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:31:06 S5F_ElephantsDream_rep1 harness: OK: 34 perpindahan kualitas, 2 stall, media 297.693s
+15:31:10 S5F_ElephantsDream_rep1 label: {'Critical': 1, 'Good': 4, 'Degraded': 25}
+15:31:10 S5F_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.216 detik (0.02 window)
+15:31:10 S5F_OfForestAndMen_rep1 tc: netem delay 100ms 20ms loss 5%
+15:31:15 S5F_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:36:19 S5F_OfForestAndMen_rep1 harness: OK: 35 perpindahan kualitas, 3 stall, media 297.194s
+15:36:23 S5F_OfForestAndMen_rep1 label: {'Critical': 1, 'Good': 7, 'Degraded': 22}
+15:36:23 S5F_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 1.133 detik (0.11 window)
+15:36:24 S5F_RedBullPlayStreets_rep1 tc: netem delay 100ms 20ms loss 5%
+15:36:28 S5F_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:41:32 S5F_RedBullPlayStreets_rep1 harness: OK: 25 perpindahan kualitas, 1 stall, media 300.205s
+15:41:36 S5F_RedBullPlayStreets_rep1 label: {'Degraded': 26, 'Good': 4}
+15:41:36 S5F_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+15:41:37 S5F_TearsOfSteel_rep1 tc: netem delay 100ms 20ms loss 5%
+15:41:41 S5F_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:46:46 S5F_TearsOfSteel_rep1 harness: OK: 8 perpindahan kualitas, 3 stall, media 291.967s
+15:46:50 S5F_TearsOfSteel_rep1 label: {'Degraded': 28, 'Critical': 1, 'Good': 1}
+15:46:50 S5F_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 8.502 detik (0.85 window)
+15:46:50 S5F_Valkaama_rep1 tc: netem delay 100ms 20ms loss 5%
+15:46:55 S5F_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:51:58 S5F_Valkaama_rep1 harness: OK: 34 perpindahan kualitas, 1 stall, media 300.217s
+15:52:02 S5F_Valkaama_rep1 label: {'Degraded': 11, 'Good': 19}
+15:52:03 S5F_Valkaama_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+15:52:03 S5F_TheSwissAccount_rep1 tc: netem delay 100ms 20ms loss 5%
+15:52:08 S5F_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+15:57:12 S5F_TheSwissAccount_rep1 harness: OK: 35 perpindahan kualitas, 2 stall, media 300.23s
+15:57:16 S5F_TheSwissAccount_rep1 label: {'Degraded': 21, 'Good': 9}
+15:57:16 S5F_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.250 detik (0.03 window)
+15:57:17 S5A_BigBuckBunny_rep1 tc: netem delay 100ms loss 5%
+15:57:22 S5A_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:02:26 S5A_BigBuckBunny_rep1 harness: OK: 39 perpindahan kualitas, 5 stall, media 290.436s
+16:02:30 S5A_BigBuckBunny_rep1 label: {'Critical': 1, 'Good': 14, 'Degraded': 14}
+16:02:30 S5A_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 8.826 detik (0.88 window)
+16:02:31 S5A_ElephantsDream_rep1 tc: netem delay 100ms loss 5%
+16:02:35 S5A_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:07:41 S5A_ElephantsDream_rep1 harness: OK: 30 perpindahan kualitas, 4 stall, media 298.745s
+16:07:45 S5A_ElephantsDream_rep1 label: {'Degraded': 13, 'Good': 17}
+16:07:45 S5A_ElephantsDream_rep1 selaras: pergeseran akibat stall: 1.481 detik (0.15 window)
+16:07:45 S5A_OfForestAndMen_rep1 tc: netem delay 100ms loss 5%
+16:07:50 S5A_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:12:54 S5A_OfForestAndMen_rep1 harness: OK: 39 perpindahan kualitas, 4 stall, media 296.812s
+16:12:58 S5A_OfForestAndMen_rep1 label: {'Critical': 1, 'Degraded': 17, 'Good': 12}
+16:12:58 S5A_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.725 detik (0.07 window)
+16:12:58 S5A_RedBullPlayStreets_rep1 tc: netem delay 100ms loss 5%
+16:13:03 S5A_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:18:08 S5A_RedBullPlayStreets_rep1 harness: OK: 28 perpindahan kualitas, 1 stall, media 300.233s
+16:18:12 S5A_RedBullPlayStreets_rep1 label: {'Degraded': 13, 'Good': 17}
+16:18:12 S5A_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+16:18:13 S5A_TearsOfSteel_rep1 tc: netem delay 100ms loss 5%
+16:18:17 S5A_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:23:22 S5A_TearsOfSteel_rep1 harness: OK: 13 perpindahan kualitas, 1 stall, media 299.123s
+16:23:26 S5A_TearsOfSteel_rep1 label: {'Degraded': 13, 'Good': 17}
+16:23:26 S5A_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+16:23:27 S5A_Valkaama_rep1 tc: netem delay 100ms loss 5%
+16:23:31 S5A_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:28:36 S5A_Valkaama_rep1 harness: OK: 29 perpindahan kualitas, 4 stall, media 298.188s
+16:28:40 S5A_Valkaama_rep1 label: {'Critical': 1, 'Good': 24, 'Degraded': 5}
+16:28:40 S5A_Valkaama_rep1 selaras: pergeseran akibat stall: 2.305 detik (0.23 window)
+16:28:41 S5A_TheSwissAccount_rep1 tc: netem delay 100ms loss 5%
+16:28:45 S5A_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:33:49 S5A_TheSwissAccount_rep1 harness: OK: 24 perpindahan kualitas, 2 stall, media 299.63s
+16:33:53 S5A_TheSwissAccount_rep1 label: {'Degraded': 10, 'Good': 20}
+16:33:53 S5A_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.837 detik (0.08 window)
+16:33:54 S5B_BigBuckBunny_rep1 tc: netem delay 1ms 20ms loss 5%
+16:33:58 S5B_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:39:02 S5B_BigBuckBunny_rep1 harness: OK: 27 perpindahan kualitas, 2 stall, media 299.527s
+16:39:06 S5B_BigBuckBunny_rep1 label: {'Critical': 1, 'Excellent': 28, 'Good': 1}
+16:39:06 S5B_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.280 detik (0.03 window)
+16:39:06 S5B_ElephantsDream_rep1 tc: netem delay 1ms 20ms loss 5%
+16:39:11 S5B_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:44:14 S5B_ElephantsDream_rep1 harness: OK: 39 perpindahan kualitas, 2 stall, media 299.487s
+16:44:18 S5B_ElephantsDream_rep1 label: {'Critical': 1, 'Excellent': 28, 'Good': 1}
+16:44:18 S5B_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.852 detik (0.09 window)
+16:44:19 S5B_OfForestAndMen_rep1 tc: netem delay 1ms 20ms loss 5%
+16:44:23 S5B_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:49:27 S5B_OfForestAndMen_rep1 harness: OK: 39 perpindahan kualitas, 3 stall, media 299.192s
+16:49:31 S5B_OfForestAndMen_rep1 label: {'Degraded': 3, 'Excellent': 26, 'Good': 1}
+16:49:31 S5B_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 1.237 detik (0.12 window)
+16:49:32 S5B_RedBullPlayStreets_rep1 tc: netem delay 1ms 20ms loss 5%
+16:49:36 S5B_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:54:40 S5B_RedBullPlayStreets_rep1 harness: OK: 28 perpindahan kualitas, 1 stall, media 300.25s
+16:54:44 S5B_RedBullPlayStreets_rep1 label: {'Excellent': 29, 'Degraded': 1}
+16:54:44 S5B_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.060 detik (0.01 window)
+16:54:44 S5B_TearsOfSteel_rep1 tc: netem delay 1ms 20ms loss 5%
+16:54:49 S5B_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+16:59:54 S5B_TearsOfSteel_rep1 harness: OK: 14 perpindahan kualitas, 1 stall, media 299.123s
+16:59:58 S5B_TearsOfSteel_rep1 label: {'Degraded': 1, 'Excellent': 26, 'Good': 3}
+16:59:58 S5B_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+16:59:58 S5B_Valkaama_rep1 tc: netem delay 1ms 20ms loss 5%
+17:00:03 S5B_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+17:05:07 S5B_Valkaama_rep1 harness: OK: 30 perpindahan kualitas, 2 stall, media 298.837s
+17:05:11 S5B_Valkaama_rep1 label: {'Critical': 1, 'Excellent': 29}
+17:05:11 S5B_Valkaama_rep1 selaras: pergeseran akibat stall: 2.086 detik (0.21 window)
+17:05:11 S5B_TheSwissAccount_rep1 tc: netem delay 1ms 20ms loss 5%
+17:05:16 S5B_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+17:10:21 S5B_TheSwissAccount_rep1 harness: OK: 10 perpindahan kualitas, 1 stall, media 300.237s
+17:10:25 S5B_TheSwissAccount_rep1 label: {'Degraded': 1, 'Excellent': 29}
+17:10:25 S5B_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+17:10:25 S5C_BigBuckBunny_rep1 tc: netem delay 100ms 20ms
+17:10:30 S5C_BigBuckBunny_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+17:15:34 S5C_BigBuckBunny_rep1 harness: OK: 7 perpindahan kualitas, 2 stall, media 299.385s
+17:15:38 S5C_BigBuckBunny_rep1 label: {'Critical': 1, 'Excellent': 29}
+17:15:38 S5C_BigBuckBunny_rep1 selaras: pergeseran akibat stall: 0.688 detik (0.07 window)
+17:15:38 S5C_ElephantsDream_rep1 tc: netem delay 100ms 20ms
+17:15:43 S5C_ElephantsDream_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+17:20:47 S5C_ElephantsDream_rep1 harness: OK: 5 perpindahan kualitas, 1 stall, media 299.515s
+17:20:51 S5C_ElephantsDream_rep1 label: {'Critical': 1, 'Excellent': 29}
+17:20:51 S5C_ElephantsDream_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+17:20:51 S5C_OfForestAndMen_rep1 tc: netem delay 100ms 20ms
+17:20:56 S5C_OfForestAndMen_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+17:26:00 S5C_OfForestAndMen_rep1 harness: OK: 4 perpindahan kualitas, 1 stall, media 299.7s
+17:26:04 S5C_OfForestAndMen_rep1 label: {'Critical': 1, 'Excellent': 29}
+17:26:05 S5C_OfForestAndMen_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+17:26:05 S5C_RedBullPlayStreets_rep1 tc: netem delay 100ms 20ms
+17:26:10 S5C_RedBullPlayStreets_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+17:31:13 S5C_RedBullPlayStreets_rep1 harness: OK: 6 perpindahan kualitas, 1 stall, media 300.229s
+17:31:17 S5C_RedBullPlayStreets_rep1 label: {'Degraded': 1, 'Excellent': 29}
+17:31:18 S5C_RedBullPlayStreets_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+17:31:18 S5C_TearsOfSteel_rep1 tc: netem delay 100ms 20ms
+17:31:23 S5C_TearsOfSteel_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+17:36:27 S5C_TearsOfSteel_rep1 harness: OK: 9 perpindahan kualitas, 1 stall, media 299.124s
+17:36:32 S5C_TearsOfSteel_rep1 label: {'Degraded': 1, 'Excellent': 29}
+17:36:33 S5C_TearsOfSteel_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+17:36:33 S5C_Valkaama_rep1 tc: netem delay 100ms 20ms
+17:36:38 S5C_Valkaama_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+17:41:42 S5C_Valkaama_rep1 harness: OK: 4 perpindahan kualitas, 1 stall, media 300.227s
+17:41:47 S5C_Valkaama_rep1 label: {'Degraded': 1, 'Excellent': 29}
+17:41:47 S5C_Valkaama_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)
+17:41:47 S5C_TheSwissAccount_rep1 tc: netem delay 100ms 20ms
+17:41:52 S5C_TheSwissAccount_rep1 agen jalan | >> membaca 1 map bernama 'flows': id [9]
+17:46:56 S5C_TheSwissAccount_rep1 harness: OK: 7 perpindahan kualitas, 1 stall, media 300.228s
+17:47:00 S5C_TheSwissAccount_rep1 label: {'Degraded': 1, 'Excellent': 29}
+17:47:00 S5C_TheSwissAccount_rep1 selaras: pergeseran akibat stall: 0.000 detik (0.00 window)

@@ -30,6 +30,7 @@ import sys
 FIELDS = ["run_id", "window_index", "t_media_start", "t_wall_start", "t_wall_end",
           "throughput_mean", "throughput_std", "throughput_min", "throughput_max",
           "jitter_mean", "jitter_p95", "reorder_rate", "reorder_count",
+          "rtt_mean", "rtt_p95", "rtt_std", "rtt_samples",
           "total_bytes", "total_packets", "active_flows", "n_samples"]
 
 
@@ -60,7 +61,7 @@ def summarize(rows):
     """
     if not rows:
         return None
-    mbps, jit, tb, tp, tr, af = [], [], 0, 0, 0, 0
+    mbps, jit, rtt, tb, tp, tr, af = [], [], [], 0, 0, 0, 0
     for r in rows:
         dt = float(r["dt"])
         b = int(r["delta_bytes"])
@@ -70,6 +71,9 @@ def summarize(rows):
         tp += int(r["delta_packets"])
         tr += int(r.get("delta_reorder", r.get("delta_retrans", 0)) or 0)
         jit.append(float(r.get("jitter_ns", 0) or 0) / 1e6)      # ns -> ms
+        rv = float(r.get("rtt_ns", 0) or 0)
+        if rv > 0:
+            rtt.append(rv / 1e6)
         af = max(af, int(r["active_flows"]))
     if not mbps:
         return None
@@ -86,6 +90,11 @@ def summarize(rows):
         # BUKAN packet loss: gabungan reordering + retransmisi
         "reorder_rate": round(tr / tp * 100.0, 6) if tp else 0.0,
         "reorder_count": tr,
+        "rtt_mean": round(sum(rtt) / len(rtt), 6) if rtt else 0.0,
+        "rtt_p95": round(p95(rtt), 6),
+        "rtt_std": round(math.sqrt(sum((x - sum(rtt) / len(rtt)) ** 2
+                                       for x in rtt) / len(rtt)), 6) if rtt else 0.0,
+        "rtt_samples": len(rtt),
         "total_bytes": tb, "total_packets": tp,
         "active_flows": af, "n_samples": n,
     }
@@ -151,6 +160,7 @@ def self_test():
         samples.append({"run_id": "T", "t_epoch": float(t + 1), "dt": "1.0",
                         "delta_bytes": 1_250_000 * aktif, "delta_packets": 830 * aktif,
                         "delta_reorder": 4 * aktif, "jitter_ns": 2_000_000 * aktif,
+                        "rtt_ns": 155_000_000 * aktif,
                         "active_flows": aktif})
     rows = align(meta, samples, window=10.0)
     got = [r["window_index"] for r in rows if r["throughput_mean"] > 1.0]
@@ -158,9 +168,10 @@ def self_test():
     assert abs(rows[2]["throughput_mean"] - 10.0) < 0.2, rows[2]
     assert abs(rows[2]["jitter_mean"] - 2.0) < 0.01, rows[2]["jitter_mean"]
     assert abs(rows[2]["reorder_rate"] - 4 / 830 * 100) < 0.01, rows[2]["reorder_rate"]
+    assert abs(rows[2]["rtt_mean"] - 155.0) < 0.01, rows[2]["rtt_mean"]
     print(f"  [OK] penyelarasan: trafik jatuh tepat di window {got[0]} "
           f"({rows[2]['throughput_mean']:.2f} Mbps, jitter {rows[2]['jitter_mean']:.2f} ms, "
-          f"reorder {rows[2]['reorder_rate']:.2f}%)")
+          f"reorder {rows[2]['reorder_rate']:.2f}%, rtt {rows[2]['rtt_mean']:.1f} ms)")
 
     # TANPA koreksi stall, trafik akan salah jatuh ke window lain
     meta_tanpa = dict(meta); meta_tanpa["stalls"] = []

@@ -1,0 +1,69 @@
+{
+  "run_id": "S4C_TheSwissAccount_rep1",
+  "mpd": "http://192.168.50.10:8080/TheSwissAccount/TheSwissAccount_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-08-19T08:20:38.051Z",
+  "media_duration": 299.553,
+  "playback_start_epoch": 1787127338.471,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 754,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 0.149,
+      "bitrate_kbps": 930,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.14,
+      "bitrate_kbps": 1717,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 8.119,
+      "bitrate_kbps": 4003,
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.638,
+      "t_epoch": 1787127337.833
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      119.411
+    ],
+    [
+      "playing",
+      119.412
+    ]
+  ]
+}

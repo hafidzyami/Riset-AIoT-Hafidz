@@ -60,9 +60,17 @@ from som_model import SOMClassifier
 
 
 # ---------------------------------------------------------------- data
-def muat(path, feats, clip_rtt=2000.0, min_tp=0.01):
+def muat(path, feats, clip_rtt=2000.0, min_tp=0.01, buang_skenario=()):
+    """buang_skenario: mis. ("S4A","S4B","S4C").
+
+    S4 adalah skenario delay murni yang labelnya seragam Excellent; RTT di sana
+    memisahkan skenario tanpa memisahkan kelas, sehingga ikut menjadi derau bagi
+    pengklasifikasi. Skenario itu dirancang untuk VALIDASI RTT (RQ1), bukan
+    sebagai data latih klasifikasi, jadi wajar diuji tanpa mereka.
+    """
     baris = [r for r in csv.DictReader(open(path, encoding="utf-8"))
-             if float(r["throughput_mean"]) >= min_tp]
+             if float(r["throughput_mean"]) >= min_tp
+             and r["run_id"].split("_")[0] not in set(buang_skenario)]
     X = np.array([[float(r[f]) for f in feats] for r in baris])
     for i, f in enumerate(feats):
         if f.startswith("rtt"):
@@ -203,6 +211,8 @@ def main():
     ap.add_argument("--features", default="rtt", choices=list(SET_FITUR))
     ap.add_argument("--out-dir", default="model")
     ap.add_argument("--clip-rtt", type=float, default=2000.0)
+    ap.add_argument("--exclude-scenarios", default="",
+                    help="mis. S4A,S4B,S4C (skenario delay murni, label seragam)")
     ap.add_argument("--repeats", type=int, default=1,
                     help="jumlah ulangan dgn pembagian & seed berbeda; >1 memberi "
                          "simpangan baku (disarankan 5 utk pelaporan)")
@@ -217,9 +227,11 @@ def main():
     os.makedirs(a.out_dir, exist_ok=True)
 
     feats = SET_FITUR[a.features]
-    X, y, g, judul = muat(a.dataset, feats, a.clip_rtt)
+    buang = tuple(s.strip() for s in a.exclude_scenarios.split(",") if s.strip())
+    X, y, g, judul = muat(a.dataset, feats, a.clip_rtt, buang_skenario=buang)
     print(f"data: {len(y)} window, {len(set(g))} run, {len(set(judul))} judul, "
-          f"{len(feats)} fitur ({a.features})")
+          f"{len(feats)} fitur ({a.features})"
+          + (f" | skenario dibuang: {', '.join(buang)}" if buang else ""))
     from collections import Counter
     print(f"kelas: {dict(Counter(y))}\n")
 
@@ -259,7 +271,8 @@ def main():
               f"LOTO {'-' if lo[0] is None else f'{lo[0]:.3f}'}  "
               f"({time.perf_counter()-t0:.0f}s)")
 
-    p = os.path.join(a.out_dir, f"hasil_{a.features}.csv")
+    tag = a.features + ("_tanpa_" + "-".join(buang) if buang else "")
+    p = os.path.join(a.out_dir, f"hasil_{tag}.csv")
     with open(p, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=list(hasil[0].keys()))
         w.writeheader()

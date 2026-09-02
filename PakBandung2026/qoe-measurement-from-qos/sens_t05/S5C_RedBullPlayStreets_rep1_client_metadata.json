@@ -1,0 +1,93 @@
+{
+  "run_id": "S5C_RedBullPlayStreets_rep1",
+  "mpd": "http://192.168.50.10:8080/RedBullPlayStreets/RedBull_4_simple_2014_05_09.mpd",
+  "captured_at": "2026-08-19T10:31:12.590Z",
+  "media_duration": 300.229,
+  "playback_start_epoch": 1787135171.906,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 1172,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 0.065,
+      "bitrate_kbps": 892,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.04,
+      "bitrate_kbps": 1172,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 8.024,
+      "bitrate_kbps": 1992,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 12.013,
+      "bitrate_kbps": 2996,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 16.26,
+      "bitrate_kbps": 5936,
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.134,
+      "t_epoch": 1787135171.772
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      0.065
+    ],
+    [
+      "playing",
+      0.065
+    ],
+    [
+      "waiting",
+      120.437
+    ],
+    [
+      "playing",
+      120.437
+    ],
+    [
+      "waiting",
+      300.229
+    ]
+  ]
+}

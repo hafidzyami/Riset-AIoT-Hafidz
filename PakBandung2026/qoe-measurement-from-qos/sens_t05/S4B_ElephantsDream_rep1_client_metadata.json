@@ -1,0 +1,67 @@
+{
+  "run_id": "S4B_ElephantsDream_rep1",
+  "mpd": "http://192.168.50.10:8080/ElephantsDream/ElephantsDream_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-08-19T07:17:51.781Z",
+  "media_duration": 299.941,
+  "playback_start_epoch": 1787123571.702,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 3666,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.014,
+      "bitrate_kbps": 792,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 4.259,
+      "bitrate_kbps": 4067,
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.784,
+      "t_epoch": 1787123570.918
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      116.767
+    ],
+    [
+      "playing",
+      116.768
+    ],
+    [
+      "waiting",
+      299.941
+    ]
+  ]
+}

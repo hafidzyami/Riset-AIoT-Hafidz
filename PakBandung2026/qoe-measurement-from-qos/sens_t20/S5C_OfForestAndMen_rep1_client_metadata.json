@@ -1,0 +1,69 @@
+{
+  "run_id": "S5C_OfForestAndMen_rep1",
+  "mpd": "http://192.168.50.10:8080/OfForestAndMen/OfForestAndMen_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-08-19T10:25:59.522Z",
+  "media_duration": 299.7,
+  "playback_start_epoch": 1787134859.815,
+  "fps_assumed": 25,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 2143,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "t_media": 0.005,
+      "bitrate_kbps": 825,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "t_media": 4.257,
+      "bitrate_kbps": 2506,
+      "width": 1024,
+      "height": 576
+    },
+    {
+      "t_media": 8.253,
+      "bitrate_kbps": 3745,
+      "width": 1024,
+      "height": 576
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 1.045,
+      "t_epoch": 1787134858.77
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      118.112
+    ],
+    [
+      "playing",
+      118.113
+    ]
+  ]
+}

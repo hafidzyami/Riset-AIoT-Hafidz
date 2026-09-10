@@ -52,6 +52,36 @@ RTT = ["rtt_mean", "rtt_p95", "rtt_std"]
 SET_FITUR = {"dasar": DASAR, "jr": DASAR + JR, "rtt": DASAR + RTT,
              "semua": DASAR + JR + RTT}
 
+JUDUL_DIKENAL = ["BigBuckBunny", "ElephantsDream", "OfForestAndMen",
+                 "RedBullPlayStreets", "TearsOfSteel", "TheSwissAccount", "Valkaama"]
+
+
+def judul_dari_run(rid):
+    """Ambil nama judul dari run_id, apa pun format penamaannya.
+
+    Format berubah antar koleksi: "S1_BigBuckBunny_rep1" pada matriks skenario
+    dan "CONT_s10_BigBuckBunny" pada koleksi bandwidth kontinu. Memakai
+    rid.split("_")[1] hanya benar untuk format pertama; pada format kedua ia
+    mengembalikan "s10" sehingga pengambilan manifest gagal dan pengelompokan
+    leave-one-title-out berubah menjadi leave-one-seed-out tanpa disadari.
+    Pencocokan terhadap daftar judul membuatnya tahan terhadap kedua format.
+    """
+    for t in JUDUL_DIKENAL:
+        if t in rid:
+            return t
+    bagian = rid.split("_")
+    return bagian[1] if len(bagian) > 1 else rid
+
+
+def seed_dari_run(rid):
+    """Ambil penanda lintasan bandwidth (sN) bila ada; jika tidak, prefiks."""
+    for b in rid.split("_"):
+        if len(b) > 1 and b[0] == "s" and b[1:].isdigit():
+            return b
+    return rid.split("_")[0]
+
+
+
 
 # ---------------------------------------------------------------- SOM
 # Didefinisikan di modul terpisah agar model .joblib bisa dimuat skrip lain
@@ -77,8 +107,9 @@ def muat(path, feats, clip_rtt=2000.0, min_tp=0.01, buang_skenario=()):
             X[:, i] = np.clip(X[:, i], 0, clip_rtt)
     y = np.array([r["label"] for r in baris])
     g = np.array([r["run_id"] for r in baris])
-    judul = np.array([r["run_id"].split("_")[1] for r in baris])
-    return X, y, g, judul
+    judul = np.array([judul_dari_run(r["run_id"]) for r in baris])
+    seed = np.array([seed_dari_run(r["run_id"]) for r in baris])
+    return X, y, g, judul, seed
 
 
 # ---------------------------------------------------------------- model
@@ -180,6 +211,16 @@ def loto(pipe, params, X, y, judul):
 
 # ---------------------------------------------------------------- uji mandiri
 def self_test():
+    # Penamaan run_id berbeda antar koleksi. Bila judul salah diekstrak,
+    # leave-one-title-out berubah menjadi leave-one-seed-out tanpa disadari
+    # dan angkanya jauh lebih rendah tanpa penjelasan.
+    assert judul_dari_run("S1_BigBuckBunny_rep1") == "BigBuckBunny"
+    assert judul_dari_run("CONT_s10_BigBuckBunny") == "BigBuckBunny"
+    assert judul_dari_run("CONT_s3_TearsOfSteel") == "TearsOfSteel"
+    assert seed_dari_run("CONT_s10_BigBuckBunny") == "s10"
+    assert seed_dari_run("S1_BigBuckBunny_rep1") == "S1"
+    print("  [OK] judul dan seed terbaca benar dari kedua format run_id")
+
     rng = np.random.default_rng(0)
     n = 400
     X = np.zeros((n, 10))
@@ -228,7 +269,7 @@ def main():
 
     feats = SET_FITUR[a.features]
     buang = tuple(s.strip() for s in a.exclude_scenarios.split(",") if s.strip())
-    X, y, g, judul = muat(a.dataset, feats, a.clip_rtt, buang_skenario=buang)
+    X, y, g, judul, seed = muat(a.dataset, feats, a.clip_rtt, buang_skenario=buang)
     print(f"data: {len(y)} window, {len(set(g))} run, {len(set(judul))} judul, "
           f"{len(feats)} fitur ({a.features})"
           + (f" | skenario dibuang: {', '.join(buang)}" if buang else ""))
@@ -240,7 +281,7 @@ def main():
     for nama, _, grid in kandidat(0):
         t0 = time.perf_counter()
         print(f"  {nama} ...", end="", flush=True)
-        f1s, akurs, lotos, pers = [], [], [], []
+        f1s, akurs, lotos, losos, pers = [], [], [], [], []
         est = par = kb = lat = path = None
         # Penyetelan penuh dilakukan SEKALI (seed 0) lalu dipakai ulang untuk LOTO;
         # nested_cv tetap menyetel sendiri di dalam tiap fold sehingga angka utama
@@ -255,20 +296,30 @@ def main():
             pers.append(f1_score(y, yp, average=None, labels=KELAS, zero_division=0))
             if not a.skip_loto:
                 lotos.append(loto(pipe, par, X, y, judul)[0])
+                # Leave-one-seed-out menguji generalisasi ke LINTASAN BANDWIDTH
+                # yang belum pernah dilihat. Pada koleksi bandwidth kontinu ini
+                # pengganti sah bagi leave-one-scenario-out yang tidak berlaku
+                # lagi, karena skenario diskret sudah tidak ada.
+                if len(set(seed)) >= 3:
+                    losos.append(loto(pipe, par, X, y, seed)[0])
         f1m, f1sd = float(np.mean(f1s)), float(np.std(f1s))
         per = dict(zip(KELAS, np.mean(pers, axis=0)))
         lo = (float(np.mean(lotos)), float(np.std(lotos))) if lotos else (None, None)
+        ls = (float(np.mean(losos)), float(np.std(losos))) if losos else (None, None)
         print("\r", end="")
         hasil.append({"model": nama, "macro_f1": round(f1m, 4), "macro_f1_std": round(f1sd, 4),
                       "akurasi": round(float(np.mean(akurs)), 4), "ulangan": R,
                       **{f"f1_{k}": round(float(v), 4) for k, v in per.items()},
                       "loto_mean": None if lo[0] is None else round(lo[0], 4),
                       "loto_std": None if lo[1] is None else round(lo[1], 4),
+                      "loso_mean": None if ls[0] is None else round(ls[0], 4),
+                      "loso_std": None if ls[1] is None else round(ls[1], 4),
                       "ukuran_kb": round(kb, 1), "latensi_us": round(lat, 2),
                       "params": json.dumps(par), "berkas": os.path.basename(path)})
         print(f"  {nama:<18} F1 {f1m:.3f} +/- {f1sd:.3f} | akur {np.mean(akurs):.3f} | "
               f"{kb:>8.1f} KB | {lat:>7.2f} us | "
-              f"LOTO {'-' if lo[0] is None else f'{lo[0]:.3f}'}  "
+              f"LOTO {'-' if lo[0] is None else f'{lo[0]:.3f}'} "
+              f"LOSeedO {'-' if ls[0] is None else f'{ls[0]:.3f}'}  "
               f"({time.perf_counter()-t0:.0f}s)")
 
     tag = a.features + ("_tanpa_" + "-".join(buang) if buang else "")
@@ -279,12 +330,14 @@ def main():
         w.writerows(hasil)
 
     print(f"\n=== RINGKASAN ({R} ulangan) -> {p} ===")
-    print(f"{'model':<18}{'macro-F1':>17}{'LOTO':>8}{'ukuran KB':>11}{'latensi us':>12}")
+    print(f"{'model':<18}{'macro-F1':>17}{'LOTO':>8}{'LOSeedO':>10}"
+          f"{'ukuran KB':>11}{'latensi us':>12}")
     urut = sorted(hasil, key=lambda x: -x["macro_f1"])
     for r in urut:
         lo_txt = "-" if r["loto_mean"] is None else f"{r['loto_mean']:.3f}"
+        ls_txt = "-" if r.get("loso_mean") is None else f"{r['loso_mean']:.3f}"
         f1_txt = f"{r['macro_f1']:.3f} +/- {r['macro_f1_std']:.3f}"
-        print(f"{r['model']:<18}{f1_txt:>17}{lo_txt:>8}"
+        print(f"{r['model']:<18}{f1_txt:>17}{lo_txt:>8}{ls_txt:>10}"
               f"{r['ukuran_kb']:>11.1f}{r['latensi_us']:>12.2f}")
 
     if R > 1:

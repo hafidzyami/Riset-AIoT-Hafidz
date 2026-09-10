@@ -42,6 +42,20 @@ const DISPLAY = arg("display", "1920x1080");
 // dash.js DIPIN ke v4: v5 mengganti getBitrateInfoListFor -> getRepresentationsByType.
 const DASHJS = arg("dashjs", "https://cdn.dashjs.org/v4.7.4/dash.all.min.js");
 
+// Pemilih ABR. Ini menjawab kritik bahwa label nyaris merupakan fungsi
+// deterministik dari throughput: aturan berbasis throughput memilih representasi
+// dari bandwidth terukur, sehingga fitur throughput dan label QoE menjadi
+// kolinear lewat ABR. BOLA memilih berdasarkan tingkat buffer, bukan throughput,
+// sehingga pemetaan itu terputus.
+//   dynamic    : bawaan dash.js (throughput saat buffer rendah, BOLA saat tinggi)
+//   throughput : murni berbasis throughput
+//   bola       : murni berbasis buffer
+const ABR = String(arg("abr", "dynamic")).toLowerCase();
+if (!["dynamic", "throughput", "bola"].includes(ABR)) {
+  console.error(`--abr harus dynamic, throughput, atau bola (diberi: ${ABR})`);
+  process.exit(2);
+}
+
 // Throttle menerima nilai BEBAS: "400k", "1.5m", "800kbit", "1.5mbit", "250kbps", atau "none".
 // Nilai adalah bitrate (bit/detik); CDP minta byte/detik, jadi dibagi 8.
 function parseThrottle(s) {
@@ -64,8 +78,25 @@ window.__t = { quality_timeline: [], stalls: [], events: [], playback_start_epoc
 (function () {
   var v = document.getElementById('v');
   var player = dashjs.MediaPlayer().create();
-  // ABR digerakkan bandwidth, bukan ukuran viewport
-  player.updateSettings({ streaming: { abr: { limitBitrateByPortal: false } } });
+  // ABR digerakkan bandwidth, bukan ukuran viewport.
+  // ABR_MODE menentukan aturan pemilihan representasi; lihat catatan di CLI.
+  var abrCfg = { limitBitrateByPortal: false };
+  var mode = ${JSON.stringify(ABR)};
+  if (mode === 'throughput') {
+    abrCfg.ABRStrategy = 'abrThroughput';
+    abrCfg.useDefaultABRRules = true;
+  } else if (mode === 'bola') {
+    abrCfg.ABRStrategy = 'abrBola';
+    abrCfg.useDefaultABRRules = true;
+  }
+  player.updateSettings({ streaming: { abr: abrCfg } });
+  window.__t.abr_mode = mode;
+  // Rekam strategi yang BENAR-BENAR aktif, bukan yang diminta, supaya bisa
+  // diperiksa saat analisis bila dash.js mengabaikan pengaturan.
+  try {
+    window.__t.abr_effective =
+      (player.getSettings().streaming.abr || {}).ABRStrategy || 'default';
+  } catch (e) { window.__t.abr_effective = 'unknown'; }
   window.__player = player;
 
   function bitrateList() { try { return player.getBitrateInfoListFor('video') || []; } catch (e) { return []; } }
@@ -170,7 +201,12 @@ async function detectFps(mpdUrl) {
     headless: "new",
     // Bawaan Puppeteer 180 detik -> run 5 menit akan gagal. Beri kelonggaran.
     protocolTimeout: Math.max(300000, (DURATION + 180) * 1000),
-    args: ["--no-sandbox", "--disable-dev-shm-usage", "--autoplay-policy=no-user-gesture-required"],
+    // --ignore-certificate-errors diperlukan untuk MPD yang disajikan lewat HTTPS
+    // dengan sertifikat mandiri. Tanpa ini Chromium menolak koneksi dan
+    // quality_timeline keluar kosong tanpa pesan yang jelas.
+    args: ["--no-sandbox", "--disable-dev-shm-usage",
+           "--autoplay-policy=no-user-gesture-required",
+           "--ignore-certificate-errors"],
   });
   try {
     const page = await browser.newPage();
@@ -239,12 +275,17 @@ async function detectFps(mpdUrl) {
       codec: CODEC,
       display: { width: dispW, height: dispH },
       throttle: { preset: THROTTLE, downloadThroughput_Bps: dlBps, latency_ms: LATENCY },
+      // Mode ABR dicatat agar dapat dipakai sebagai variabel analisis. Sesi
+      // BOLA memutus kolinearitas throughput-ke-label yang muncul pada aturan
+      // berbasis throughput.
+      abr: { requested: tel.data.abr_mode || "dynamic",
+             effective: tel.data.abr_effective || "unknown" },
       quality_timeline: tel.data.quality_timeline,
       stalls: tel.data.stalls,
       events_raw: tel.data.events,
     };
     fs.writeFileSync(OUT, JSON.stringify(meta, null, 2));
-    console.log(`OK: ${meta.quality_timeline.length} perpindahan kualitas, ${meta.stalls.length} stall, media ${meta.media_duration}s`);
+    console.log(`OK: ${meta.quality_timeline.length} perpindahan kualitas, ${meta.stalls.length} stall, media ${meta.media_duration}s, abr ${meta.abr.requested}`);
     console.log(`-> ${OUT}`);
   } finally {
     await browser.close();

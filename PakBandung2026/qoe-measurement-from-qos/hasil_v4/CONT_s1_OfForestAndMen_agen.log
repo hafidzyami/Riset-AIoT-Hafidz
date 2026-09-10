@@ -1,0 +1,20 @@
+>> run_id=CONT_s1_OfForestAndMen | map=flows | poll=0.1s | window=10.0s -> qos_features.csv
+>> menghitung SEMUA flow TCP yang lewat (Ctrl-C untuk berhenti)
+>> XDP terpasang di eth0: prog id=22
+>> membaca 1 map bernama 'flows': id [2]
+>> entri awal di map: 3166  (0 = belum ada trafik TCP yang tertangkap)
+  w0      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w1      2.608 Mbps (std 15.829)  jit   3.678 ms  reord  0.11%  rtt   73.67 ms    8,385 pkt  4 flow
+  w2      2.727 Mbps (std  9.628)  jit  15.340 ms  reord  0.01%  rtt   61.67 ms    7,894 pkt  2 flow
+  w3      0.351 Mbps (std  0.957)  jit  92.883 ms  reord 11.34%  rtt  483.09 ms    1,296 pkt  7 flow
+  w4      0.243 Mbps (std  0.127)  jit 107.898 ms  reord  4.90%  rtt  366.71 ms    1,020 pkt  5 flow
+  w5      0.342 Mbps (std  0.305)  jit  49.415 ms  reord  4.35%  rtt  294.27 ms    1,286 pkt  5 flow
+  w6      1.119 Mbps (std  1.341)  jit  27.417 ms  reord  0.46%  rtt  111.35 ms    3,723 pkt  4 flow
+  w7      1.149 Mbps (std  0.488)  jit  23.325 ms  reord  0.05%  rtt  103.90 ms    3,744 pkt  6 flow
+  w8      1.012 Mbps (std  2.740)  jit  32.105 ms  reord  0.31%  rtt  146.50 ms    3,204 pkt  4 flow
+  w9      0.891 Mbps (std  0.821)  jit  36.564 ms  reord  0.20%  rtt  121.36 ms    3,048 pkt  6 flow
+  w10     1.488 Mbps (std  0.709)  jit  22.498 ms  reord  0.02%  rtt   73.25 ms    5,089 pkt  5 flow
+  w11     0.374 Mbps (std  0.734)  jit  22.521 ms  reord  0.00%  rtt   36.82 ms    1,278 pkt  2 flow
+  w12  (parsial, 18 cuplikan) 0.000 Mbps
+>> selesai: 13 window -> qos_features.csv
+>>          cuplikan mentah -> qos_samples.csv (untuk align_qos.py)

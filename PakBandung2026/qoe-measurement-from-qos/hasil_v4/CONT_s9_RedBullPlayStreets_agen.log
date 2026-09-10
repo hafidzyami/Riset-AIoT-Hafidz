@@ -1,0 +1,18 @@
+>> run_id=CONT_s9_RedBullPlayStreets | map=flows | poll=0.1s | window=10.0s -> qos_features.csv
+>> menghitung SEMUA flow TCP yang lewat (Ctrl-C untuk berhenti)
+>> XDP terpasang di eth0: prog id=22
+>> membaca 1 map bernama 'flows': id [2]
+>> entri awal di map: 4054  (0 = belum ada trafik TCP yang tertangkap)
+  w0      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w1      1.068 Mbps (std  4.127)  jit  23.803 ms  reord  1.12%  rtt  130.06 ms    4,373 pkt  6 flow
+  w2      0.724 Mbps (std  0.579)  jit  26.482 ms  reord  0.00%  rtt   93.68 ms    2,694 pkt  4 flow
+  w3      2.018 Mbps (std  1.122)  jit  15.612 ms  reord  0.47%  rtt   88.71 ms    7,290 pkt  4 flow
+  w4      1.547 Mbps (std  0.522)  jit  18.531 ms  reord  0.03%  rtt  105.49 ms    5,815 pkt  4 flow
+  w5      1.168 Mbps (std  2.203)  jit 1246.274 ms  reord  6.29%  rtt  104.37 ms    4,563 pkt  4 flow
+  w6      1.400 Mbps (std  1.861)  jit   7.843 ms  reord 69.64%  rtt   85.35 ms    5,961 pkt  2 flow
+  w7      4.393 Mbps (std  4.185)  jit   6.967 ms  reord 56.63%  rtt   59.09 ms   18,469 pkt  6 flow
+  w8      5.186 Mbps (std  1.758)  jit 121.418 ms  reord 56.39%  rtt   47.25 ms   22,968 pkt  4 flow
+  w9      1.731 Mbps (std  2.093)  jit  17.296 ms  reord 53.38%  rtt   79.03 ms    7,316 pkt  6 flow
+  w10  (parsial, 29 cuplikan) 0.000 Mbps
+>> selesai: 11 window -> qos_features.csv
+>>          cuplikan mentah -> qos_samples.csv (untuk align_qos.py)

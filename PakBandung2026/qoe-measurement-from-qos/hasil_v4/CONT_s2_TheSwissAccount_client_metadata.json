@@ -1,0 +1,97 @@
+{
+  "run_id": "CONT_s2_TheSwissAccount",
+  "mpd": "http://192.168.50.10:8080/TheSwissAccount/TheSwissAccount_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-10T03:04:05.624Z",
+  "media_duration": 300.221,
+  "playback_start_epoch": 1789009144.819,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "dynamic",
+    "effective": "abrDynamic"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 4003,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.097,
+      "bitrate_kbps": 930,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.084,
+      "bitrate_kbps": 4003,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 260.505,
+      "bitrate_kbps": 1717,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 264.48,
+      "bitrate_kbps": 1323,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 272.449,
+      "bitrate_kbps": 4003,
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.104,
+      "t_epoch": 1789009144.716
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      0.098
+    ],
+    [
+      "playing",
+      0.098
+    ],
+    [
+      "waiting",
+      120.769
+    ],
+    [
+      "playing",
+      120.769
+    ],
+    [
+      "waiting",
+      300.221
+    ]
+  ]
+}

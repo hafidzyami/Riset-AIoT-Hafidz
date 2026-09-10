@@ -1,0 +1,20 @@
+>> run_id=CONT_s11_ElephantsDream | map=flows | poll=0.1s | window=10.0s -> qos_features.csv
+>> menghitung SEMUA flow TCP yang lewat (Ctrl-C untuk berhenti)
+>> XDP terpasang di eth0: prog id=22
+>> membaca 1 map bernama 'flows': id [2]
+>> entri awal di map: 2990  (0 = belum ada trafik TCP yang tertangkap)
+  w0      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w1      0.206 Mbps (std  0.309)  jit  13.791 ms  reord  0.00%  rtt  153.24 ms      720 pkt  6 flow
+  w2      0.604 Mbps (std  0.295)  jit  25.018 ms  reord  0.19%  rtt  106.03 ms    2,140 pkt  2 flow
+  w3      0.497 Mbps (std  0.412)  jit  38.535 ms  reord  0.00%  rtt  140.31 ms    1,536 pkt  4 flow
+  w4      1.514 Mbps (std  7.892)  jit  30.014 ms  reord  0.95%  rtt  138.00 ms    4,506 pkt  4 flow
+  w5      1.585 Mbps (std  5.534)  jit  32.676 ms  reord  0.29%  rtt  109.41 ms    4,798 pkt  4 flow
+  w6      0.418 Mbps (std  0.488)  jit  57.727 ms  reord  5.51%  rtt  260.00 ms    1,633 pkt  5 flow
+  w7      0.276 Mbps (std  0.206)  jit 123.121 ms  reord  3.54%  rtt  247.13 ms    1,044 pkt  5 flow
+  w8      0.419 Mbps (std  1.460)  jit  72.546 ms  reord  0.62%  rtt  214.86 ms    1,283 pkt  4 flow
+  w9      0.846 Mbps (std  2.353)  jit   6.158 ms  reord  0.00%  rtt   80.87 ms    2,425 pkt  4 flow
+  w10     1.072 Mbps (std  1.955)  jit  24.905 ms  reord  0.00%  rtt  107.32 ms    3,120 pkt  4 flow
+  w11     0.909 Mbps (std  0.656)  jit  29.453 ms  reord  2.03%  rtt  142.67 ms    2,953 pkt  4 flow
+  w12  (parsial, 63 cuplikan) 0.000 Mbps
+>> selesai: 13 window -> qos_features.csv
+>>          cuplikan mentah -> qos_samples.csv (untuk align_qos.py)

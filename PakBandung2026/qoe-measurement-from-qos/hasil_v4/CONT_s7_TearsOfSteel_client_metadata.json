@@ -1,0 +1,117 @@
+{
+  "run_id": "CONT_s7_TearsOfSteel",
+  "mpd": "http://192.168.50.10:8080/TearsOfSteel/TearsOfSteel_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-10T02:06:13.940Z",
+  "media_duration": 299.123,
+  "playback_start_epoch": 1789005674.351,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "dynamic",
+    "effective": "abrDynamic"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0.084,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 4.021,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 64.068,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 92.756,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 100.193,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 128.084,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 140.038,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 148.006,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 176.162,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 192.099,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 260.101,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 268.069,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.773,
+      "t_epoch": 1789005673.579
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.085
+    ],
+    [
+      "waiting",
+      299.123
+    ]
+  ]
+}

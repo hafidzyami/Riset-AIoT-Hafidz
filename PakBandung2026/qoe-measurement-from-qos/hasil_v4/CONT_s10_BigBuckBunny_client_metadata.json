@@ -1,0 +1,252 @@
+{
+  "run_id": "CONT_s10_BigBuckBunny",
+  "mpd": "http://192.168.50.10:8080/BigBuckBunny/BigBuckBunny_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-09T20:27:15.930Z",
+  "media_duration": 296.787,
+  "playback_start_epoch": 1788985337.408,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 8.051,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 12.031,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 16.043,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 20.021,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 60.143,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 68.112,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 136.184,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 140.165,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 148.129,
+      "bitrate_kbps": 218,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 152.141,
+      "bitrate_kbps": 177,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 156.123,
+      "bitrate_kbps": 323,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 160.104,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 164.099,
+      "bitrate_kbps": 323,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 199.729,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 200.219,
+      "bitrate_kbps": 45,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 208.189,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 216.165,
+      "bitrate_kbps": 45,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 245.132,
+      "bitrate_kbps": 177,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 248.058,
+      "bitrate_kbps": 45,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 250.717,
+      "bitrate_kbps": 177,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 252.114,
+      "bitrate_kbps": 45,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 264.064,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 269.908,
+      "bitrate_kbps": 129,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 272.147,
+      "bitrate_kbps": 45,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 292.073,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 2.707,
+      "t_epoch": 1788985334.701
+    },
+    {
+      "position": 199.951,
+      "duration": 0.796,
+      "t_epoch": 1788985537.373
+    },
+    {
+      "position": 251.92,
+      "duration": 0.074,
+      "t_epoch": 1788985590.138
+    },
+    {
+      "position": 271.936,
+      "duration": 0.851,
+      "t_epoch": 1788985610.228
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      0.079
+    ],
+    [
+      "playing",
+      0.079
+    ],
+    [
+      "waiting",
+      117.859
+    ],
+    [
+      "playing",
+      117.859
+    ],
+    [
+      "waiting",
+      199.951
+    ],
+    [
+      "playing",
+      199.952
+    ],
+    [
+      "waiting",
+      251.92
+    ],
+    [
+      "playing",
+      251.92
+    ],
+    [
+      "waiting",
+      271.936
+    ],
+    [
+      "playing",
+      271.936
+    ]
+  ]
+}

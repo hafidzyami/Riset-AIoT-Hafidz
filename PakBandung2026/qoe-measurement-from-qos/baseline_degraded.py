@@ -38,6 +38,26 @@ import xml.etree.ElementTree as ET
 from collections import Counter
 
 NS = {"m": "urn:mpeg:dash:schema:mpd:2011"}
+
+JUDUL_DIKENAL = ["BigBuckBunny", "ElephantsDream", "OfForestAndMen",
+                 "RedBullPlayStreets", "TearsOfSteel", "TheSwissAccount", "Valkaama"]
+
+
+def judul_dari_run(rid):
+    """Ambil nama judul dari run_id, apa pun format penamaannya.
+
+    Format berubah antar koleksi: "S1_BigBuckBunny_rep1" pada matriks skenario
+    dan "CONT_s10_BigBuckBunny" pada koleksi bandwidth kontinu. Memakai
+    rid.split("_")[1] hanya benar untuk format pertama; pada format kedua ia
+    mengembalikan "s10" sehingga pengambilan manifest gagal dengan 404.
+    Pencocokan terhadap daftar judul tahan terhadap kedua format.
+    """
+    for t in JUDUL_DIKENAL:
+        if t in rid:
+            return t
+    bagian = rid.split("_")
+    return bagian[1] if len(bagian) > 1 else rid
+
 # Faktor default 0,95. CATATAN PENTING: faktor 0,80 dikalibrasi terhadap LAJU
 # THROTTLE, bukan throughput TERUKUR. Pada kondisi mapan throughput terukur sudah
 # mendekati bitrate yang diputar (rasio 0,97-1,04 pada S2B/S2C/S2D), sehingga
@@ -145,6 +165,11 @@ def self_test():
     # faktor lebih tinggi -> memilih representasi lebih tinggi pd throughput sama
     assert pilih_rep(ladder, 0.7, 0.80)[0] == 378.4
     assert pilih_rep(ladder, 0.7, 0.95)[0] == 577.8
+    # penamaan run_id berbeda antar koleksi; keduanya harus terbaca benar
+    assert judul_dari_run("S1_BigBuckBunny_rep1") == "BigBuckBunny"
+    assert judul_dari_run("CONT_s10_BigBuckBunny") == "BigBuckBunny"
+    assert judul_dari_run("CONT_s3_TearsOfSteel") == "TearsOfSteel"
+    print("  [OK] judul terbaca benar dari format lama maupun CONT_sN_Judul")
     print("  [OK] pemilihan representasi mengikuti faktor ABR (dapat disetel)")
 
     # throughput cukup -> tidak ada stall
@@ -228,7 +253,7 @@ def main():
     cache, baris, lewat = {}, [], 0
     for p in berkas:
         rid = os.path.basename(p).replace("_qos_aligned.csv", "")
-        title = rid.split("_")[1]
+        title = judul_dari_run(rid)
         try:
             ladder = ambil_mpd(title, a.mpd_base, a.mpd_dir, cache)
         except Exception as e:

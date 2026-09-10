@@ -1,0 +1,224 @@
+{
+  "run_id": "CONT_s11_BigBuckBunny",
+  "mpd": "http://192.168.50.10:8080/BigBuckBunny/BigBuckBunny_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-09T20:33:39.447Z",
+  "media_duration": 293.526,
+  "playback_start_epoch": 1788985725.263,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 323,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 0.117,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 4.108,
+      "bitrate_kbps": 323,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 8.355,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 12.075,
+      "bitrate_kbps": 256,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 13.131,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 16.051,
+      "bitrate_kbps": 218,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 20.05,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 24.083,
+      "bitrate_kbps": 323,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 52.549,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 60.249,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 64.229,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 89.224,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 96.132,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 132.066,
+      "bitrate_kbps": 45,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 136.853,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 144.047,
+      "bitrate_kbps": 129,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 144.311,
+      "bitrate_kbps": 177,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 148.03,
+      "bitrate_kbps": 129,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 168.234,
+      "bitrate_kbps": 45,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 176.191,
+      "bitrate_kbps": 218,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 180.176,
+      "bitrate_kbps": 177,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 208.089,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 268.135,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 272.644,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 276.101,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 280.084,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 6.512,
+      "t_epoch": 1788985718.751
+    },
+    {
+      "position": 131.918,
+      "duration": 0.645,
+      "t_epoch": 1788985857.194
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      113.987
+    ],
+    [
+      "playing",
+      113.988
+    ],
+    [
+      "waiting",
+      131.918
+    ],
+    [
+      "playing",
+      131.918
+    ]
+  ]
+}

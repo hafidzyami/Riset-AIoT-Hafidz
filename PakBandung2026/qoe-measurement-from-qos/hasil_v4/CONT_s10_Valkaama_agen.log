@@ -1,0 +1,16 @@
+>> run_id=CONT_s10_Valkaama | map=flows | poll=0.1s | window=10.0s -> qos_features.csv
+>> menghitung SEMUA flow TCP yang lewat (Ctrl-C untuk berhenti)
+>> XDP terpasang di eth0: prog id=22
+>> membaca 1 map bernama 'flows': id [2]
+>> entri awal di map: 5640  (0 = belum ada trafik TCP yang tertangkap)
+  w0      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w1      0.755 Mbps (std  0.456)  jit  29.108 ms  reord  0.37%  rtt  131.61 ms    3,737 pkt  6 flow
+  w2      0.839 Mbps (std  0.311)  jit  38.626 ms  reord  0.28%  rtt  140.82 ms    4,277 pkt  6 flow
+  w3      0.610 Mbps (std  0.419)  jit  42.569 ms  reord  0.12%  rtt  149.72 ms    3,228 pkt  6 flow
+  w4      0.689 Mbps (std  3.281)  jit  55.653 ms  reord  2.32%  rtt  245.10 ms    3,275 pkt  6 flow
+  w5      0.304 Mbps (std  0.898)  jit  85.513 ms  reord  6.91%  rtt  802.09 ms    1,752 pkt  4 flow
+  w6      0.134 Mbps (std  0.080)  jit 126.297 ms  reord  2.85%  rtt  394.90 ms      738 pkt  2 flow
+  w7      0.080 Mbps (std  0.175)  jit 124.859 ms  reord  2.19%  rtt  597.25 ms      457 pkt  5 flow
+  w8   (parsial, 14 cuplikan) 0.000 Mbps
+>> selesai: 9 window -> qos_features.csv
+>>          cuplikan mentah -> qos_samples.csv (untuk align_qos.py)

@@ -1,0 +1,16 @@
+>> run_id=CONT_s8_TheSwissAccount | map=flows | poll=0.1s | window=10.0s -> qos_features.csv
+>> menghitung SEMUA flow TCP yang lewat (Ctrl-C untuk berhenti)
+>> XDP terpasang di eth0: prog id=22
+>> membaca 1 map bernama 'flows': id [2]
+>> entri awal di map: 5188  (0 = belum ada trafik TCP yang tertangkap)
+  w0      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w1      0.103 Mbps (std  0.088)  jit  79.996 ms  reord 10.35%  rtt  314.81 ms      686 pkt  4 flow
+  w2      0.131 Mbps (std  0.068)  jit 187.665 ms  reord  1.03%  rtt 1097.03 ms      680 pkt  4 flow
+  w3      0.208 Mbps (std  0.949)  jit 140.706 ms  reord  3.26%  rtt  544.20 ms    1,042 pkt  7 flow
+  w4      0.147 Mbps (std  0.211)  jit 183.424 ms  reord  1.82%  rtt  504.20 ms      715 pkt  4 flow
+  w5      0.192 Mbps (std  0.208)  jit 115.800 ms  reord  0.64%  rtt  423.34 ms      931 pkt  4 flow
+  w6      0.659 Mbps (std  4.869)  jit 174.376 ms  reord  0.73%  rtt  739.18 ms    3,022 pkt  6 flow
+  w7      0.567 Mbps (std  3.562)  jit 150.362 ms  reord  1.67%  rtt  420.93 ms    2,689 pkt  6 flow
+  w8   (parsial, 50 cuplikan) 0.095 Mbps
+>> selesai: 9 window -> qos_features.csv
+>>          cuplikan mentah -> qos_samples.csv (untuk align_qos.py)

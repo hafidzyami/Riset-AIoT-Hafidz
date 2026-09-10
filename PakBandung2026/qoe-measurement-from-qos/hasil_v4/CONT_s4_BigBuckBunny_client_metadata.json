@@ -1,0 +1,201 @@
+{
+  "run_id": "CONT_s4_BigBuckBunny",
+  "mpd": "http://192.168.50.10:8080/BigBuckBunny/BigBuckBunny_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-09T15:47:33.244Z",
+  "media_duration": 232.995,
+  "playback_start_epoch": 1788968552.775,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 3936,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.227,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 4.265,
+      "bitrate_kbps": 2410,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 8.18,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 12.178,
+      "bitrate_kbps": 45,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 16.161,
+      "bitrate_kbps": 177,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 20.164,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 24.147,
+      "bitrate_kbps": 256,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 48.606,
+      "bitrate_kbps": 323,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 52.086,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 56.158,
+      "bitrate_kbps": 323,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 80.116,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 116.107,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 120.107,
+      "bitrate_kbps": 256,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 156.032,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 160.014,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 164.005,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 168.261,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 196.173,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 200.165,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 204.156,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.081,
+      "t_epoch": 1788968552.694
+    },
+    {
+      "position": 3.959,
+      "duration": 64.825,
+      "t_epoch": 1788968556.688
+    },
+    {
+      "position": 7.948,
+      "duration": 2.685,
+      "t_epoch": 1788968625.502
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.046
+    ],
+    [
+      "waiting",
+      3.959
+    ],
+    [
+      "playing",
+      3.959
+    ],
+    [
+      "waiting",
+      7.948
+    ],
+    [
+      "playing",
+      7.948
+    ],
+    [
+      "waiting",
+      52.715
+    ],
+    [
+      "playing",
+      52.715
+    ]
+  ]
+}

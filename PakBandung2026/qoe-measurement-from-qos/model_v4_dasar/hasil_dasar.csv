@@ -1,0 +1,7 @@
+model,macro_f1,macro_f1_std,akurasi,ulangan,f1_Excellent,f1_Good,f1_Degraded,f1_Critical,loto_mean,loto_std,loso_mean,loso_std,ukuran_kb,latensi_us,params,berkas
+Tebak mayoritas,0.1094,0.0,0.2801,5,0.0,0.0,0.0,0.4376,0.1083,0.0,0.0359,0.0,0.8,0.12,{},Tebak_mayoritas.joblib
+LogReg,0.6798,0.0006,0.6902,5,0.766,0.5883,0.5656,0.7994,0.6758,0.0,0.538,0.0,1.8,0.88,"{""m__C"": 10}",LogReg.joblib
+DecisionTree,0.67,0.0041,0.6743,5,0.7402,0.5835,0.5721,0.7844,0.6705,0.0004,0.4677,0.0001,12.3,0.49,"{""m__max_depth"": 6, ""m__min_samples_leaf"": 1}",DecisionTree.joblib
+RandomForest,0.7065,0.003,0.7111,5,0.7767,0.6116,0.6151,0.8227,0.7069,0.0025,0.5039,0.002,9402.9,105.0,"{""m__max_depth"": 10, ""m__min_samples_leaf"": 1}",RandomForest.joblib
+SVM RBF,0.7004,0.0033,0.7045,5,0.7537,0.6205,0.6076,0.82,0.6982,0.0,0.5323,0.0,188.2,107.49,"{""m__C"": 100, ""m__gamma"": 0.05}",SVM_RBF.joblib
+SOM 10x10,0.6436,0.0046,0.6509,5,0.7461,0.536,0.5417,0.7507,0.641,0.0037,0.4515,0.0104,25.3,12.39,"{""m__grid"": 10, ""m__sigma"": 1.0}",SOM_10x10.joblib

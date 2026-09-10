@@ -1,0 +1,17 @@
+>> run_id=CONT_s11_TearsOfSteel | map=flows | poll=0.1s | window=10.0s -> qos_features.csv
+>> menghitung SEMUA flow TCP yang lewat (Ctrl-C untuk berhenti)
+>> XDP terpasang di eth0: prog id=22
+>> membaca 1 map bernama 'flows': id [2]
+>> entri awal di map: 4722  (0 = belum ada trafik TCP yang tertangkap)
+  w0      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w1      0.497 Mbps (std  0.290)  jit  46.371 ms  reord  0.00%  rtt  180.01 ms    2,475 pkt  8 flow
+  w2      1.010 Mbps (std  2.156)  jit  61.116 ms  reord  0.54%  rtt  149.10 ms    4,471 pkt  6 flow
+  w3      1.233 Mbps (std  3.539)  jit  50.436 ms  reord  0.22%  rtt  140.29 ms    5,499 pkt  6 flow
+  w4      0.485 Mbps (std  0.273)  jit 105.269 ms  reord  3.40%  rtt  211.79 ms    2,469 pkt  8 flow
+  w5      0.424 Mbps (std  0.042)  jit 118.580 ms  reord  2.25%  rtt  265.79 ms    2,133 pkt  8 flow
+  w6      0.497 Mbps (std  1.305)  jit  37.563 ms  reord  0.43%  rtt  180.63 ms    2,101 pkt  6 flow
+  w7      1.227 Mbps (std  1.600)  jit  23.409 ms  reord  0.02%  rtt   92.08 ms    4,976 pkt  6 flow
+  w8      0.599 Mbps (std  0.691)  jit  33.319 ms  reord  2.97%  rtt  161.18 ms    2,830 pkt  8 flow
+  w9   (parsial, 10 cuplikan) 0.000 Mbps
+>> selesai: 10 window -> qos_features.csv
+>>          cuplikan mentah -> qos_samples.csv (untuk align_qos.py)

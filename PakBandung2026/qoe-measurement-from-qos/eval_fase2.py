@@ -53,6 +53,24 @@ def wall_ke_media(t, ps, stalls, dur):
     return m if m <= dur + 1e-6 else None
 
 
+def macro_f1(pasang, kelas_hadir):
+    """macro-F1 tanpa sklearn, agar sebanding langsung dengan evaluasi luring.
+
+    Akurasi mentah tidak sebanding dengan macro-F1 yang dilaporkan train_compare:
+    pada sesi yang didominasi satu kelas, akurasi bisa tinggi sementara macro-F1
+    rendah. Keduanya perlu dihitung atas prediksi yang sama.
+    """
+    f1s = []
+    for k in kelas_hadir:
+        tp = sum(1 for _, _, p, t in pasang if p == k and t == k)
+        fp = sum(1 for _, _, p, t in pasang if p == k and t != k)
+        fn = sum(1 for _, _, p, t in pasang if p != k and t == k)
+        pr = tp / (tp + fp) if tp + fp else 0.0
+        rc = tp / (tp + fn) if tp + fn else 0.0
+        f1s.append(2 * pr * rc / (pr + rc) if pr + rc else 0.0)
+    return sum(f1s) / len(f1s) if f1s else 0.0
+
+
 def muat_infer(path):
     """Ambil blok TERAKHIR saja bila berkas memuat beberapa sesi."""
     baris = list(csv.DictReader(open(path, encoding="utf-8")))
@@ -108,6 +126,10 @@ def main():
     ap.add_argument("--labels", required=False,
                     help="berkas *_labels.csv dari label_from_metadata.py")
     ap.add_argument("--window", type=float, default=10.0)
+    ap.add_argument("--out-json", default=None,
+                    help="tulis ringkasan sbg JSON agar dapat diagregasi")
+    ap.add_argument("--quiet", action="store_true",
+                    help="sembunyikan tabel per window")
     ap.add_argument("--self-test", action="store_true")
     a = ap.parse_args()
 
@@ -149,13 +171,19 @@ def main():
         sys.exit("tidak ada window yang dapat dipasangkan; periksa apakah "
                  "client_metadata.json berasal dari sesi yang sama")
 
-    print(f"{'w_infer':>8}{'w_label':>9}{'prediksi':<12}{'sebenarnya':<12}  cocok")
-    print("-" * 52)
-    for wi, wl, pred, akt in pasang:
-        print(f"{wi:>8}{wl:>9}{pred:<12}{akt:<12}  {'ya' if pred == akt else 'TIDAK'}")
+    if not a.quiet:
+        print(f"{'w_infer':>8}{'w_label':>9}{'prediksi':<12}{'sebenarnya':<12}  cocok")
+        print("-" * 52)
+        for wi, wl, pred, akt in pasang:
+            print(f"{wi:>8}{wl:>9}{pred:<12}{akt:<12}"
+                  f"  {'ya' if pred == akt else 'TIDAK'}")
 
     cocok = sum(1 for _, _, p, t2 in pasang if p == t2)
-    print(f"\nakurasi: {cocok}/{len(pasang)} = {cocok/len(pasang)*100:.1f}%")
+    hadir_semua = sorted({t2 for _, _, _, t2 in pasang} | {p for _, _, p, _ in pasang},
+                         key=lambda k: KELAS.index(k) if k in KELAS else 9)
+    mf1 = macro_f1(pasang, hadir_semua)
+    print(f"\nakurasi : {cocok}/{len(pasang)} = {cocok/len(pasang)*100:.1f}%")
+    print(f"macro-F1: {mf1:.3f}  (sebanding dgn angka luring train_compare)")
 
     # jarak antar kelas: salah satu tingkat jauh lebih ringan drpd salah tiga
     idx = {k: i for i, k in enumerate(KELAS)}
@@ -177,6 +205,35 @@ def main():
             baris = [sum(1 for _, _, p, t2 in pasang if t2 == ak and p == pk)
                      for pk in hadir]
             print(f"  {ak:<11}" + "".join(f"{x:>11}" for x in baris))
+
+    if a.out_json:
+        # Akurasi tebakan mayoritas disertakan karena itulah pembanding yang
+        # tepat untuk sesi tunggal: bila model tidak melampauinya, akurasi
+        # mentahnya menyesatkan tanpa konteks.
+        akt_c = Counter(t2 for _, _, _, t2 in pasang)
+        mayoritas = max(akt_c.values()) / len(pasang) if akt_c else 0.0
+        # Confusion disimpan penuh agar agregasi lintas sesi dapat menghitung
+        # macro-F1 gabungan, bukan merata-rata macro-F1 per sesi yang bias.
+        conf = {}
+        for _, _, p, t2 in pasang:
+            conf.setdefault(t2, {}).setdefault(p, 0)
+            conf[t2][p] += 1
+        ringkas = {
+            "n": len(pasang),
+            "akurasi": round(cocok / len(pasang), 4),
+            "macro_f1": round(mf1, 4),
+            "confusion": conf,
+            "akurasi_mayoritas": round(mayoritas, 4),
+            "dalam_1_tingkat": round(sum(1 for j in jarak if j <= 1) / len(jarak), 4)
+                               if jarak else None,
+            "jarak_rata2": round(sum(jarak) / len(jarak), 4) if jarak else None,
+            "jarak_2_plus": sum(1 for j in jarak if j >= 2) if jarak else None,
+            "dist_sebenarnya": dict(akt_c),
+            "dist_prediksi": dict(Counter(p for _, _, p, _ in pasang)),
+        }
+        with open(a.out_json, "w", encoding="utf-8") as f:
+            json.dump(ringkas, f, indent=2)
+        print(f"\n-> {a.out_json}")
 
 
 if __name__ == "__main__":

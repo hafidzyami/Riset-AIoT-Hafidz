@@ -45,6 +45,20 @@ META = ["n_samples", "rtt_samples"]
 OUT_FIELDS = ["run_id", "window_index"] + META + FEATURES + ["label"]
 
 
+def kolom_keluaran(baris_qos):
+    """Daftar kolom keluaran, termasuk fitur tambahan yang tidak dikenal.
+
+    Daftar FEATURES bersifat tetap dan cocok untuk set fitur baku. Set fitur
+    eksperimental seperti multiskala menambahkan kolom baru, dan tanpa
+    penanganan ini kolom-kolom itu akan hilang senyap saat penggabungan
+    sehingga eksperimennya tampak tidak berpengaruh.
+    """
+    dikenal = set(OUT_FIELDS) | TERLARANG
+    ekstra = [k for k in baris_qos if k not in dikenal]
+    return (["run_id", "window_index"] + META + FEATURES + sorted(ekstra) + ["label"],
+            sorted(ekstra))
+
+
 def baca_csv(path):
     with open(path, encoding="utf-8") as f:
         return list(csv.DictReader(f))
@@ -69,6 +83,12 @@ def gabung(qos_rows, label_rows, keep_window0=False, min_samples=0):
         row = {"run_id": key[0], "window_index": key[1], "label": l["label"]}
         for f in META + FEATURES:
             row[f] = q.get(f, "")
+        # Kolom fitur di luar daftar baku ikut dibawa, agar set fitur
+        # eksperimental (mis. multiskala) tidak hilang senyap. Kolom terlarang
+        # tetap disaring karena merupakan turunan label atau sisi klien.
+        for f in q:
+            if f not in row and f not in TERLARANG:
+                row[f] = q[f]
         out.append(row)
         stat["tergabung"] += 1
     stat["label_tanpa_qos"] = len(lab) - stat["tergabung"] - stat["window0_dibuang"]
@@ -123,6 +143,10 @@ def self_test():
 def main():
     ap = argparse.ArgumentParser(description="Gabungkan fitur QoS dan label QoE")
     ap.add_argument("--dir", default=".", help="folder berisi *_qos_aligned.csv dan *_labels.csv")
+    ap.add_argument("--aligned-suffix", default="",
+                    help="akhiran tambahan pada nama berkas fitur, mis. _wall_dasar. "
+                         "Dipakai agar hasil ablasi dapat digabung tanpa menimpa "
+                         "dataset utama")
     ap.add_argument("--out", default="dataset.csv")
     ap.add_argument("--keep-window0", action="store_true",
                     help="pertahankan window 0 (bawaan: dibuang, transien startup)")
@@ -134,17 +158,29 @@ def main():
     if a.self_test:
         sys.exit(0 if self_test() else 1)
 
-    qos_files = sorted(glob.glob(os.path.join(a.dir, "*_qos_aligned.csv")))
+    pola = f"*_qos_aligned{a.aligned_suffix}.csv"
+    qos_files = sorted(glob.glob(os.path.join(a.dir, pola)))
+    if a.aligned_suffix:
+        # tanpa penyaringan ini, pola "*_qos_aligned.csv" juga cocok dgn berkas
+        # berakhiran lain saat suffix kosong, dan sebaliknya
+        qos_files = [p for p in qos_files
+                     if os.path.basename(p).endswith(f"_qos_aligned{a.aligned_suffix}.csv")]
+    else:
+        qos_files = [p for p in qos_files
+                     if os.path.basename(p).endswith("_qos_aligned.csv")]
     lab_files = sorted(glob.glob(os.path.join(a.dir, "*_labels.csv")))
     if not qos_files or not lab_files:
-        sys.exit(f"tidak ketemu *_qos_aligned.csv / *_labels.csv di {a.dir}")
+        sys.exit(f"tidak ketemu {pola} / *_labels.csv di {a.dir}")
 
     qos_rows = [r for p in qos_files for r in baca_csv(p)]
     lab_rows = [r for p in lab_files for r in baca_csv(p)]
     rows, st = gabung(qos_rows, lab_rows, a.keep_window0, a.min_samples)
 
     with open(a.out, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=OUT_FIELDS)
+        fields, ekstra = kolom_keluaran(rows[0])
+        if ekstra:
+            print(f"  fitur tambahan terdeteksi ({len(ekstra)}): {', '.join(ekstra)}")
+        w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore")
         w.writeheader(); w.writerows(rows)
 
     runs = sorted({r["run_id"] for r in rows})

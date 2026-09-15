@@ -1,0 +1,233 @@
+{
+  "run_id": "CONT_s1_dynamic_ElephantsDream",
+  "mpd": "http://192.168.50.10:8080/ElephantsDream/ElephantsDream_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-14T05:49:36.670Z",
+  "media_duration": 299.924,
+  "playback_start_epoch": 1789364675.553,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "dynamic",
+    "effective": "abrDynamic"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 4067,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.219,
+      "bitrate_kbps": 792,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 4.23,
+      "bitrate_kbps": 4067,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 100.172,
+      "bitrate_kbps": 90,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 104.165,
+      "bitrate_kbps": 129,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 108.145,
+      "bitrate_kbps": 179,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 108.41,
+      "bitrate_kbps": 221,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 112.125,
+      "bitrate_kbps": 129,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 116.125,
+      "bitrate_kbps": 179,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 140.165,
+      "bitrate_kbps": 583,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 144.148,
+      "bitrate_kbps": 1016,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 148.129,
+      "bitrate_kbps": 1198,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 157.188,
+      "bitrate_kbps": 1456,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 160.101,
+      "bitrate_kbps": 376,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 164.085,
+      "bitrate_kbps": 792,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 172.075,
+      "bitrate_kbps": 583,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 172.341,
+      "bitrate_kbps": 792,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 176.053,
+      "bitrate_kbps": 517,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 180.037,
+      "bitrate_kbps": 583,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 205.845,
+      "bitrate_kbps": 1198,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 208.233,
+      "bitrate_kbps": 583,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 211.683,
+      "bitrate_kbps": 1016,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 212.211,
+      "bitrate_kbps": 46,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 216.202,
+      "bitrate_kbps": 583,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 220.183,
+      "bitrate_kbps": 792,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 224.169,
+      "bitrate_kbps": 583,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 236.123,
+      "bitrate_kbps": 517,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 264.014,
+      "bitrate_kbps": 792,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 268.268,
+      "bitrate_kbps": 1016,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 272.243,
+      "bitrate_kbps": 1198,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 284.207,
+      "bitrate_kbps": 1016,
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "stalls": [],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      119.966
+    ],
+    [
+      "playing",
+      119.966
+    ],
+    [
+      "waiting",
+      299.924
+    ]
+  ]
+}

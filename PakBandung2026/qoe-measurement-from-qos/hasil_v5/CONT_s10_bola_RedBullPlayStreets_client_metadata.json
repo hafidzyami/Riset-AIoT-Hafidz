@@ -1,0 +1,250 @@
+{
+  "run_id": "CONT_s10_bola_RedBullPlayStreets",
+  "mpd": "http://192.168.50.10:8080/RedBullPlayStreets/RedBull_4_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-13T11:25:21.813Z",
+  "media_duration": 294.475,
+  "playback_start_epoch": 1789298420.574,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 5936,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.213,
+      "bitrate_kbps": 892,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.043,
+      "bitrate_kbps": 1992,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 8.032,
+      "bitrate_kbps": 395,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 12.013,
+      "bitrate_kbps": 500,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 16.263,
+      "bitrate_kbps": 700,
+      "width": 854,
+      "height": 700
+    },
+    {
+      "t_media": 20.243,
+      "bitrate_kbps": 1172,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 24.235,
+      "bitrate_kbps": 500,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 32.208,
+      "bitrate_kbps": 395,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 60.153,
+      "bitrate_kbps": 700,
+      "width": 854,
+      "height": 700
+    },
+    {
+      "t_media": 64.132,
+      "bitrate_kbps": 892,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 80.082,
+      "bitrate_kbps": 500,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 100.277,
+      "bitrate_kbps": 395,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 130.203,
+      "bitrate_kbps": 500,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 132.322,
+      "bitrate_kbps": 395,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 144.281,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 148.271,
+      "bitrate_kbps": 201,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 149.066,
+      "bitrate_kbps": 299,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 156.247,
+      "bitrate_kbps": 250,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 184.414,
+      "bitrate_kbps": 395,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 188.391,
+      "bitrate_kbps": 500,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 192.374,
+      "bitrate_kbps": 395,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 195.847,
+      "bitrate_kbps": 500,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 196.205,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 216.421,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 224.395,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 252.313,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 256.301,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 256.826,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 260.282,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    }
+  ],
+  "stalls": [
+    {
+      "position": 3.965,
+      "duration": 4.707,
+      "t_epoch": 1789298424.538
+    },
+    {
+      "position": 196.121,
+      "duration": 2.046,
+      "t_epoch": 1789298621.413
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      3.965
+    ],
+    [
+      "playing",
+      3.966
+    ],
+    [
+      "waiting",
+      115.314
+    ],
+    [
+      "playing",
+      115.314
+    ],
+    [
+      "waiting",
+      196.121
+    ],
+    [
+      "playing",
+      196.122
+    ]
+  ]
+}

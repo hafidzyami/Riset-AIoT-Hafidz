@@ -47,13 +47,32 @@ const DASHJS = arg("dashjs", "https://cdn.dashjs.org/v4.7.4/dash.all.min.js");
 // dari bandwidth terukur, sehingga fitur throughput dan label QoE menjadi
 // kolinear lewat ABR. BOLA memilih berdasarkan tingkat buffer, bukan throughput,
 // sehingga pemetaan itu terputus.
-//   dynamic    : bawaan dash.js (throughput saat buffer rendah, BOLA saat tinggi)
 //   throughput : murni berbasis throughput
-//   bola       : murni berbasis buffer
+//   dynamic    : bawaan dash.js, throughput saat buffer rendah dan BOLA saat tinggi
+//   bola       : murni berbasis tingkat buffer
+//
+// Ketiganya membentuk rentang yang bermakna dari sepenuhnya digerakkan throughput
+// sampai sepenuhnya digerakkan buffer, dan seluruhnya sah untuk konten VOD biasa.
+//
+//   l2a, lolp  : algoritma latensi rendah, DI LUAR PERUNTUKAN untuk konten ini.
+//
+// L2A-LL dan LoL+ dirancang untuk LL-DASH dengan CMAF berpotongan. Pada konten VOD
+// bersegmen empat detik, keduanya mungkin tetap berjalan tetapi perilakunya bukan
+// yang dijelaskan pada publikasi aslinya. Disediakan untuk eksplorasi, bukan untuk
+// klaim. Periksa medan abr.effective pada metadata keluaran: bila berbunyi
+// "default", versi dash.js yang dipakai tidak mengenali strategi itu.
+const ABR_SAH = ["throughput", "dynamic", "bola"];
+const ABR_EKSPLORASI = ["l2a", "lolp"];
 const ABR = String(arg("abr", "dynamic")).toLowerCase();
-if (!["dynamic", "throughput", "bola"].includes(ABR)) {
-  console.error(`--abr harus dynamic, throughput, atau bola (diberi: ${ABR})`);
+if (![...ABR_SAH, ...ABR_EKSPLORASI].includes(ABR)) {
+  console.error(`--abr harus salah satu dari: ${[...ABR_SAH, ...ABR_EKSPLORASI].join(", ")} `
+                + `(diberi: ${ABR})`);
   process.exit(2);
+}
+if (ABR_EKSPLORASI.includes(ABR)) {
+  console.warn(`PERINGATAN: --abr ${ABR} adalah algoritma latensi rendah dan berada `
+               + `di luar peruntukan untuk konten VOD bersegmen empat detik. `
+               + `Periksa abr.effective pada metadata keluaran.`);
 }
 
 // Throttle menerima nilai BEBAS: "400k", "1.5m", "800kbit", "1.5mbit", "250kbps", atau "none".
@@ -82,11 +101,10 @@ window.__t = { quality_timeline: [], stalls: [], events: [], playback_start_epoc
   // ABR_MODE menentukan aturan pemilihan representasi; lihat catatan di CLI.
   var abrCfg = { limitBitrateByPortal: false };
   var mode = ${JSON.stringify(ABR)};
-  if (mode === 'throughput') {
-    abrCfg.ABRStrategy = 'abrThroughput';
-    abrCfg.useDefaultABRRules = true;
-  } else if (mode === 'bola') {
-    abrCfg.ABRStrategy = 'abrBola';
+  var PETA = { throughput: 'abrThroughput', bola: 'abrBola',
+               l2a: 'abrL2A', lolp: 'abrLoLP' };
+  if (PETA[mode]) {
+    abrCfg.ABRStrategy = PETA[mode];
     abrCfg.useDefaultABRRules = true;
   }
   player.updateSettings({ streaming: { abr: abrCfg } });

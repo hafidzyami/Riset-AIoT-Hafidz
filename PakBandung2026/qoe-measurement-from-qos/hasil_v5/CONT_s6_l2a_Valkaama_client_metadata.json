@@ -1,0 +1,432 @@
+{
+  "run_id": "CONT_s6_l2a_Valkaama",
+  "mpd": "http://192.168.50.10:8080/Valkaama/Valkaama_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-14T03:02:02.032Z",
+  "media_duration": 283.492,
+  "playback_start_epoch": 1789354621.621,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "l2a",
+    "effective": "abrL2A"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 983,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 8.081,
+      "bitrate_kbps": 811,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 12.078,
+      "bitrate_kbps": 574,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 28.273,
+      "bitrate_kbps": 299,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 68.137,
+      "bitrate_kbps": 433,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 72.119,
+      "bitrate_kbps": 506,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 76.109,
+      "bitrate_kbps": 574,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 76.635,
+      "bitrate_kbps": 811,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 88.252,
+      "bitrate_kbps": 506,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 100.208,
+      "bitrate_kbps": 574,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 104.193,
+      "bitrate_kbps": 811,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 112.164,
+      "bitrate_kbps": 506,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 116.151,
+      "bitrate_kbps": 574,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 124.311,
+      "bitrate_kbps": 242,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 128.288,
+      "bitrate_kbps": 210,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 132.272,
+      "bitrate_kbps": 242,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 152.312,
+      "bitrate_kbps": 299,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 156.198,
+      "bitrate_kbps": 242,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 180.403,
+      "bitrate_kbps": 119,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 204.318,
+      "bitrate_kbps": 46,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 212.252,
+      "bitrate_kbps": 86,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 216.236,
+      "bitrate_kbps": 119,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 216.502,
+      "bitrate_kbps": 173,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 248.428,
+      "bitrate_kbps": 299,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 251.611,
+      "bitrate_kbps": 433,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 252.457,
+      "bitrate_kbps": 173,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 256.435,
+      "bitrate_kbps": 119,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 264.405,
+      "bitrate_kbps": 46,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 268.403,
+      "bitrate_kbps": 119,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 272.39,
+      "bitrate_kbps": 2755,
+      "width": 1440,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.344,
+      "t_epoch": 1789354621.277
+    },
+    {
+      "position": 3.932,
+      "duration": 0.099,
+      "t_epoch": 1789354625.554
+    },
+    {
+      "position": 84.038,
+      "duration": 0.87,
+      "t_epoch": 1789354705.759
+    },
+    {
+      "position": 88.027,
+      "duration": 0.304,
+      "t_epoch": 1789354710.618
+    },
+    {
+      "position": 120.075,
+      "duration": 0.187,
+      "t_epoch": 1789354742.983
+    },
+    {
+      "position": 124.078,
+      "duration": 0.293,
+      "t_epoch": 1789354747.174
+    },
+    {
+      "position": 136.086,
+      "duration": 0.486,
+      "t_epoch": 1789354759.474
+    },
+    {
+      "position": 140.092,
+      "duration": 0.597,
+      "t_epoch": 1789354763.965
+    },
+    {
+      "position": 144.095,
+      "duration": 0.335,
+      "t_epoch": 1789354768.566
+    },
+    {
+      "position": 148.075,
+      "duration": 0.821,
+      "t_epoch": 1789354772.882
+    },
+    {
+      "position": 156.112,
+      "duration": 5.492,
+      "t_epoch": 1789354781.74
+    },
+    {
+      "position": 160.11,
+      "duration": 0.217,
+      "t_epoch": 1789354791.231
+    },
+    {
+      "position": 164.118,
+      "duration": 0.737,
+      "t_epoch": 1789354795.456
+    },
+    {
+      "position": 176.114,
+      "duration": 2.884,
+      "t_epoch": 1789354808.189
+    },
+    {
+      "position": 208.136,
+      "duration": 0.656,
+      "t_epoch": 1789354843.096
+    },
+    {
+      "position": 252.187,
+      "duration": 2.925,
+      "t_epoch": 1789354887.802
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      0.062
+    ],
+    [
+      "playing",
+      0.062
+    ],
+    [
+      "waiting",
+      3.932
+    ],
+    [
+      "playing",
+      3.932
+    ],
+    [
+      "waiting",
+      84.038
+    ],
+    [
+      "playing",
+      84.038
+    ],
+    [
+      "waiting",
+      88.027
+    ],
+    [
+      "playing",
+      88.027
+    ],
+    [
+      "waiting",
+      117.514
+    ],
+    [
+      "playing",
+      117.514
+    ],
+    [
+      "waiting",
+      120.075
+    ],
+    [
+      "playing",
+      120.075
+    ],
+    [
+      "waiting",
+      124.078
+    ],
+    [
+      "playing",
+      124.079
+    ],
+    [
+      "waiting",
+      136.086
+    ],
+    [
+      "playing",
+      136.086
+    ],
+    [
+      "waiting",
+      140.092
+    ],
+    [
+      "playing",
+      140.092
+    ],
+    [
+      "waiting",
+      144.095
+    ],
+    [
+      "playing",
+      144.095
+    ],
+    [
+      "waiting",
+      148.075
+    ],
+    [
+      "playing",
+      148.075
+    ],
+    [
+      "waiting",
+      156.112
+    ],
+    [
+      "playing",
+      156.112
+    ],
+    [
+      "waiting",
+      160.11
+    ],
+    [
+      "playing",
+      160.11
+    ],
+    [
+      "waiting",
+      164.118
+    ],
+    [
+      "playing",
+      164.118
+    ],
+    [
+      "waiting",
+      176.114
+    ],
+    [
+      "playing",
+      176.114
+    ],
+    [
+      "waiting",
+      208.136
+    ],
+    [
+      "playing",
+      208.137
+    ],
+    [
+      "waiting",
+      252.187
+    ],
+    [
+      "playing",
+      252.187
+    ]
+  ]
+}

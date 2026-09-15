@@ -1,0 +1,117 @@
+{
+  "run_id": "CONT_s3_bola_TearsOfSteel",
+  "mpd": "http://192.168.50.10:8080/TearsOfSteel/TearsOfSteel_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-13T18:48:26.691Z",
+  "media_duration": 290.568,
+  "playback_start_epoch": 1789325010.977,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0.084,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 4.025,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 57.037,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 64.21,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 4.54,
+      "t_epoch": 1789325006.437
+    },
+    {
+      "position": 15.004,
+      "duration": 4.372,
+      "t_epoch": 1789325025.938
+    },
+    {
+      "position": 42.964,
+      "duration": 0.278,
+      "t_epoch": 1789325058.251
+    },
+    {
+      "position": 218.924,
+      "duration": 0.392,
+      "t_epoch": 1789325234.469
+    },
+    {
+      "position": 222.923,
+      "duration": 0.222,
+      "t_epoch": 1789325238.842
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.084
+    ],
+    [
+      "waiting",
+      15.004
+    ],
+    [
+      "playing",
+      15.064
+    ],
+    [
+      "waiting",
+      42.964
+    ],
+    [
+      "playing",
+      43.023
+    ],
+    [
+      "waiting",
+      218.924
+    ],
+    [
+      "playing",
+      218.983
+    ],
+    [
+      "waiting",
+      222.923
+    ],
+    [
+      "playing",
+      222.984
+    ]
+  ]
+}

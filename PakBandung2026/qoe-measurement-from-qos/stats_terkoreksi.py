@@ -50,7 +50,11 @@ MS = ["tp_slot_akhir", "tp_pendek_mean", "tp_pendek_std", "tp_pendek_max",
       "tp_kumulatif", "tp_rasio_kumulatif", "bytes_kumulatif", "rasio_diam"]
 
 SET_FITUR = {"dasar": DASAR, "jr": DASAR + JR, "rtt": DASAR + RTT,
-             "semua": DASAR + JR + RTT, "multiskala": DASAR + MS}
+             "semua": DASAR + JR + RTT,
+             # hanya 7 throughput + 11 multi-cakupan, tanpa lapisan jaringan
+             "multiskala": DASAR + MS,
+             # seluruhnya: 7 throughput + 7 lapisan jaringan + 11 multi-cakupan
+             "lengkap": DASAR + JR + RTT + MS}
 
 # Nilai kritis rentang terstudentisasi untuk uji Nemenyi pada alpha 0,05,
 # derajat bebas tak hingga, dibagi akar dua sesuai rumus baku Demsar (2006).
@@ -122,6 +126,30 @@ def bootstrap_grup(y, yp, grup, n_boot=2000, seed=0):
     if not skor:
         return (np.nan, np.nan)
     return (float(np.percentile(skor, 2.5)), float(np.percentile(skor, 97.5)))
+
+
+ABR_DIKENAL = ["throughput", "dynamic", "bola", "l2a", "lolp"]
+
+
+def seed_dari_run(rid):
+    """Penanda lintasan bandwidth (sN) dari run_id; None bila tidak ada."""
+    for b in rid.split("_"):
+        if len(b) > 1 and b[0] == "s" and b[1:].isdigit():
+            return b
+    return None
+
+
+def abr_dari_run(rid):
+    """Mode ABR dari run_id bila ditandai, atau None.
+
+    Rancangan bersilang memakai CONT_s{seed}_{abr}_{judul}. Rancangan lama tidak
+    menandai mode, sehingga pemisahan per mode di sana hanya dapat dilakukan lewat
+    nomor seed dan itu justru sumber konfound yang hendak diperbaiki.
+    """
+    for b in rid.split("_"):
+        if b.lower() in ABR_DIKENAL:
+            return b.lower()
+    return None
 
 
 # ------------------------------------------------------------------ model
@@ -273,7 +301,25 @@ def self_test():
     assert abs(fk[0] - 2 / 3) < 1e-9 and abs(fk[1] - 0.8) < 1e-9, fk
     print(f"  [OK] F1 per kelas: A {fk[0]:.3f}, B {fk[1]:.3f}")
 
+    # bagian E harus membaca mode dari run_id bila ditandai
+    _g = ["CONT_s1_bola_X", "CONT_s1_throughput_X", "CONT_s9_l2a_X"]
+    _m = [abr_dari_run(x) for x in _g]
+    assert _m == ["bola", "throughput", "l2a"], _m
+    assert len(set(_m)) == 3, "tiga mode harus terbaca terpisah, bukan terlipat"
+    print("  [OK] bagian E membaca mode dari run_id, bukan dari nomor seed")
+
+    assert seed_dari_run("CONT_s3_bola_Valkaama") == "s3"
+    assert seed_dari_run("CONT_s12_throughput_X") == "s12"
+    assert abr_dari_run("CONT_s3_bola_Valkaama") == "bola"
+    assert abr_dari_run("CONT_s12_throughput_TearsOfSteel") == "throughput"
+    assert abr_dari_run("CONT_s3_Valkaama") is None
+    assert abr_dari_run("S1_BigBuckBunny_rep1") is None
+    print("  [OK] mode ABR terbaca dari run_id bersilang, None pada format lama")
+
     assert len(SET_FITUR["multiskala"]) == 18, len(SET_FITUR["multiskala"])
+    assert len(SET_FITUR["lengkap"]) == 25, len(SET_FITUR["lengkap"])
+    print(f"  [OK] set lengkap: 7 throughput + 7 lapisan jaringan + 11 multi-cakupan "
+          f"= {len(SET_FITUR['lengkap'])} fitur")
     assert SET_FITUR["multiskala"][:7] == DASAR
     assert not (set(MS) & set(JR + RTT)), "fitur multiskala tidak boleh tumpang tindih"
     print(f"  [OK] set multiskala: 7 dasar + {len(MS)} multi-cakupan = "
@@ -313,6 +359,50 @@ def self_test():
     print(f"       -> bootstrap per window {((hi_g-lo_g)/(hi_w-lo_w)):.1f}x terlalu sempit")
     print("\nSEMUA UJI LULUS")
     return True
+
+
+def jalankan_per_abr(a, X, y, g):
+    """Kontribusi set fitur per mode ABR pada rancangan bersilang."""
+    rid = np.array(sorted(set(g)))
+    mode_of = {r: abr_dari_run(r) for r in rid}
+    if any(v is None for v in mode_of.values()):
+        sys.exit("run_id tidak menandai mode ABR; analisis ini menuntut rancangan "
+                 "bersilang (jalankan koleksi dengan --abr-modes)")
+    abr = np.array([mode_of[x] for x in g])
+    modes = sorted(set(abr))
+
+    seed = np.array([seed_dari_run(x) for x in g])
+    print(f"rancangan bersilang: {len(modes)} mode ABR, {len(set(seed))} seed, "
+          f"{len(set(g))} run\n")
+    for m in modes:
+        sd = sorted(set(seed[abr == m]))
+        print(f"  {m:<12} {int((abr == m).sum()):>6} window, {len(sd)} seed")
+    bersama = set.intersection(*[set(seed[abr == m]) for m in modes])
+    print(f"\n  seed yang muncul di SELURUH mode: {len(bersama)} dari "
+          f"{len(set(seed))}")
+    if len(bersama) < len(set(seed)):
+        print("  PERINGATAN: rancangan belum sepenuhnya bersilang; mode ABR masih")
+        print("  sebagian terkonfound dengan lintasan bandwidth.")
+
+    Xd, _, _ = muat(a.dataset, DASAR)
+    Xs, _, _ = muat(a.dataset, SET_FITUR[a.features])
+    print(f"\n{'mode ABR':<12}{'n':>7}{'7 fitur':>10}{f'{len(SET_FITUR[a.features])} fitur':>11}"
+          f"{'selisih':>10}{'p Holm':>10}  putusan")
+    baris, ps = [], []
+    for m in modes:
+        msk = abr == m
+        sa, nu, nl, _ = skor_per_lipatan(Xd[msk], y[msk], g[msk], "RandomForest",
+                                         a.repeats, a.folds, per_run=True)
+        sb, _, _, _ = skor_per_lipatan(Xs[msk], y[msk], g[msk], "RandomForest",
+                                       a.repeats, a.folds, per_run=True)
+        t, p, d = nb_ttest(sb, sa, nu, nl)
+        baris.append((m, int(msk.sum()), sa.mean(), sb.mean(), d))
+        ps.append(p)
+    for (m, nn, a7, a14, d), ph in zip(baris, holm(ps)):
+        vonis = "MEMBANTU" if (ph < 0.05 and d > 0) else "dalam derau"
+        print(f"{m:<12}{nn:>7}{a7:>10.4f}{a14:>11.4f}{d:>+10.4f}{ph:>10.4f}  {vonis}")
+    print("\n  Karena tiap seed muncul di setiap mode, lintasan bandwidth terkendali")
+    print("  dan selisih antar-mode dapat diatribusikan pada algoritma ABR.")
 
 
 def jalankan_perbandingan(a, fitur, Xa, ya, ga, kelas=("Excellent", "Good",
@@ -377,6 +467,10 @@ def main():
                          "F1 per kelas. Lipatan ditentukan hanya oleh run_id "
                          "sehingga skor kedua dataset benar-benar berpasangan")
     ap.add_argument("--compare-label", default="B", help="nama dataset kedua")
+    ap.add_argument("--per-abr", action="store_true",
+                    help="analisis rancangan bersilang: bandingkan kontribusi set "
+                         "fitur secara terpisah untuk tiap mode ABR, dgn lintasan "
+                         "bandwidth terkendali karena tiap seed muncul di setiap mode")
     ap.add_argument("--compare-features", default=None, choices=sorted(SET_FITUR),
                     help="set fitur untuk dataset kedua; default sama dgn --features. "
                          "Dipakai saat membandingkan SET FITUR yang berbeda, "
@@ -394,6 +488,10 @@ def main():
 
     if a.compare_dataset:
         jalankan_perbandingan(a, fitur, X, y, g)
+        return
+
+    if a.per_abr:
+        jalankan_per_abr(a, X, y, g)
         return
 
     J = a.repeats * a.folds
@@ -506,15 +604,26 @@ def main():
         print(f"{m:<16}{a7:>10.4f}{a14:>11.4f}{d:>+10.4f}{ph:>10.4f}  {vonis}")
 
     # --- kontribusi fitur dipisah per mode ABR ---
-    seed_num = np.array([int(x.split("_")[1][1:]) if x.split("_")[1][1:].isdigit()
-                         else 0 for x in g])
-    abr = np.where(seed_num >= 8, "bola", "dynamic")
+    # Mode ABR diambil dari run_id bila ditandai (rancangan bersilang). Hanya bila
+    # tidak ditandai, dipakai heuristik nomor seed milik rancangan lama. Tanpa
+    # pembedaan ini, data bersilang akan dianalisis seolah modenya ditentukan seed,
+    # sehingga empat mode terlipat menjadi dua dan hasilnya keliru tanpa peringatan.
+    mode_rid = [abr_dari_run(x) for x in g]
+    if all(m is not None for m in mode_rid):
+        abr = np.array(mode_rid)
+    else:
+        seed_num = np.array([int(x.split("_")[1][1:]) if x.split("_")[1][1:].isdigit()
+                             else 0 for x in g])
+        abr = np.where(seed_num >= 8, "bola", "dynamic")
+        print("\n  CATATAN: run_id tidak menandai mode ABR, sehingga pembagian")
+        print("  memakai heuristik nomor seed milik rancangan lama. Pada rancangan")
+        print("  itu mode ABR terkonfound dengan lintasan bandwidth.")
     baris3 = []
-    if len(set(abr)) == 2 and Xs is not None:
+    if len(set(abr)) >= 2 and Xs is not None:
         print("\n" + "=" * 76)
         print("E. KONTRIBUSI FITUR PER MODE ABR, diuji berpasangan")
         print("=" * 76)
-        for mode in ("dynamic", "bola"):
+        for mode in sorted(set(abr)):
             msk = abr == mode
             for m in ("RandomForest",):
                 sd, nu2, nl2, _ = skor_per_lipatan(Xd[msk], y[msk], g[msk], m,

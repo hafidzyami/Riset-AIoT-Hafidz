@@ -1,0 +1,214 @@
+{
+  "run_id": "CONT_s14_dynamic_OfForestAndMen",
+  "mpd": "http://192.168.50.10:8080/OfForestAndMen/OfForestAndMen_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-13T02:39:45.398Z",
+  "media_duration": 286.576,
+  "playback_start_epoch": 1789266890.8,
+  "fps_assumed": 25,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "dynamic",
+    "effective": "abrDynamic"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 137,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 8.022,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 8.288,
+      "bitrate_kbps": 92,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 16.262,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 16.79,
+      "bitrate_kbps": 92,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 20.25,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 50.089,
+      "bitrate_kbps": 185,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 52.22,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 64.05,
+      "bitrate_kbps": 92,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 72.013,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 106.569,
+      "bitrate_kbps": 92,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 108.158,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 138.265,
+      "bitrate_kbps": 185,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 140.129,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 152.246,
+      "bitrate_kbps": 92,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 160.237,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 192.132,
+      "bitrate_kbps": 92,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 200.112,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 228.008,
+      "bitrate_kbps": 137,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 240.116,
+      "bitrate_kbps": 92,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 274.686,
+      "bitrate_kbps": 47,
+      "width": 320,
+      "height": 240
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 6.844,
+      "t_epoch": 1789266883.956
+    },
+    {
+      "position": 55.987,
+      "duration": 3.134,
+      "t_epoch": 1789266946.786
+    },
+    {
+      "position": 143.981,
+      "duration": 4.214,
+      "t_epoch": 1789267037.925
+    },
+    {
+      "position": 235.981,
+      "duration": 0.665,
+      "t_epoch": 1789267134.138
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      55.987
+    ],
+    [
+      "playing",
+      55.987
+    ],
+    [
+      "waiting",
+      110.073
+    ],
+    [
+      "playing",
+      110.074
+    ],
+    [
+      "waiting",
+      143.981
+    ],
+    [
+      "playing",
+      143.981
+    ],
+    [
+      "waiting",
+      235.981
+    ],
+    [
+      "playing",
+      235.981
+    ]
+  ]
+}

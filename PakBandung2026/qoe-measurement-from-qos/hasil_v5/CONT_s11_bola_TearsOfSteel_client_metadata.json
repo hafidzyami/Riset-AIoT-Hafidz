@@ -1,0 +1,210 @@
+{
+  "run_id": "CONT_s11_bola_TearsOfSteel",
+  "mpd": "http://192.168.50.10:8080/TearsOfSteel/TearsOfSteel_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-12T19:49:39.646Z",
+  "media_duration": 289.719,
+  "playback_start_epoch": 1789242281.105,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0.084,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 4.022,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 36.177,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 72.038,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 76.022,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 88.241,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 116.14,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 120.913,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 124.099,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 264.046,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 269.889,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 272.015,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 276.264,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 2.215,
+      "t_epoch": 1789242278.891
+    },
+    {
+      "position": 139.544,
+      "duration": 0.547,
+      "t_epoch": 1789242420.605
+    },
+    {
+      "position": 143.534,
+      "duration": 0.397,
+      "t_epoch": 1789242425.134
+    },
+    {
+      "position": 151.003,
+      "duration": 1.054,
+      "t_epoch": 1789242432.992
+    },
+    {
+      "position": 154.923,
+      "duration": 1.942,
+      "t_epoch": 1789242437.948
+    },
+    {
+      "position": 159.003,
+      "duration": 2.501,
+      "t_epoch": 1789242443.951
+    },
+    {
+      "position": 163.003,
+      "duration": 2.149,
+      "t_epoch": 1789242450.433
+    },
+    {
+      "position": 166.923,
+      "duration": 0.387,
+      "t_epoch": 1789242456.483
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.085
+    ],
+    [
+      "waiting",
+      139.544
+    ],
+    [
+      "playing",
+      139.593
+    ],
+    [
+      "waiting",
+      143.534
+    ],
+    [
+      "playing",
+      143.583
+    ],
+    [
+      "waiting",
+      151.003
+    ],
+    [
+      "playing",
+      151.063
+    ],
+    [
+      "waiting",
+      154.923
+    ],
+    [
+      "playing",
+      154.983
+    ],
+    [
+      "waiting",
+      159.003
+    ],
+    [
+      "playing",
+      159.063
+    ],
+    [
+      "waiting",
+      163.003
+    ],
+    [
+      "playing",
+      163.063
+    ],
+    [
+      "waiting",
+      166.923
+    ],
+    [
+      "playing",
+      166.983
+    ]
+  ]
+}

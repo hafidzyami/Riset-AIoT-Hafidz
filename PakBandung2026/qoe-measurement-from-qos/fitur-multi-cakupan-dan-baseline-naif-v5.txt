@@ -1,0 +1,87 @@
+PS C:\Users\hafid\OneDrive\Desktop\RisetPakBandung2026\PakBandung2026\qoe-measurement-from-qos> python fitur_lanjutan.py --dir hasil_v5 --feature-set multiskala --out-suffix _ms
+
+392 run diproses, 0 dilewati
+mode window : media
+set fitur   : multiskala
+akhiran     : _ms
+
+Langkah berikutnya, gabungkan dan latih:
+  python merge_dataset.py --dir hasil_v5 --aligned-suffix _ms --out hasil_v5/dataset_ms.csv
+PS C:\Users\hafid\OneDrive\Desktop\RisetPakBandung2026\PakBandung2026\qoe-measurement-from-qos> python merge_dataset.py --dir hasil_v5 --aligned-suffix _ms --out hasil_v5\dataset_ms.csv
+  fitur tambahan terdeteksi (11): bytes_kumulatif, pkt_delta_prev, rasio_diam, tp_delta_prev, tp_kumulatif, tp_pendek_max, tp_pendek_mean, tp_pendek_std, tp_rasio_kumulatif, tp_rasio_prev, tp_slot_akhir
+392 berkas QoS + 392 berkas label -> hasil_v5\dataset_ms.csv
+  sampel      : 10679 window dari 391 run
+  distribusi  : {'Good': 2329, 'Degraded': 2658, 'Critical': 2926, 'Excellent': 2766}
+  dibuang     : window0=392, parsial=0, tanpa label=55, label tanpa QoS=0
+  fitur (X)   : throughput_mean, throughput_std, throughput_min, throughput_max, jitter_mean, jitter_p95, reorder_rate, reorder_count, rtt_mean, rtt_p95, rtt_std, total_bytes, total_packets, active_flows
+  target (y)  : label   |   kunci group-split: run_id
+PS C:\Users\hafid\OneDrive\Desktop\RisetPakBandung2026\PakBandung2026\qoe-measurement-from-qos> python stats_terkoreksi.py --dataset hasil_v5\dataset_ms.csv --compare-dataset hasil_v5\dataset_ms.csv --features semua --compare-features lengkap --repeats 5
+A: dataset_ms.csv -> 10604 window, 391 run, 14 fitur (semua)
+B: dataset_ms.csv -> 10604 window, 391 run, 25 fitur (lengkap)
+protokol: 5 lipatan x 5 ulangan, pembagian ditentukan HANYA oleh run_id
+
+  RandomForest ... A 0.7499  B 0.7715  selisih +0.0216
+    kelas               A        B     B - A    p Holm  putusan
+    Excellent      0.8242   0.8461   +0.0218    0.0002  NAIK
+    Good           0.6665   0.6947   +0.0282    0.0015  NAIK
+    Degraded       0.6686   0.6957   +0.0270    0.0023  NAIK
+    Critical       0.8403   0.8494   +0.0091    0.0144  NAIK
+    macro-F1       0.7499   0.7715   +0.0216    0.0000  BERBEDA
+
+  SVM RBF ... A 0.7295  B 0.7628  selisih +0.0334
+    kelas               A        B     B - A    p Holm  putusan
+    Excellent      0.7919   0.8433   +0.0513    0.0000  NAIK
+    Good           0.6606   0.6927   +0.0321    0.0063  NAIK
+    Degraded       0.6263   0.6653   +0.0390    0.0002  NAIK
+    Critical       0.8391   0.8501   +0.0110    0.0215  NAIK
+    macro-F1       0.7295   0.7628   +0.0334    0.0000  BERBEDA
+
+  LogReg ... A 0.6744  B 0.7175  selisih +0.0431
+    kelas               A        B     B - A    p Holm  putusan
+    Excellent      0.7269   0.8135   +0.0866    0.0000  NAIK
+    Good           0.6050   0.6429   +0.0379    0.0000  NAIK
+    Degraded       0.5542   0.5937   +0.0394    0.0000  NAIK
+    Critical       0.8114   0.8199   +0.0085    0.0265  NAIK
+    macro-F1       0.6744   0.7175   +0.0431    0.0000  BERBEDA
+
+  DecisionTree ... A 0.6941  B 0.7045  selisih +0.0103
+    kelas               A        B     B - A    p Holm  putusan
+    Excellent      0.7758   0.7965   +0.0208    0.1185  dalam derau
+    Good           0.6108   0.6129   +0.0020    1.0000  dalam derau
+    Degraded       0.6011   0.6169   +0.0157    0.5376  dalam derau
+    Critical       0.7888   0.7917   +0.0029    1.0000  dalam derau
+    macro-F1       0.6941   0.7045   +0.0103    0.5376  dalam derau
+
+PS C:\Users\hafid\OneDrive\Desktop\RisetPakBandung2026\PakBandung2026\qoe-measurement-from-qos> python baseline_degraded.py --dir hasil_v5 --mpd-base http://192.168.50.10:8080 --faktor 0.95
+392 run -> hasil_v5\baseline_degraded.csv  (11126 window)
+  distribusi baseline: {'Excellent': 4089, 'Good': 2500, 'Degraded': 2483, 'Critical': 2054}
+PS C:\Users\hafid\OneDrive\Desktop\RisetPakBandung2026\PakBandung2026\qoe-measurement-from-qos> python compare_baseline.py --dir hasil_v5 --features semua
+n = 10604 window dari 391 run | fitur: semua (14) | group-split 5-fold
+
+metode                        macro-F1   akurasi
+------------------------------------------------
+Tebak mayoritas                  0.108     0.275
+Baseline naif (P.1203_deg)       0.590     0.599
+Model ML (QoS saja)              0.713     0.716
+
+  selisih ML - baseline: +0.122 (ML MENANG)
+  peningkatan relatif  : +20.7%
+
+=== F1 PER KELAS ===
+kelas         baseline        ML   selisih
+Excellent        0.698     0.782    +0.084
+Good             0.484     0.644    +0.161
+Degraded         0.499     0.609    +0.111
+Critical         0.681     0.815    +0.134
+
+=== DISTRIBUSI PREDIKSI ===
+  sebenarnya : {'Critical': 2913, 'Degraded': 2655, 'Excellent': 2713, 'Good': 2323}
+  baseline   : {'Critical': 1903, 'Degraded': 2367, 'Excellent': 3940, 'Good': 2394}
+  ML         : {'Critical': 2914, 'Degraded': 2349, 'Excellent': 2360, 'Good': 2981}
+
+=== CONFUSION BASELINE NAIF (baris=asli, kolom=tebakan) ===
+               Excellent       Good   Degraded   Critical
+  Excellent         2321        222        151         19
+  Good               970       1141        204          8
+  Degraded           383        783       1252        237
+  Critical           266        248        760       1639

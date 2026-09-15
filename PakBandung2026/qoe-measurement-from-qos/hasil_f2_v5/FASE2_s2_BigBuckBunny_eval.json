@@ -1,0 +1,32 @@
+{
+  "n": 30,
+  "akurasi": 0.8333,
+  "macro_f1": 0.3086,
+  "confusion": {
+    "Critical": {
+      "Excellent": 1
+    },
+    "Good": {
+      "Critical": 1
+    },
+    "Excellent": {
+      "Excellent": 25,
+      "Critical": 1,
+      "Good": 2
+    }
+  },
+  "akurasi_mayoritas": 0.9333,
+  "dalam_1_tingkat": 0.9,
+  "jarak_rata2": 0.3333,
+  "jarak_2_plus": 3,
+  "dist_sebenarnya": {
+    "Critical": 1,
+    "Good": 1,
+    "Excellent": 28
+  },
+  "dist_prediksi": {
+    "Excellent": 26,
+    "Critical": 2,
+    "Good": 2
+  }
+}

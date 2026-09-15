@@ -113,6 +113,7 @@ def bangun(a, seed):
         "infer": ssh5 + [
             f"cd {a.pi5_dir} && setsid nohup sudo /usr/bin/python3 infer_realtime.py "
             f"--model {a.model} --pure --window {a.window} --poll {a.poll} "
+            f"--features {a.features} --latih-n-cuplik {a.latih_n_cuplik} "
             f"--duration {total} --out {a.infer_out} "
             f"< /dev/null > infer.log 2>&1 & echo mulai"],
         "tc": ssh4 + [
@@ -224,6 +225,33 @@ def agregasi(results):
         catat = "  <- sedikit sampel" if tp + fn < 15 else ""
         print(f"{k:<12}{tp+fn:>8}{pr:>10.3f}{rc:>9.3f}{f1s[i]:>8.3f}{catat}")
 
+    # Keputusan biner layak vs tidak layak. Ini yang paling relevan secara
+    # operasional: pemantau jaringan umumnya perlu tahu apakah pengalaman masih
+    # dapat diterima, bukan membedakan Good dari Degraded.
+    LAYAK = {"Excellent", "Good"}
+    tp = fp = fn = tn = 0
+    for akt, baris_c in conf_gab.items():
+        for pred, v in baris_c.items():
+            a_l, p_l = akt in LAYAK, pred in LAYAK
+            if a_l and p_l:
+                tp += v
+            elif a_l:
+                fn += v
+            elif p_l:
+                fp += v
+            else:
+                tn += v
+    tot2 = tp + fp + fn + tn
+    if tot2:
+        bf = []
+        for TP, FP, FN in ((tp, fp, fn), (tn, fn, fp)):
+            p = TP / (TP + FP) if TP + FP else 0.0
+            r = TP / (TP + FN) if TP + FN else 0.0
+            bf.append(2 * p * r / (p + r) if p + r else 0.0)
+        print(f"\nkeputusan biner (layak = Excellent atau Good):")
+        print(f"  akurasi {(tp+tn)/tot2*100:.1f}%  |  macro-F1 {sum(bf)/2:.3f}"
+              f"  |  F1 layak {bf[0]:.3f}, tidak layak {bf[1]:.3f}")
+
     print(f"\nconfusion gabungan (baris=sebenarnya, kolom=prediksi)")
     print(f"  {'':<11}" + "".join(f"{k[:9]:>11}" for k in hadir))
     for akt in hadir:
@@ -245,7 +273,8 @@ def agregasi(results):
 def self_test():
     class A:
         title = "RedBullPlayStreets"; abr = "dynamic"; duration = 300
-        window = 10.0; poll = 0.33; bg_max_mbps = 1.5; display = "1280x720"
+        window = 10.0; poll = 0.10; bg_max_mbps = 1.5; display = "1280x720"
+        features = "lengkap"; latih_n_cuplik = 98
         server_ip = "192.168.50.10"; port = 8080; iface = "eth0"
         results = "hasil_f2"; model = "logreg_standalone.py"
         infer_out = "inferensi_realtime.csv"
@@ -286,8 +315,16 @@ def self_test():
         assert ("[i]nfer_realtime" in t or "[t]c_continuous" in t) and "nohup" not in t
     print("  [OK] pkill memakai pola bracket dan terpisah dari peluncuran")
 
-    assert "--poll 0.33" in " ".join(c["infer"])
-    print("  [OK] periode cuplik diteruskan agar cocok dgn data latih")
+    t = " ".join(c["infer"])
+    assert "--poll 0.1" in t and "--features lengkap" in t
+    assert "--latih-n-cuplik 98" in t
+    print("  [OK] periode cuplik, set fitur, dan acuan laju diteruskan bersama")
+
+    # ketiganya harus konsisten: 10 Hz x window 10s = 100, dekat dgn acuan 98
+    per_win = A.window / A.poll
+    assert 0.5 <= per_win / A.latih_n_cuplik <= 2.0, (per_win, A.latih_n_cuplik)
+    print(f"  [OK] {per_win:.0f} cuplikan per window konsisten dgn acuan "
+          f"{A.latih_n_cuplik}")
 
     # agregasi
     import tempfile
@@ -314,8 +351,20 @@ def main():
     ap.add_argument("--abr", default="dynamic", choices=["dynamic", "throughput", "bola"])
     ap.add_argument("--duration", type=float, default=300)
     ap.add_argument("--window", type=float, default=10.0)
-    ap.add_argument("--poll", type=float, default=0.33)
-    ap.add_argument("--model", default="logreg_standalone.py")
+    # Bawaan mengikuti koleksi v5: model SVM 25 fitur, laju cuplik sekitar 10 Hz.
+    # Ketiganya harus konsisten satu sama lain. Model 25 fitur yang dijalankan
+    # dengan --features dasar akan ditolak oleh pemeriksaan panjang masukan,
+    # tetapi laju cuplik yang salah TIDAK memunculkan kesalahan apa pun dan
+    # hanya terlihat sebagai akurasi yang buruk.
+    ap.add_argument("--poll", type=float, default=0.10,
+                    help="periode cuplik; 0.10 untuk model v5, 0.33 untuk v4")
+    ap.add_argument("--features", default="lengkap",
+                    choices=["dasar", "semua", "multiskala", "lengkap"],
+                    help="set fitur; HARUS cocok dgn model yang dipakai")
+    ap.add_argument("--latih-n-cuplik", type=int, default=98,
+                    help="cuplikan per window pada data latih; v5 sekitar 98, "
+                         "v4 sekitar 30")
+    ap.add_argument("--model", default="svm_standalone.py")
     ap.add_argument("--infer-out", default="inferensi_realtime.csv")
     ap.add_argument("--bg-max-mbps", type=float, default=1.5)
     ap.add_argument("--display", default="1280x720")

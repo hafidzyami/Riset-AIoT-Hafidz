@@ -1,0 +1,39 @@
+{
+  "n": 30,
+  "akurasi": 0.6333,
+  "macro_f1": 0.5919,
+  "confusion": {
+    "Critical": {
+      "Critical": 8,
+      "Degraded": 3
+    },
+    "Degraded": {
+      "Degraded": 3,
+      "Critical": 2
+    },
+    "Good": {
+      "Good": 2,
+      "Degraded": 1
+    },
+    "Excellent": {
+      "Good": 5,
+      "Excellent": 6
+    }
+  },
+  "akurasi_mayoritas": 0.3667,
+  "dalam_1_tingkat": 1.0,
+  "jarak_rata2": 0.3667,
+  "jarak_2_plus": 0,
+  "dist_sebenarnya": {
+    "Critical": 11,
+    "Degraded": 5,
+    "Good": 3,
+    "Excellent": 11
+  },
+  "dist_prediksi": {
+    "Critical": 10,
+    "Degraded": 7,
+    "Good": 7,
+    "Excellent": 6
+  }
+}

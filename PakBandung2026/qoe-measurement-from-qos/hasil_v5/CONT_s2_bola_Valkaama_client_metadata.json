@@ -1,0 +1,209 @@
+{
+  "run_id": "CONT_s2_bola_Valkaama",
+  "mpd": "http://192.168.50.10:8080/Valkaama/Valkaama_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-13T18:35:37.441Z",
+  "media_duration": 300.221,
+  "playback_start_epoch": 1789324236.593,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 2755,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 0.135,
+      "bitrate_kbps": 983,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 4.123,
+      "bitrate_kbps": 2755,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 8.102,
+      "bitrate_kbps": 4118,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 12.086,
+      "bitrate_kbps": 4561,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 16.086,
+      "bitrate_kbps": 3523,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 36.272,
+      "bitrate_kbps": 4118,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 40.521,
+      "bitrate_kbps": 4561,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 44.24,
+      "bitrate_kbps": 2318,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 48.23,
+      "bitrate_kbps": 4118,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 72.138,
+      "bitrate_kbps": 2755,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 76.117,
+      "bitrate_kbps": 2318,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 88.334,
+      "bitrate_kbps": 2755,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 92.323,
+      "bitrate_kbps": 2318,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 140.389,
+      "bitrate_kbps": 2755,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 148.356,
+      "bitrate_kbps": 3523,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 152.334,
+      "bitrate_kbps": 2755,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 180.244,
+      "bitrate_kbps": 4561,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 188.215,
+      "bitrate_kbps": 4118,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 200.43,
+      "bitrate_kbps": 1422,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 204.423,
+      "bitrate_kbps": 3523,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 208.398,
+      "bitrate_kbps": 4561,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 212.388,
+      "bitrate_kbps": 2755,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 216.366,
+      "bitrate_kbps": 3523,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 220.352,
+      "bitrate_kbps": 4118,
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "t_media": 240.272,
+      "bitrate_kbps": 4561,
+      "width": 1440,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.133,
+      "t_epoch": 1789324236.461
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      120.743
+    ],
+    [
+      "playing",
+      120.743
+    ],
+    [
+      "waiting",
+      300.221
+    ]
+  ]
+}

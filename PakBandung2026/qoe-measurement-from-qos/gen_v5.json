@@ -1,0 +1,212 @@
+{
+  "dataset": "dataset_ms.csv",
+  "features": "lengkap",
+  "n_window": 10604,
+  "n_run": 391,
+  "hasil": {
+    "RandomForest": {
+      "LOTO": {
+        "mean": 0.7511,
+        "se_nb": 0.0227,
+        "min": 0.6682,
+        "max": 0.793,
+        "per_lipatan": {
+          "BigBuckBunny": 0.7686,
+          "ElephantsDream": 0.7684,
+          "OfForestAndMen": 0.7738,
+          "RedBullPlayStreets": 0.7351,
+          "TearsOfSteel": 0.6682,
+          "TheSwissAccount": 0.793,
+          "Valkaama": 0.7509
+        },
+        "per_kelas": {
+          "Excellent": 0.8377,
+          "Good": 0.677,
+          "Degraded": 0.665,
+          "Critical": 0.8248
+        }
+      },
+      "LOSeedO": {
+        "mean": 0.5318,
+        "se_nb": 0.0541,
+        "min": 0.2776,
+        "max": 0.7471,
+        "per_lipatan": {
+          "s1": 0.4732,
+          "s10": 0.5463,
+          "s11": 0.5917,
+          "s12": 0.4256,
+          "s13": 0.7337,
+          "s14": 0.2776,
+          "s2": 0.3339,
+          "s3": 0.4233,
+          "s4": 0.6482,
+          "s5": 0.5837,
+          "s6": 0.6612,
+          "s7": 0.495,
+          "s8": 0.7471,
+          "s9": 0.5045
+        },
+        "per_kelas": {
+          "Excellent": 0.5373,
+          "Good": 0.4607,
+          "Degraded": 0.4579,
+          "Critical": 0.5645
+        }
+      }
+    },
+    "SVM RBF": {
+      "LOTO": {
+        "mean": 0.736,
+        "se_nb": 0.033,
+        "min": 0.6072,
+        "max": 0.7909,
+        "per_lipatan": {
+          "BigBuckBunny": 0.7563,
+          "ElephantsDream": 0.7542,
+          "OfForestAndMen": 0.7611,
+          "RedBullPlayStreets": 0.7462,
+          "TearsOfSteel": 0.6072,
+          "TheSwissAccount": 0.7909,
+          "Valkaama": 0.7364
+        },
+        "per_kelas": {
+          "Excellent": 0.8357,
+          "Good": 0.658,
+          "Degraded": 0.6297,
+          "Critical": 0.8207
+        }
+      },
+      "LOSeedO": {
+        "mean": 0.5317,
+        "se_nb": 0.0467,
+        "min": 0.2769,
+        "max": 0.7052,
+        "per_lipatan": {
+          "s1": 0.5179,
+          "s10": 0.5447,
+          "s11": 0.655,
+          "s12": 0.4314,
+          "s13": 0.7052,
+          "s14": 0.2769,
+          "s2": 0.3382,
+          "s3": 0.5354,
+          "s4": 0.5909,
+          "s5": 0.6144,
+          "s6": 0.6269,
+          "s7": 0.5115,
+          "s8": 0.468,
+          "s9": 0.6268
+        },
+        "per_kelas": {
+          "Excellent": 0.5231,
+          "Good": 0.4471,
+          "Degraded": 0.4555,
+          "Critical": 0.6675
+        }
+      }
+    },
+    "LogReg": {
+      "LOTO": {
+        "mean": 0.7065,
+        "se_nb": 0.01,
+        "min": 0.6892,
+        "max": 0.7425,
+        "per_lipatan": {
+          "BigBuckBunny": 0.7031,
+          "ElephantsDream": 0.6921,
+          "OfForestAndMen": 0.7154,
+          "RedBullPlayStreets": 0.7013,
+          "TearsOfSteel": 0.6892,
+          "TheSwissAccount": 0.7425,
+          "Valkaama": 0.7021
+        },
+        "per_kelas": {
+          "Excellent": 0.8075,
+          "Good": 0.6296,
+          "Degraded": 0.577,
+          "Critical": 0.8121
+        }
+      },
+      "LOSeedO": {
+        "mean": 0.5611,
+        "se_nb": 0.0469,
+        "min": 0.2856,
+        "max": 0.6989,
+        "per_lipatan": {
+          "s1": 0.4509,
+          "s10": 0.5387,
+          "s11": 0.6239,
+          "s12": 0.388,
+          "s13": 0.6913,
+          "s14": 0.2856,
+          "s2": 0.4991,
+          "s3": 0.5228,
+          "s4": 0.6218,
+          "s5": 0.6268,
+          "s6": 0.6597,
+          "s7": 0.5837,
+          "s8": 0.6989,
+          "s9": 0.6639
+        },
+        "per_kelas": {
+          "Excellent": 0.5147,
+          "Good": 0.4571,
+          "Degraded": 0.4503,
+          "Critical": 0.7223
+        }
+      }
+    },
+    "DecisionTree": {
+      "LOTO": {
+        "mean": 0.6776,
+        "se_nb": 0.0354,
+        "min": 0.536,
+        "max": 0.7211,
+        "per_lipatan": {
+          "BigBuckBunny": 0.7045,
+          "ElephantsDream": 0.6997,
+          "OfForestAndMen": 0.7083,
+          "RedBullPlayStreets": 0.6853,
+          "TearsOfSteel": 0.536,
+          "TheSwissAccount": 0.7211,
+          "Valkaama": 0.6882
+        },
+        "per_kelas": {
+          "Excellent": 0.7711,
+          "Good": 0.5925,
+          "Degraded": 0.5821,
+          "Critical": 0.7648
+        }
+      },
+      "LOSeedO": {
+        "mean": 0.4581,
+        "se_nb": 0.0444,
+        "min": 0.2759,
+        "max": 0.6628,
+        "per_lipatan": {
+          "s1": 0.3513,
+          "s10": 0.5144,
+          "s11": 0.5605,
+          "s12": 0.3675,
+          "s13": 0.6628,
+          "s14": 0.2759,
+          "s2": 0.298,
+          "s3": 0.4261,
+          "s4": 0.5481,
+          "s5": 0.5338,
+          "s6": 0.5882,
+          "s7": 0.3758,
+          "s8": 0.4637,
+          "s9": 0.4467
+        },
+        "per_kelas": {
+          "Excellent": 0.4702,
+          "Good": 0.4057,
+          "Degraded": 0.4108,
+          "Critical": 0.5124
+        }
+      }
+    }
+  }
+}

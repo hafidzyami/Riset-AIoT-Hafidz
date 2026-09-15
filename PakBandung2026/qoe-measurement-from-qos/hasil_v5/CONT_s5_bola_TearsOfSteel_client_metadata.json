@@ -1,0 +1,241 @@
+{
+  "run_id": "CONT_s5_bola_TearsOfSteel",
+  "mpd": "http://192.168.50.10:8080/TearsOfSteel/TearsOfSteel_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-13T02:20:33.923Z",
+  "media_duration": 288.341,
+  "playback_start_epoch": 1789265735.065,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0.084,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 4.015,
+      "bitrate_kbps": 10045,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 8,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 16.234,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 24.219,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 52.108,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 184.058,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 208.235,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 212.22,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 216.215,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 218.861,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 220.189,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 248.08,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 252.064,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 260.033,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 288.189,
+      "bitrate_kbps": 1507,
+      "width": 1280,
+      "height": 720
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.323,
+      "t_epoch": 1789265734.742
+    },
+    {
+      "position": 123.584,
+      "duration": 1.163,
+      "t_epoch": 1789265858.605
+    },
+    {
+      "position": 126.816,
+      "duration": 0.4,
+      "t_epoch": 1789265862.989
+    },
+    {
+      "position": 143.536,
+      "duration": 0.639,
+      "t_epoch": 1789265880.09
+    },
+    {
+      "position": 146.963,
+      "duration": 0.068,
+      "t_epoch": 1789265884.151
+    },
+    {
+      "position": 147.523,
+      "duration": 4.044,
+      "t_epoch": 1789265884.759
+    },
+    {
+      "position": 150.752,
+      "duration": 2.676,
+      "t_epoch": 1789265892.024
+    },
+    {
+      "position": 154.992,
+      "duration": 1.506,
+      "t_epoch": 1789265898.921
+    },
+    {
+      "position": 195.392,
+      "duration": 0.178,
+      "t_epoch": 1789265940.807
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.085
+    ],
+    [
+      "waiting",
+      123.584
+    ],
+    [
+      "playing",
+      123.636
+    ],
+    [
+      "waiting",
+      126.816
+    ],
+    [
+      "playing",
+      126.876
+    ],
+    [
+      "waiting",
+      143.536
+    ],
+    [
+      "playing",
+      143.583
+    ],
+    [
+      "waiting",
+      146.963
+    ],
+    [
+      "playing",
+      147.023
+    ],
+    [
+      "waiting",
+      147.523
+    ],
+    [
+      "playing",
+      147.572
+    ],
+    [
+      "waiting",
+      150.752
+    ],
+    [
+      "playing",
+      150.812
+    ],
+    [
+      "waiting",
+      154.992
+    ],
+    [
+      "playing",
+      155.052
+    ],
+    [
+      "waiting",
+      195.392
+    ],
+    [
+      "playing",
+      195.444
+    ]
+  ]
+}

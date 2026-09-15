@@ -104,7 +104,11 @@ def baru_ditulis(ssh_dasar, path, maks_umur=45):
 def bangun_perintah(a):
     """Kembalikan dict berisi seluruh perintah yang akan dijalankan."""
     total = a.duration + JEDA_MUKA + JEDA_AKHIR + TAMBAHAN
-    rid = f"CONT_s{a.seed}_{a.title}"
+    # Mode ABR masuk ke run_id pada rancangan bersilang, karena satu seed kini
+    # dijalankan dengan beberapa mode dan tanpa penanda itu berkasnya bertabrakan.
+    # Rancangan lama (satu mode per seed) tetap memakai format tanpa penanda.
+    rid = (f"CONT_s{a.seed}_{a.title}" if not a.tandai_abr
+           else f"CONT_s{a.seed}_{a.abr}_{a.title}")
     proto = "https" if a.https else "http"
     port = a.https_port if a.https else a.port
     mpd = f"{proto}://{a.server_ip}:{port}/{a.title}/{MPD[a.title]}"
@@ -123,6 +127,14 @@ def bangun_perintah(a):
         # Berkas lama dihapus karena agen menulis dalam mode append; tanpa ini
         # cuplikan run sebelumnya akan ikut terbawa.
         "bersih5": ssh5 + [f"cd {a.pi5_dir} && rm -f qos_samples.csv qos_features.csv agen.log"],
+        # Memuat ulang sensor mengosongkan map eBPF. Tanpa ini, entri menumpuk
+        # sepanjang koleksi sehingga biaya pembacaan naik dan laju cuplik menurun
+        # (terukur 9,5 Hz pada map bersih berbanding 2,1 Hz pada map menumpuk).
+        # Pada koleksi panjang penyimpangan itu bergeser sistematis dan dapat
+        # terkonfound dengan urutan run. sudo -n dipakai agar gagal SEKETIKA bila
+        # kata sandi diminta, bukan menggantung tiap run.
+        "restart5": ssh5 + ["sudo -n /usr/bin/systemctl restart qos-sensor "
+                            "2>&1 | head -2; true"],
         # Log tc lama WAJIB dihapus. Pada uji sebelumnya, berkas sisa run
         # terdahulu ikut tertarik dan tampak seolah jadwal berjalan normal.
         "bersih4": ssh4 + [
@@ -181,7 +193,7 @@ def self_test():
     class A:
         seed = 3; title = "RedBullPlayStreets"; abr = "bola"; duration = 300
         poll = 0.1; window = 10.0; streams = 1; display = "1280x720"
-        bg_max_mbps = 1.5
+        bg_max_mbps = 1.5; tandai_abr = False; restart_sensor = False
         server_ip = "192.168.50.10"; port = 8080; https = False; https_port = 8443
         iface = "eth0"; results = "hasil_v4"
         pi5_user = "hafidz"; pi5_host = "192.168.18.234"; pi5_dir = "~/x/ebpf"
@@ -189,7 +201,14 @@ def self_test():
     c = bangun_perintah(A())
 
     assert c["rid"] == "CONT_s3_RedBullPlayStreets"
-    print(f"  [OK] run_id: {c['rid']}")
+    print(f"  [OK] run_id lama: {c['rid']}")
+
+    class B(A):
+        tandai_abr = True
+    cb_ = bangun_perintah(B())
+    assert cb_["rid"] == "CONT_s3_bola_RedBullPlayStreets", cb_["rid"]
+    assert "RedBull_4_simple" in cb_["mpd"]
+    print(f"  [OK] run_id bersilang: {cb_['rid']}")
     assert "RedBull_4_simple" in c["mpd"], c["mpd"]
     print("  [OK] nama MPD tak seragam ditangani (RedBull_4_simple, bukan RedBull_4s)")
 
@@ -201,6 +220,10 @@ def self_test():
 
     assert "rm -f qos_samples.csv" in " ".join(c["bersih5"])
     print("  [OK] berkas cuplikan lama dihapus (agen memakai mode append)")
+    rs = " ".join(c["restart5"])
+    assert "sudo -n" in rs and "restart qos-sensor" in rs
+    print("  [OK] muat ulang sensor memakai sudo -n, gagal cepat bila kata sandi "
+          "diminta")
 
     for kunci in ("stop_agen", "stop_tc"):
         t = " ".join(c[kunci])
@@ -251,7 +274,14 @@ def main():
     # validasi dilakukan setelah pengecekan --self-test.
     ap.add_argument("--seed", type=int, default=None)
     ap.add_argument("--title", default=None, choices=sorted(MPD))
-    ap.add_argument("--abr", default="dynamic", choices=["dynamic", "throughput", "bola"])
+    ap.add_argument("--abr", default="dynamic",
+                    choices=["dynamic", "throughput", "bola", "l2a", "lolp"])
+    ap.add_argument("--restart-sensor", action="store_true",
+                    help="muat ulang layanan sensor sebelum run agar map eBPF bersih "
+                         "dan laju cuplik tetap sepanjang koleksi panjang")
+    ap.add_argument("--tandai-abr", action="store_true",
+                    help="sisipkan mode ABR ke run_id; wajib pada rancangan "
+                         "bersilang agar run dgn seed sama tidak bertabrakan")
     ap.add_argument("--duration", type=float, default=300)
     ap.add_argument("--poll", type=float, default=0.1)
     ap.add_argument("--window", type=float, default=10.0)
@@ -300,7 +330,12 @@ def main():
         print("   bersih-bersih ...", end="", flush=True)
         sh(c["bersih5"], cek=False)
         sh(c["bersih4"], cek=False)
-        print(" selesai")
+        if a.restart_sensor:
+            r = sh(c["restart5"], cek=False, timeout=25)
+            pesan = (r.stdout or "").strip()
+            print(" sensor dimuat ulang" if not pesan else f" sensor: {pesan[:50]}")
+        else:
+            print(" selesai")
 
         print("   agen di RPi 5 ...", end="", flush=True)
         luncurkan(c["agen"])

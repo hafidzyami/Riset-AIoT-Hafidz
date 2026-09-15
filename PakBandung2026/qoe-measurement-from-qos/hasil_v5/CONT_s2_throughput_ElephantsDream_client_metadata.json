@@ -1,0 +1,232 @@
+{
+  "run_id": "CONT_s2_throughput_ElephantsDream",
+  "mpd": "http://192.168.50.10:8080/ElephantsDream/ElephantsDream_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-13T05:00:36.330Z",
+  "media_duration": 295.992,
+  "playback_start_epoch": 1789275336.146,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "throughput",
+    "effective": "abrThroughput"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 4067,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.207,
+      "bitrate_kbps": 792,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 4.187,
+      "bitrate_kbps": 4067,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 20.126,
+      "bitrate_kbps": 3666,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 48.023,
+      "bitrate_kbps": 4067,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 60.19,
+      "bitrate_kbps": 3340,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 64.031,
+      "bitrate_kbps": 2908,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 68.017,
+      "bitrate_kbps": 1456,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 69.896,
+      "bitrate_kbps": 2087,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 72.016,
+      "bitrate_kbps": 792,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 76.003,
+      "bitrate_kbps": 1456,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 76.53,
+      "bitrate_kbps": 2394,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 80.254,
+      "bitrate_kbps": 1198,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 84.238,
+      "bitrate_kbps": 2087,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 92.202,
+      "bitrate_kbps": 1456,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 120.335,
+      "bitrate_kbps": 2087,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 124.052,
+      "bitrate_kbps": 1456,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 124.313,
+      "bitrate_kbps": 2087,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 128.039,
+      "bitrate_kbps": 1198,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 132.011,
+      "bitrate_kbps": 1456,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 156.197,
+      "bitrate_kbps": 4067,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 224.267,
+      "bitrate_kbps": 583,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 228.245,
+      "bitrate_kbps": 2908,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 232.228,
+      "bitrate_kbps": 4067,
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.589,
+      "t_epoch": 1789275335.557
+    },
+    {
+      "position": 55.954,
+      "duration": 1.119,
+      "t_epoch": 1789275392.1
+    },
+    {
+      "position": 59.917,
+      "duration": 2.644,
+      "t_epoch": 1789275397.182
+    },
+    {
+      "position": 63.914,
+      "duration": 0.411,
+      "t_epoch": 1789275403.823
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      55.954
+    ],
+    [
+      "playing",
+      55.954
+    ],
+    [
+      "waiting",
+      59.917
+    ],
+    [
+      "playing",
+      59.917
+    ],
+    [
+      "waiting",
+      63.914
+    ],
+    [
+      "playing",
+      63.914
+    ],
+    [
+      "waiting",
+      116.105
+    ],
+    [
+      "playing",
+      116.105
+    ]
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "run_id": "CONT_s14_bola_TheSwissAccount",
+  "mpd": "http://192.168.50.10:8080/TheSwissAccount/TheSwissAccount_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-13T15:36:14.021Z",
+  "media_duration": 291.189,
+  "playback_start_epoch": 1789313475.131,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 0.064,
+      "bitrate_kbps": 930,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.111,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 20.049,
+      "bitrate_kbps": 128,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 24.044,
+      "bitrate_kbps": 172,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 48.252,
+      "bitrate_kbps": 128,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 52.236,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 248.336,
+      "bitrate_kbps": 128,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 252.325,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 253.649,
+      "bitrate_kbps": 128,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 256.439,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 288.374,
+      "bitrate_kbps": 128,
+      "width": 320,
+      "height": 240
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 2.322,
+      "t_epoch": 1789313472.81
+    },
+    {
+      "position": 204.144,
+      "duration": 3.42,
+      "t_epoch": 1789313679.289
+    },
+    {
+      "position": 208.149,
+      "duration": 3.009,
+      "t_epoch": 1789313686.714
+    },
+    {
+      "position": 212.139,
+      "duration": 0.193,
+      "t_epoch": 1789313693.713
+    },
+    {
+      "position": 256.177,
+      "duration": 1.065,
+      "t_epoch": 1789313737.945
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      0.124
+    ],
+    [
+      "playing",
+      0.124
+    ],
+    [
+      "waiting",
+      118.562
+    ],
+    [
+      "playing",
+      118.562
+    ],
+    [
+      "waiting",
+      204.144
+    ],
+    [
+      "playing",
+      204.144
+    ],
+    [
+      "waiting",
+      208.149
+    ],
+    [
+      "playing",
+      208.149
+    ],
+    [
+      "waiting",
+      212.139
+    ],
+    [
+      "playing",
+      212.139
+    ],
+    [
+      "waiting",
+      256.177
+    ],
+    [
+      "playing",
+      256.177
+    ]
+  ]
+}

@@ -74,10 +74,33 @@ def rencana(seeds, judul, bola):
     return [(s, t, "bola" if s in bola else "dynamic") for t in judul for s in seeds]
 
 
-def sudah_ada(results, seed, judul):
+def rencana_bersilang(seeds, judul, modes):
+    """Rancangan BERSILANG: tiap seed dijalankan dengan SETIAP mode ABR.
+
+    Karena satu seed berarti satu lintasan bandwidth yang identik, menjalankannya
+    dengan seluruh mode membuat lintasan menjadi variabel terkendali. Selisih yang
+    tersisa antar-mode karena itu dapat diatribusikan pada algoritma ABR, bukan
+    pada rezim bandwidth.
+
+    Rancangan lama (satu mode per seed) menyisakan konfound: kelompok bola dan
+    dynamic ternyata menempati rezim bandwidth berbeda, dengan throughput median
+    0,410 berbanding 0,829 Mbps pada koleksi v4.
+
+    Diurutkan judul, lalu seed, lalu mode, supaya bila koleksi terputus di tengah
+    jalan, seed yang sudah berjalan sudah lengkap seluruh modenya.
+    """
+    return [(s, t, m) for t in judul for s in seeds for m in modes]
+
+
+def nama_run(seed, judul, abr, bersilang):
+    return f"CONT_s{seed}_{abr}_{judul}" if bersilang else f"CONT_s{seed}_{judul}"
+
+
+def sudah_ada(results, seed, judul, abr=None, bersilang=False):
     """True bila run ini sudah menghasilkan berkas fitur selaras."""
-    p = os.path.join(results, f"CONT_s{seed}_{judul}_qos_aligned.csv")
-    return os.path.exists(p) and os.path.getsize(p) > 200
+    rid = nama_run(seed, judul, abr, bersilang)
+    return (os.path.exists(os.path.join(results, f"{rid}_qos_aligned.csv"))
+            and os.path.getsize(os.path.join(results, f"{rid}_qos_aligned.csv")) > 200)
 
 
 def ringkas(results):
@@ -124,6 +147,36 @@ def self_test():
     print("  [OK] tiap judul mengalami dynamic maupun bola "
           "(mode ABR tidak tertukar dgn identitas konten)")
 
+    # rancangan bersilang
+    x = rencana_bersilang([1, 2], ["BigBuckBunny"], ["throughput", "dynamic", "bola"])
+    assert len(x) == 6 and x[0] == (1, "BigBuckBunny", "throughput")
+    per_seed = {}
+    for s_, t_, m_ in x:
+        per_seed.setdefault(s_, set()).add(m_)
+    assert all(v == {"throughput", "dynamic", "bola"} for v in per_seed.values())
+    print("  [OK] bersilang: tiap seed mengalami SETIAP mode ABR")
+    assert nama_run(3, "Valkaama", "bola", True) == "CONT_s3_bola_Valkaama"
+    assert nama_run(3, "Valkaama", "bola", False) == "CONT_s3_Valkaama"
+    print("  [OK] run_id memuat mode ABR hanya pada rancangan bersilang")
+
+    # pengacakan harus reprodusibel dan tidak kehilangan satu pun run
+    import random as _r
+    asli = rencana_bersilang([1, 2, 3], ["BigBuckBunny", "Valkaama"],
+                             ["throughput", "bola"])
+    a1, a2 = list(asli), list(asli)
+    _r.Random(7).shuffle(a1)
+    _r.Random(7).shuffle(a2)
+    assert a1 == a2 and sorted(a1) == sorted(asli) and a1 != asli
+    print(f"  [OK] pengacakan reprodusibel per seed, {len(a1)} run utuh tanpa hilang")
+    # tanpa pengacakan, judul mengelompok di awal; dgn pengacakan, menyebar
+    posisi_awal = [i for i, (_, t, _) in enumerate(asli) if t == "BigBuckBunny"]
+    posisi_acak = [i for i, (_, t, _) in enumerate(a1) if t == "BigBuckBunny"]
+    assert max(posisi_awal) < min(i for i, (_, t, _) in enumerate(asli)
+                                  if t == "Valkaama")
+    assert max(posisi_acak) > min(i for i, (_, t, _) in enumerate(a1)
+                                  if t == "Valkaama")
+    print("  [OK] tanpa acak judul mengelompok, dgn acak menyebar")
+
     penuh = rencana(list(range(1, 15)), JUDUL_SEMUA, set(range(8, 15)))
     assert len(penuh) == 98
     n_bola = sum(1 for _, _, m in penuh if m == "bola")
@@ -140,8 +193,25 @@ def main():
     ap.add_argument("--titles", default="BigBuckBunny,Valkaama",
                     help="dipisah koma, atau 'semua'")
     ap.add_argument("--bola-seeds", default="3,4",
-                    help="seed yang memakai BOLA; sisanya dynamic")
+                    help="rancangan LAMA: seed yang memakai BOLA, sisanya dynamic")
+    ap.add_argument("--abr-modes", default=None,
+                    help="rancangan BERSILANG: daftar mode ABR dipisah koma, mis. "
+                         "throughput,dynamic,bola. Tiap seed dijalankan dengan "
+                         "SETIAP mode sehingga lintasan bandwidth terkendali. "
+                         "Bila diberikan, --bola-seeds diabaikan")
     ap.add_argument("--results", default="hasil_v4")
+    ap.add_argument("--shuffle", type=int, default=None, metavar="SEED",
+                    help="acak urutan run dengan seed tertentu. Urutan bawaan "
+                         "menempatkan judul di perulangan terluar, sehingga bila "
+                         "ada penyimpangan yang berkembang sepanjang waktu (mis. "
+                         "laju cuplik menurun karena map eBPF menumpuk), judul "
+                         "menjadi terkonfound dengan penyimpangan itu. Pengacakan "
+                         "menyebarkannya merata ke seluruh judul, seed, dan mode")
+    ap.add_argument("--restart-sensor", action="store_true",
+                    help="muat ulang layanan sensor di RPi 5 sebelum tiap run, agar "
+                         "map eBPF selalu bersih dan laju cuplik tetap. UJI DULU "
+                         "secara manual bahwa perintahnya tidak meminta kata sandi, "
+                         "karena bila meminta, tiap run akan menggantung")
     ap.add_argument("--duration", type=float, default=300)
     ap.add_argument("--fresh", action="store_true",
                     help="hapus folder hasil lebih dulu, mulai dari nol")
@@ -158,8 +228,19 @@ def main():
 
     seeds = urai_angka(a.seeds)
     judul = urai_judul(a.titles)
-    bola = set(urai_angka(a.bola_seeds)) if a.bola_seeds.strip() else set()
-    daftar = rencana(seeds, judul, bola)
+    SAH = ["throughput", "dynamic", "bola", "l2a", "lolp"]
+    if a.abr_modes:
+        modes = [m.strip().lower() for m in a.abr_modes.split(",") if m.strip()]
+        tak_dikenal = [m for m in modes if m not in SAH]
+        if tak_dikenal:
+            ap.error(f"mode ABR tidak dikenal: {tak_dikenal}; pilihan: {SAH}")
+        daftar = rencana_bersilang(seeds, judul, modes)
+        bersilang, bola = True, set()
+    else:
+        bola = set(urai_angka(a.bola_seeds)) if a.bola_seeds.strip() else set()
+        daftar = rencana(seeds, judul, bola)
+        bersilang = False
+        modes = sorted({m for _, _, m in daftar})
     ekstra = a.extra.split() if a.extra.strip() else []
 
     if a.fresh and os.path.isdir(a.results) and not a.dry_run:
@@ -167,30 +248,50 @@ def main():
         shutil.rmtree(a.results)
     os.makedirs(a.results, exist_ok=True)
 
-    lewati = [x for x in daftar if sudah_ada(a.results, x[0], x[1])]
+    if a.shuffle is not None:
+        import random as _rnd
+        _rnd.Random(a.shuffle).shuffle(daftar)
+
+    lewati = [x for x in daftar if sudah_ada(a.results, x[0], x[1], x[2], bersilang)]
     kerja = [x for x in daftar if x not in lewati]
     # satu run kira-kira durasi pemutaran + jeda muka + jeda akhir + overhead
     per_run = a.duration + 75
-    print(f">> {len(daftar)} run direncanakan ({len(judul)} judul x {len(seeds)} seed)")
+    if bersilang:
+        print(f">> RANCANGAN BERSILANG: {len(judul)} judul x {len(seeds)} seed x "
+              f"{len(modes)} mode = {len(daftar)} run")
+        print(f"   mode ABR  : {', '.join(modes)}")
+        print("   tiap seed dijalankan dgn SETIAP mode, sehingga lintasan bandwidth")
+        print("   menjadi variabel terkendali")
+    else:
+        print(f">> rancangan lama: {len(daftar)} run "
+              f"({len(judul)} judul x {len(seeds)} seed)")
+        print(f"   mode ABR  : bola pada seed {sorted(bola) if bola else '(tidak ada)'}")
     print(f"   sudah ada : {len(lewati)}")
     print(f"   dijalankan: {len(kerja)}  (~{len(kerja)*per_run/3600:.1f} jam)")
-    print(f"   mode ABR  : bola pada seed {sorted(bola) if bola else '(tidak ada)'}\n")
+    if a.shuffle is not None:
+        print(f"   urutan    : diacak dgn seed {a.shuffle}, sehingga penyimpangan "
+              f"sepanjang waktu tidak sejajar dgn judul")
+    if a.restart_sensor:
+        print("   sensor    : dimuat ulang sebelum tiap run agar laju cuplik tetap")
+    print()
 
     if a.dry_run:
         for i, (s, t, m) in enumerate(daftar, 1):
             tag = "LEWATI" if (s, t, m) in lewati else "jalan "
-            print(f"  [{i:>3}/{len(daftar)}] {tag}  seed {s:<3} {t:<20} abr={m}")
+            print(f"  [{i:>3}/{len(daftar)}] {tag}  {nama_run(s, t, m, bersilang)}")
         return
 
     t0 = time.time()
     ok = gagal = 0
     for i, (s, t, m) in enumerate(kerja, 1):
         sisa = (len(kerja) - i + 1) * per_run
-        print(f"[{i}/{len(kerja)}] seed {s} {t} abr={m}   "
+        print(f"[{i}/{len(kerja)}] {nama_run(s, t, m, bersilang)}   "
               f"(perkiraan sisa {sisa/3600:.1f} jam)")
-        cmd = [sys.executable, "run_one_v4.py", "--seed", str(s), "--title", t,
-               "--abr", m, "--duration", str(a.duration),
-               "--results", a.results] + ekstra
+        cmd = ([sys.executable, "run_one_v4.py", "--seed", str(s), "--title", t,
+                "--abr", m, "--duration", str(a.duration),
+                "--results", a.results]
+               + (["--tandai-abr"] if bersilang else [])
+               + (["--restart-sensor"] if a.restart_sensor else []) + ekstra)
         berhasil = False
         for coba in range(1 + max(0, a.retry)):
             if coba:
@@ -202,7 +303,7 @@ def main():
                 if any(k in ln for k in ("verifikasi", "label:", "selaras:",
                                          "OK:", "PERINGATAN", "harness GAGAL")):
                     print(f"    {ln.strip()}")
-            if r.returncode == 0 and sudah_ada(a.results, s, t):
+            if r.returncode == 0 and sudah_ada(a.results, s, t, m, bersilang):
                 berhasil = True
                 break
             pesan = (r.stderr or "").strip().split("\n")

@@ -1,0 +1,72 @@
+{
+  "dataset": "dataset_ms.csv",
+  "features": "lengkap",
+  "n_fitur": 25,
+  "fitur": [
+    "throughput_mean",
+    "throughput_std",
+    "throughput_min",
+    "throughput_max",
+    "total_bytes",
+    "total_packets",
+    "active_flows",
+    "jitter_mean",
+    "jitter_p95",
+    "reorder_rate",
+    "reorder_count",
+    "rtt_mean",
+    "rtt_p95",
+    "rtt_std",
+    "tp_slot_akhir",
+    "tp_pendek_mean",
+    "tp_pendek_std",
+    "tp_pendek_max",
+    "tp_delta_prev",
+    "tp_rasio_prev",
+    "pkt_delta_prev",
+    "tp_kumulatif",
+    "tp_rasio_kumulatif",
+    "bytes_kumulatif",
+    "rasio_diam"
+  ],
+  "n_window": 10604,
+  "n_run": 391,
+  "model": {
+    "DecisionTree": {
+      "params": {
+        "max_depth": "10",
+        "min_samples_leaf": "5"
+      },
+      "f1_penyetelan": 0.7079,
+      "ukuran_kb": 67.3,
+      "berkas": "DecisionTree.joblib"
+    },
+    "LogReg": {
+      "params": {
+        "C": "100"
+      },
+      "f1_penyetelan": 0.7284,
+      "ukuran_kb": 2.8,
+      "berkas": "LogReg.joblib"
+    },
+    "RandomForest": {
+      "params": {
+        "n_estimators": "200",
+        "max_depth": "None",
+        "min_samples_leaf": "1"
+      },
+      "f1_penyetelan": 0.768,
+      "ukuran_kb": 56883.2,
+      "berkas": "RandomForest.joblib"
+    },
+    "SVM RBF": {
+      "params": {
+        "C": "1000",
+        "gamma": "scale"
+      },
+      "f1_penyetelan": 0.7682,
+      "ukuran_kb": 1301.8,
+      "berkas": "SVM_RBF.joblib"
+    }
+  }
+}

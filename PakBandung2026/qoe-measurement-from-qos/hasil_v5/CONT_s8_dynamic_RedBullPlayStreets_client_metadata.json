@@ -1,0 +1,311 @@
+{
+  "run_id": "CONT_s8_dynamic_RedBullPlayStreets",
+  "mpd": "http://192.168.50.10:8080/RedBullPlayStreets/RedBull_4_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-13T16:33:55.119Z",
+  "media_duration": 279.379,
+  "playback_start_epoch": 1789316934.899,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "dynamic",
+    "effective": "abrDynamic"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 2466,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 0.117,
+      "bitrate_kbps": 892,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.016,
+      "bitrate_kbps": 500,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 8.014,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 44.16,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 52.13,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 124.657,
+      "bitrate_kbps": 201,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 128.377,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 129.967,
+      "bitrate_kbps": 201,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 132.284,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 141.321,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 144.259,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 172.435,
+      "bitrate_kbps": 201,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 180.419,
+      "bitrate_kbps": 250,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 180.685,
+      "bitrate_kbps": 299,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 184.404,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 188.388,
+      "bitrate_kbps": 201,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 189.722,
+      "bitrate_kbps": 250,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 192.38,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 196.364,
+      "bitrate_kbps": 201,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 208.332,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 241.319,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 244.51,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 244.765,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 248.504,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.293,
+      "t_epoch": 1789316934.606
+    },
+    {
+      "position": 3.957,
+      "duration": 12.149,
+      "t_epoch": 1789316938.86
+    },
+    {
+      "position": 7.958,
+      "duration": 0.479,
+      "t_epoch": 1789316955.01
+    },
+    {
+      "position": 64.001,
+      "duration": 1.326,
+      "t_epoch": 1789317011.532
+    },
+    {
+      "position": 68.007,
+      "duration": 0.615,
+      "t_epoch": 1789317016.865
+    },
+    {
+      "position": 132.049,
+      "duration": 2.424,
+      "t_epoch": 1789317081.529
+    },
+    {
+      "position": 216.163,
+      "duration": 1.624,
+      "t_epoch": 1789317168.068
+    },
+    {
+      "position": 220.172,
+      "duration": 1.802,
+      "t_epoch": 1789317173.701
+    },
+    {
+      "position": 224.169,
+      "duration": 0.409,
+      "t_epoch": 1789317179.5
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0
+    ],
+    [
+      "waiting",
+      0.117
+    ],
+    [
+      "playing",
+      0.118
+    ],
+    [
+      "waiting",
+      3.957
+    ],
+    [
+      "playing",
+      3.957
+    ],
+    [
+      "waiting",
+      7.958
+    ],
+    [
+      "playing",
+      7.958
+    ],
+    [
+      "waiting",
+      64.001
+    ],
+    [
+      "playing",
+      64.001
+    ],
+    [
+      "waiting",
+      68.007
+    ],
+    [
+      "playing",
+      68.007
+    ],
+    [
+      "waiting",
+      104.72
+    ],
+    [
+      "playing",
+      104.72
+    ],
+    [
+      "waiting",
+      132.049
+    ],
+    [
+      "playing",
+      132.049
+    ],
+    [
+      "waiting",
+      216.163
+    ],
+    [
+      "playing",
+      216.163
+    ],
+    [
+      "waiting",
+      220.172
+    ],
+    [
+      "playing",
+      220.172
+    ],
+    [
+      "waiting",
+      224.169
+    ],
+    [
+      "playing",
+      224.17
+    ]
+  ]
+}

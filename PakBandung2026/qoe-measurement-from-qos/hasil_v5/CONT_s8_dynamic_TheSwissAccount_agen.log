@@ -1,0 +1,44 @@
+>> run_id=CONT_s8_dynamic_TheSwissAccount | map=flows | poll=0.1s | window=10.0s -> qos_features.csv
+>> menghitung SEMUA flow TCP yang lewat (Ctrl-C untuk berhenti)
+>> XDP terpasang di eth0: prog id=2448
+>> membaca 1 map bernama 'flows': id [694]
+>> entri awal di map: 0  (0 = belum ada trafik TCP yang tertangkap)
+  w0      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w1      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w2      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w3      0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w4      0.005 Mbps (std  0.040)  jit   1.021 ms  reord 12.00%  rtt  150.23 ms       25 pkt  2 flow
+  w5      0.127 Mbps (std  0.154)  jit  48.694 ms  reord 12.08%  rtt  278.30 ms      207 pkt  4 flow
+  w6      0.118 Mbps (std  0.101)  jit  60.476 ms  reord 10.70%  rtt  404.76 ms      187 pkt  2 flow
+  w7      0.110 Mbps (std  0.175)  jit  74.022 ms  reord  2.74%  rtt  223.48 ms      146 pkt  2 flow
+  w8      0.093 Mbps (std  0.153)  jit  78.475 ms  reord  2.34%  rtt  293.67 ms      128 pkt  2 flow
+  w9      0.135 Mbps (std  0.236)  jit  65.951 ms  reord  0.00%  rtt  502.38 ms      150 pkt  2 flow
+  w10     0.146 Mbps (std  0.235)  jit  44.341 ms  reord  0.00%  rtt  535.95 ms      159 pkt  2 flow
+  w11     0.151 Mbps (std  0.222)  jit  43.050 ms  reord  0.00%  rtt  509.44 ms      182 pkt  5 flow
+  w12     0.147 Mbps (std  0.116)  jit 157.530 ms  reord  0.00%  rtt  808.81 ms      192 pkt  3 flow
+  w13     1.650 Mbps (std 15.122)  jit 206.843 ms  reord  2.18%  rtt  566.93 ms    1,696 pkt  4 flow
+  w14     0.121 Mbps (std  0.118)  jit 140.032 ms  reord  0.00%  rtt  459.93 ms      157 pkt  2 flow
+  w15     0.087 Mbps (std  0.223)  jit  37.382 ms  reord  1.02%  rtt  478.94 ms       98 pkt  2 flow
+  w16     0.116 Mbps (std  0.245)  jit  52.087 ms  reord  0.79%  rtt  660.71 ms      126 pkt  2 flow
+  w17     0.145 Mbps (std  0.311)  jit  43.882 ms  reord  7.14%  rtt  631.52 ms      168 pkt  2 flow
+  w18     0.103 Mbps (std  0.250)  jit  38.525 ms  reord  0.00%  rtt  311.67 ms      109 pkt  2 flow
+  w19     0.165 Mbps (std  0.221)  jit  83.768 ms  reord  1.58%  rtt  421.43 ms      190 pkt  3 flow
+  w20     0.164 Mbps (std  0.224)  jit  49.945 ms  reord  0.00%  rtt  443.10 ms      181 pkt  2 flow
+  w21     0.166 Mbps (std  0.222)  jit  41.210 ms  reord  0.00%  rtt  420.45 ms      190 pkt  4 flow
+  w22     0.147 Mbps (std  0.287)  jit  82.903 ms  reord  5.59%  rtt  641.35 ms      179 pkt  4 flow
+  w23     0.327 Mbps (std  0.296)  jit  50.746 ms  reord  0.00%  rtt  281.72 ms      342 pkt  2 flow
+  w24     0.359 Mbps (std  0.279)  jit  36.575 ms  reord  0.00%  rtt  314.85 ms      379 pkt  4 flow
+  w25     0.565 Mbps (std  2.594)  jit  90.867 ms  reord  1.82%  rtt  322.03 ms      659 pkt  6 flow
+  w26     0.156 Mbps (std  0.120)  jit 143.800 ms  reord 15.38%  rtt  755.03 ms      221 pkt  4 flow
+  w27     0.154 Mbps (std  0.114)  jit 155.572 ms  reord  0.00%  rtt  757.34 ms      207 pkt  5 flow
+  w28     0.240 Mbps (std  0.683)  jit 389.620 ms  reord  1.67%  rtt  638.71 ms      300 pkt  4 flow
+  w29     0.140 Mbps (std  0.262)  jit  48.952 ms  reord  3.09%  rtt  287.54 ms      162 pkt  3 flow
+  w30     0.242 Mbps (std  0.183)  jit  86.929 ms  reord  0.00%  rtt  342.93 ms      305 pkt  4 flow
+  w31     0.244 Mbps (std  0.054)  jit 162.108 ms  reord  0.00%  rtt  520.03 ms      323 pkt  4 flow
+  w32     1.766 Mbps (std 13.145)  jit  92.585 ms  reord  2.50%  rtt  414.36 ms    1,838 pkt  4 flow
+  w33     0.163 Mbps (std  0.209)  jit  62.100 ms  reord 10.80%  rtt  524.19 ms      250 pkt  4 flow
+  w34     0.173 Mbps (std  0.102)  jit  69.636 ms  reord  6.36%  rtt  471.82 ms      283 pkt  5 flow
+  w35     0.000 Mbps (std  0.000)  jit   0.000 ms  reord  0.00%  rtt    0.00 ms        0 pkt  0 flow
+  w36  (parsial, 16 cuplikan) 0.000 Mbps
+>> selesai: 37 window -> qos_features.csv
+>>          cuplikan mentah -> qos_samples.csv (untuk align_qos.py)

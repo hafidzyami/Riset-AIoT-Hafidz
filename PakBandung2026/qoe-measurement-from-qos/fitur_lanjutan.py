@@ -98,6 +98,45 @@ def mbps_dari(rows):
     return out
 
 
+def p95(v):
+    if not v:
+        return 0.0
+    w = sorted(v)
+    return w[min(len(w) - 1, int(round(0.95 * (len(w) - 1))))]
+
+
+def fitur_jaringan(dalam):
+    """Tujuh fitur lapisan jaringan, dihitung sama persis dengan align_qos.py.
+
+    Tanpa ini, dataset multiskala hanya memuat fitur turunan throughput sehingga
+    set 14 fitur dan set multi-cakupan berada di berkas berbeda dan tidak dapat
+    dibandingkan pada lipatan yang sama.
+
+    Jitter adalah LEVEL dari estimator EWMA sehingga nilainya dipakai apa adanya,
+    sedangkan pencacah reorder bersifat kumulatif sehingga dipakai selisihnya.
+    """
+    jit, rtt, tp, tr = [], [], 0, 0
+    for r in dalam:
+        tp += int(ambil(r, "delta_packets", "packets"))
+        tr += int(ambil(r, "delta_reorder", "delta_retrans"))
+        jit.append(float(ambil(r, "jitter_ns")) / 1e6)
+        rv = float(ambil(r, "rtt_ns"))
+        if rv > 0:
+            rtt.append(rv / 1e6)
+    m = sum(rtt) / len(rtt) if rtt else 0.0
+    return {
+        "jitter_mean": round(sum(jit) / len(jit), 6) if jit else 0.0,
+        "jitter_p95": round(p95(jit), 6),
+        "reorder_rate": round(tr / tp * 100.0, 6) if tp else 0.0,
+        "reorder_count": tr,
+        "rtt_mean": round(m, 6),
+        "rtt_p95": round(p95(rtt), 6),
+        "rtt_std": round(math.sqrt(sum((x - m) ** 2 for x in rtt) / len(rtt)), 6)
+                   if rtt else 0.0,
+        "rtt_samples": len(rtt),
+    }
+
+
 def fitur_dasar(dalam):
     if not dalam:
         return {k: 0.0 for k in DASAR} | {"n_samples": 0}
@@ -120,6 +159,7 @@ def fitur_multiskala(dalam, sebelumnya, kumulatif, pendek_detik=3.0):
     """
     f = fitur_dasar(dalam)
     out = dict(f)
+    out.update(fitur_jaringan(dalam))
 
     # cakupan 1: cuplikan terakhir dalam window
     akhir = dalam[-1:] if dalam else []
@@ -229,6 +269,12 @@ def self_test():
     c = proses_run(meta, smp, 10.0, "media", "multiskala")
     tambahan = set(c[0]) - set(a[0])
     assert len(tambahan) >= 10, tambahan
+    # fitur lapisan jaringan wajib ikut, supaya set 14 dan set multi-cakupan
+    # berada di satu berkas dan dapat dibandingkan pada lipatan yang sama
+    for k in ("jitter_mean", "jitter_p95", "reorder_rate", "reorder_count",
+              "rtt_mean", "rtt_p95", "rtt_std"):
+        assert k in c[0], k
+    print("  [OK] tujuh fitur lapisan jaringan ikut terbawa pada set multiskala")
     for k in DASAR:
         assert abs(c[2][k] - a[2][k]) < 1e-6, k
     print(f"  [OK] multiskala menambah {len(tambahan)} fitur tanpa mengubah yg dasar")

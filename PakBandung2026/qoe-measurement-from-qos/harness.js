@@ -184,25 +184,53 @@ function parseFrameRate(v) {
   return isFinite(n) ? n : null;
 }
 
+// fetch() bawaan Node MENOLAK sertifikat self-signed, dan bendera
+// --ignore-certificate-errors hanya berlaku untuk Chromium. Pengambilan MPD di
+// sini berjalan di jalur Node yang terpisah, sehingga pada server HTTPS uji ia
+// selalu gagal dan fps diam-diam jatuh ke nilai bawaan. Modul https bawaan
+// dipakai supaya rejectUnauthorized dapat dimatikan secara eksplisit.
+function ambilTeks(url) {
+  return new Promise((resolve, reject) => {
+    const aman = url.toLowerCase().startsWith("https:");
+    const lib = aman ? require("https") : require("http");
+    const opts = aman ? { rejectUnauthorized: false } : {};
+    lib.get(url, opts, (res) => {
+      if (res.statusCode !== 200) {
+        res.resume();
+        return reject(new Error(`HTTP ${res.statusCode}`));
+      }
+      let d = "";
+      res.setEncoding("utf8");
+      res.on("data", (c) => (d += c));
+      res.on("end", () => resolve(d));
+    }).on("error", reject);
+  });
+}
+
 async function detectFps(mpdUrl) {
-  try {
-    const res = await fetch(mpdUrl);
-    if (!res.ok) return null;
-    const xml = await res.text();
-    const m = xml.match(/frameRate="([^"]+)"/);
-    return m ? parseFrameRate(m[1]) : null;
-  } catch (e) {
-    return null;
-  }
+  const xml = await ambilTeks(mpdUrl);
+  const m = xml.match(/frameRate="([^"]+)"/);
+  return m ? parseFrameRate(m[1]) : null;
 }
 
 // ---------------- driver ----------------
 (async () => {
   let FPS;
   if (FPS_ARG === "auto") {
-    const d = await detectFps(MPD);
+    // Kegagalan deteksi TIDAK lagi jatuh diam-diam ke 24. Nilai fps masuk ke
+    // perhitungan O22 P.1203, sehingga nilai yang keliru merusak label seluruh
+    // run tanpa memunculkan tanda apa pun, dan baru terlihat sebagai akurasi
+    // yang buruk berbulan-bulan kemudian.
+    let d = null, galat = null;
+    try { d = await detectFps(MPD); } catch (e) { galat = e.message; }
     if (d) { FPS = d; console.log(`fps: ${FPS.toFixed(3)} (terdeteksi dari MPD)`); }
-    else { FPS = 24; console.warn("fps: GAGAL deteksi dari MPD -> pakai 24. Set --fps manual bila perlu."); }
+    else {
+      console.error(`fps: GAGAL dideteksi dari MPD` + (galat ? ` (${galat})` : ""));
+      console.error("  Nilai fps masuk ke perhitungan skor P.1203, sehingga");
+      console.error("  melanjutkan dengan tebakan akan merusak label run ini.");
+      console.error("  Periksa MPD-nya, atau beri nilai eksplisit: --fps 24");
+      process.exit(3);
+    }
   } else {
     FPS = parseFloat(FPS_ARG);
     console.log(`fps: ${FPS} (manual)`);

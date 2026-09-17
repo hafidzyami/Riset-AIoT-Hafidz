@@ -1,0 +1,278 @@
+{
+  "run_id": "CONT_s6_dynamic_TearsOfSteel",
+  "mpd": "https://192.168.50.10:8443/TearsOfSteel/TearsOfSteel_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-15T04:02:32.147Z",
+  "media_duration": 235.676,
+  "playback_start_epoch": 1789444652.209,
+  "fps_assumed": 24,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "dynamic",
+    "effective": "abrDynamic"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0.084,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 4.025,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 20.228,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 24.213,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 77.869,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 80.262,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 92.213,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.748,
+      "t_epoch": 1789444651.461
+    },
+    {
+      "position": 158.983,
+      "duration": 1.542,
+      "t_epoch": 1789444811.149
+    },
+    {
+      "position": 162.944,
+      "duration": 2.422,
+      "t_epoch": 1789444816.631
+    },
+    {
+      "position": 166.943,
+      "duration": 2.645,
+      "t_epoch": 1789444823.034
+    },
+    {
+      "position": 170.943,
+      "duration": 3.492,
+      "t_epoch": 1789444829.66
+    },
+    {
+      "position": 174.944,
+      "duration": 5.033,
+      "t_epoch": 1789444837.133
+    },
+    {
+      "position": 178.944,
+      "duration": 4.864,
+      "t_epoch": 1789444846.147
+    },
+    {
+      "position": 182.944,
+      "duration": 13.765,
+      "t_epoch": 1789444854.993
+    },
+    {
+      "position": 186.943,
+      "duration": 8.904,
+      "t_epoch": 1789444872.739
+    },
+    {
+      "position": 190.944,
+      "duration": 2.634,
+      "t_epoch": 1789444885.624
+    },
+    {
+      "position": 194.943,
+      "duration": 3.12,
+      "t_epoch": 1789444892.239
+    },
+    {
+      "position": 198.944,
+      "duration": 2.533,
+      "t_epoch": 1789444899.342
+    },
+    {
+      "position": 202.943,
+      "duration": 2.581,
+      "t_epoch": 1789444905.857
+    },
+    {
+      "position": 203.363,
+      "duration": 0.663,
+      "t_epoch": 1789444908.839
+    },
+    {
+      "position": 218.963,
+      "duration": 3.748,
+      "t_epoch": 1789444925.083
+    },
+    {
+      "position": 219.323,
+      "duration": 6.638,
+      "t_epoch": 1789444929.174
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.084
+    ],
+    [
+      "waiting",
+      158.983
+    ],
+    [
+      "playing",
+      159.044
+    ],
+    [
+      "waiting",
+      162.944
+    ],
+    [
+      "playing",
+      163.004
+    ],
+    [
+      "waiting",
+      166.943
+    ],
+    [
+      "playing",
+      167.003
+    ],
+    [
+      "waiting",
+      170.943
+    ],
+    [
+      "playing",
+      171.003
+    ],
+    [
+      "waiting",
+      174.944
+    ],
+    [
+      "playing",
+      175.004
+    ],
+    [
+      "waiting",
+      178.944
+    ],
+    [
+      "playing",
+      179.004
+    ],
+    [
+      "waiting",
+      182.944
+    ],
+    [
+      "playing",
+      183.004
+    ],
+    [
+      "waiting",
+      186.943
+    ],
+    [
+      "playing",
+      187.004
+    ],
+    [
+      "waiting",
+      190.944
+    ],
+    [
+      "playing",
+      191.003
+    ],
+    [
+      "waiting",
+      194.943
+    ],
+    [
+      "playing",
+      195.004
+    ],
+    [
+      "waiting",
+      198.944
+    ],
+    [
+      "playing",
+      199.003
+    ],
+    [
+      "waiting",
+      202.943
+    ],
+    [
+      "playing",
+      203.003
+    ],
+    [
+      "waiting",
+      203.363
+    ],
+    [
+      "playing",
+      203.423
+    ],
+    [
+      "waiting",
+      218.963
+    ],
+    [
+      "playing",
+      219.023
+    ],
+    [
+      "waiting",
+      219.323
+    ],
+    [
+      "playing",
+      219.381
+    ]
+  ]
+}

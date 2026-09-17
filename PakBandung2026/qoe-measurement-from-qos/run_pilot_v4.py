@@ -200,6 +200,9 @@ def main():
                          "SETIAP mode sehingga lintasan bandwidth terkendali. "
                          "Bila diberikan, --bola-seeds diabaikan")
     ap.add_argument("--results", default="hasil_v4")
+    ap.add_argument("--https", action="store_true",
+                    help="sajikan lewat TLS; diteruskan ke run_one_v4.py")
+    ap.add_argument("--https-port", type=int, default=8443)
     ap.add_argument("--shuffle", type=int, default=None, metavar="SEED",
                     help="acak urutan run dengan seed tertentu. Urutan bawaan "
                          "menempatkan judul di perulangan terluar, sehingga bila "
@@ -273,6 +276,8 @@ def main():
               f"sepanjang waktu tidak sejajar dgn judul")
     if a.restart_sensor:
         print("   sensor    : dimuat ulang sebelum tiap run agar laju cuplik tetap")
+    if a.https:
+        print(f"   transport : TLS pada port {a.https_port} (trafik terenkripsi)")
     print()
 
     if a.dry_run:
@@ -291,7 +296,9 @@ def main():
                 "--abr", m, "--duration", str(a.duration),
                 "--results", a.results]
                + (["--tandai-abr"] if bersilang else [])
-               + (["--restart-sensor"] if a.restart_sensor else []) + ekstra)
+               + (["--restart-sensor"] if a.restart_sensor else [])
+               + (["--https", "--https-port", str(a.https_port)]
+                  if a.https else []) + ekstra)
         berhasil = False
         for coba in range(1 + max(0, a.retry)):
             if coba:

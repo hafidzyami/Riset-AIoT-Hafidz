@@ -1,0 +1,178 @@
+{
+  "run_id": "CONT_s2_dynamic_TheSwissAccount",
+  "mpd": "https://192.168.50.10:8443/TheSwissAccount/TheSwissAccount_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-16T15:41:08.917Z",
+  "media_duration": 296.067,
+  "playback_start_epoch": 1789572968.082,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "dynamic",
+    "effective": "abrDynamic"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 4003,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.109,
+      "bitrate_kbps": 930,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.087,
+      "bitrate_kbps": 4003,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 140.208,
+      "bitrate_kbps": 3430,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 144.189,
+      "bitrate_kbps": 1323,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 148.168,
+      "bitrate_kbps": 1988,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 148.97,
+      "bitrate_kbps": 2709,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 152.152,
+      "bitrate_kbps": 1717,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 156.412,
+      "bitrate_kbps": 1988,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 180.311,
+      "bitrate_kbps": 4003,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 188.292,
+      "bitrate_kbps": 3818,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 192.449,
+      "bitrate_kbps": 1988,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 196.431,
+      "bitrate_kbps": 754,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 208.383,
+      "bitrate_kbps": 601,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 220.347,
+      "bitrate_kbps": 2709,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 228.318,
+      "bitrate_kbps": 4003,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 232.293,
+      "bitrate_kbps": 3818,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 256.461,
+      "bitrate_kbps": 4003,
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.09,
+      "t_epoch": 1789572967.992
+    },
+    {
+      "position": 192.135,
+      "duration": 4.737,
+      "t_epoch": 1789573160.248
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      0.109
+    ],
+    [
+      "playing",
+      0.11
+    ],
+    [
+      "waiting",
+      120.84
+    ],
+    [
+      "playing",
+      120.84
+    ],
+    [
+      "waiting",
+      192.135
+    ],
+    [
+      "playing",
+      192.135
+    ]
+  ]
+}

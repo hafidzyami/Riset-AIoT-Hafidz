@@ -27,7 +27,24 @@ import signal
 import sys
 import threading
 import time
+import ssl
 import urllib.request
+
+# Konteks TLS yang tidak memverifikasi sertifikat. Server uji memakai sertifikat
+# self-signed, dan trafik latar hanya perlu menghasilkan beban di kabel yang sama
+# dengan video; identitas server tidak relevan untuk tujuan itu. JANGAN dipakai
+# di luar testbed.
+_CTX = ssl.create_default_context()
+_CTX.check_hostname = False
+_CTX.verify_mode = ssl.CERT_NONE
+
+
+def _buka(req, timeout):
+    """urlopen yang menerima sertifikat self-signed pada skema https."""
+    url = req.full_url if hasattr(req, "full_url") else str(req)
+    if url.lower().startswith("https://"):
+        return urllib.request.urlopen(req, timeout=timeout, context=_CTX)
+    return urllib.request.urlopen(req, timeout=timeout)
 
 _stop = threading.Event()
 
@@ -78,7 +95,7 @@ def unduh(url, sampai, catat, max_bps):
     while not _stop.is_set() and time.time() < sampai:
         try:
             req = urllib.request.Request(url, headers={"User-Agent": "bg-traffic/1.0"})
-            with urllib.request.urlopen(req, timeout=5) as r:
+            with _buka(req, 5) as r:
                 while not _stop.is_set() and time.time() < sampai:
                     blok = r.read(16384)
                     if not blok:
@@ -188,7 +205,7 @@ def main():
     # Pastikan berkasnya benar-benar ada sebelum run dimulai, supaya tidak
     # menghabiskan lima menit menghasilkan nol trafik.
     try:
-        with urllib.request.urlopen(urllib.request.Request(url, method="HEAD"), timeout=5) as r:
+        with _buka(urllib.request.Request(url, method="HEAD"), 5) as r:
             print(f">> berkas terjangkau ({r.headers.get('Content-Length','?')} byte)")
     except Exception as e:
         sys.exit(f"berkas tidak terjangkau: {e}\ncoba --path lain")

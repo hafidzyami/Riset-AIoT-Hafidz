@@ -40,6 +40,23 @@ HARAPAN = {
 PLAFON = {"S2A": 3.0, "S2B": 0.7, "S2C": 0.4, "S2D": 0.15}
 
 
+def skenario(rid):
+    """Kunci pengelompokan untuk ringkasan.
+
+    Koleksi lama memakai nama skenario diskret (S2B_Judul_rep1). Koleksi kontinu
+    memakai CONT untuk SELURUH run, sehingga ringkasan per skenario menyusut
+    menjadi satu baris dan kehilangan daya diagnostiknya. Untuk rancangan
+    bersilang, mode ABR dipakai sebagai kunci karena itulah yang membedakan run.
+    """
+    b = rid.split("_")
+    if b[0] != "CONT":
+        return b[0]
+    for x in b:
+        if x.lower() in ("throughput", "dynamic", "bola", "l2a", "lolp"):
+            return f"CONT/{x.lower()}"
+    return "CONT"
+
+
 def baca(p):
     with open(p, encoding="utf-8") as f:
         return list(csv.DictReader(f))
@@ -115,8 +132,18 @@ def periksa_run(d, rid):
     dts = [float(r["dt"]) for r in smp]
     m["n_smp"] = len(smp)
     m["dt_maks"] = round(max(dts), 3) if dts else 0
-    if dts and max(dts) > 1.6:
-        s.append(f"ada jeda pencuplikan {max(dts):.2f}s")
+    # Ambang jeda dibuat RELATIF terhadap periode cuplik yang sebenarnya, bukan
+    # tetap 1,6 detik. Ambang tetap itu dikalibrasi untuk pencuplikan 1 Hz; pada
+    # koleksi v5 dan v6 yang berjalan 10 Hz, jeda 1,5 detik berarti 14 cuplikan
+    # hilang tetapi tetap lolos tanpa peringatan.
+    if dts:
+        dt_med = sorted(dts)[len(dts) // 2]
+        m["dt_median"] = round(dt_med, 3)
+        batas = max(1.6, 6 * dt_med) if dt_med > 0.25 else 6 * dt_med
+        if max(dts) > batas:
+            hilang = int(max(dts) / dt_med) - 1 if dt_med > 0 else 0
+            s.append(f"jeda pencuplikan {max(dts):.2f}s pada periode {dt_med:.2f}s "
+                     f"(sekitar {hilang} cuplikan hilang)")
     if ps and te:
         m["mulai_sblm"] = round(ps - min(te), 1)
         m["akhir_stlh"] = round(max(te) - (ps + dur), 1)
@@ -148,7 +175,7 @@ def periksa_run(d, rid):
             break
     m["ekor_sepi"] = ekor
 
-    sc = rid.split("_")[0]
+    sc = skenario(rid)
     plafon = PLAFON.get(sc)
     if plafon and tp and max(tp) > plafon * 1.6:
         s.append(f"throughput {max(tp):.2f} Mbps >> plafon {sc} {plafon} Mbps")
@@ -205,7 +232,7 @@ def main():
     for rid, m in hasil.items():
         if not m:
             continue
-        sc = rid.split("_")[0]
+        sc = skenario(rid)
         g = per_sc[sc]
         g["run"] += 1
         g["lab"].update(m.get("dist1", m["dist"]))
@@ -213,13 +240,25 @@ def main():
         g["ekor"] += m["ekor_sepi"]
         g["stall"] += m["n_stall"]
     print("RINGKASAN PER SKENARIO")
-    print(f"{'sc':<5}{'run':>4}{'tp rata':>9}{'stall/run':>10}{'ekor sepi':>10}  distribusi label (tanpa window 0)")
-    print("-" * 100)
+    print(f"{'sc':<16}{'run':>4}{'tp rata':>9}{'stall/run':>10}{'ekor sepi':>10}"
+          f"  distribusi label (tanpa window 0)")
+    print("-" * 110)
     for sc in sorted(per_sc, key=lambda x: (x[:2], x)):
         g = per_sc[sc]
         tp = sum(g["tp"]) / len(g["tp"])
-        print(f"{sc:<5}{g['run']:>4}{tp:>9.3f}{g['stall']/g['run']:>10.1f}{g['ekor']:>10}"
-              f"  {dict(g['lab'])}")
+        print(f"{sc:<16}{g['run']:>4}{tp:>9.3f}{g['stall']/g['run']:>10.1f}"
+              f"{g['ekor']:>10}  {dict(g['lab'])}")
+
+    # Dua pemeriksaan bergantung pada nama skenario dan TIDAK berlaku untuk
+    # koleksi kontinu. Menyatakannya penting supaya "0 run bermasalah" tidak
+    # dibaca sebagai validasi penuh.
+    tanpa_harapan = sorted({skenario(r) for r in rids
+                            if skenario(r) not in HARAPAN})
+    if tanpa_harapan:
+        print(f"\nCATATAN: pemeriksaan label-di-luar-harapan dan plafon throughput")
+        print(f"  TIDAK berlaku untuk {', '.join(tanpa_harapan)}, karena keduanya")
+        print(f"  dikalibrasi untuk skenario diskret. Audit ini memeriksa keutuhan")
+        print(f"  berkas, kontinuitas I13, jeda pencuplikan, dan cakupan window.")
 
     tot, tot0 = Counter(), Counter()
     for m in hasil.values():

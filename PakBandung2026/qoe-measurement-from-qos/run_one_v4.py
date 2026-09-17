@@ -160,8 +160,12 @@ def bangun_perintah(a):
         # trafik latar terus berjalan setelah pemutaran berakhir dan mencemari
         # window terakhir; pada uji pertama hal ini menghasilkan window bernilai
         # 895 Mbps yang sama sekali bukan trafik video.
+        # Trafik latar WAJIB memakai skema yang sama dengan video. Bila video
+        # lewat TLS sementara trafik latar lewat HTTP polos, kabel berisi campuran
+        # dua jenis trafik dan perbandingan terenkripsi lawan tidak terenkripsi
+        # menjadi tidak sah.
         "bg": [sys.executable, "bg_traffic.py", "--server",
-               f"http://{a.server_ip}:{a.port}", "--seed", str(a.seed),
+               f"{proto}://{a.server_ip}:{port}", "--seed", str(a.seed),
                "--duration", str(a.duration), "--streams", str(a.streams),
                "--max-mbps", str(a.bg_max_mbps),
                "--log", os.path.join(a.results, f"bg_s{a.seed}_{a.title}.jsonl")],
@@ -210,6 +214,14 @@ def self_test():
     assert "RedBull_4_simple" in cb_["mpd"]
     print(f"  [OK] run_id bersilang: {cb_['rid']}")
     assert "RedBull_4_simple" in c["mpd"], c["mpd"]
+
+    class H(A):
+        https = True
+    ch_ = bangun_perintah(H())
+    assert ch_["mpd"].startswith("https://") and ":8443/" in ch_["mpd"], ch_["mpd"]
+    bg_ = " ".join(ch_["bg"])
+    assert "https://" in bg_ and ":8443" in bg_, bg_
+    print("  [OK] mode https: MPD dan trafik latar memakai skema dan port yang sama")
     print("  [OK] nama MPD tak seragam ditangani (RedBull_4_simple, bukan RedBull_4s)")
 
     assert c["total"] == 300 + JEDA_MUKA + JEDA_AKHIR + TAMBAHAN
@@ -253,9 +265,12 @@ def self_test():
     c2 = bangun_perintah(A())
     assert c2["mpd"].startswith("https://") and ":8443/" in c2["mpd"], c2["mpd"]
     print(f"  [OK] varian HTTPS: {c2['mpd'][:46]}...")
-    # trafik latar tetap lewat HTTP polos karena hanya berperan sbg pesaing
-    assert "http://" in " ".join(c2["bg"]) and "https://" not in " ".join(c2["bg"])
-    print("  [OK] trafik latar tetap HTTP polos (perannya hanya sbg pesaing)")
+    # Trafik latar WAJIB mengikuti skema video. Keputusan sebelumnya membiarkannya
+    # tetap HTTP polos dengan alasan ia hanya berperan sebagai pesaing, tetapi itu
+    # membuat kabel berisi campuran dua jenis trafik sehingga perbandingan
+    # terenkripsi lawan tidak terenkripsi tidak lagi sah.
+    assert "https://" in " ".join(c2["bg"]) and ":8443" in " ".join(c2["bg"])
+    print("  [OK] trafik latar mengikuti skema video, bukan selalu HTTP polos")
 
     bgt = " ".join(c["bg"])
     assert "--max-mbps 1.5" in bgt, bgt
@@ -292,7 +307,11 @@ def main():
     ap.add_argument("--results", default="hasil_v4")
     ap.add_argument("--server-ip", default="192.168.50.10")
     ap.add_argument("--port", type=int, default=8080)
-    ap.add_argument("--https", action="store_true")
+    ap.add_argument("--https", action="store_true",
+                    help="sajikan lewat TLS. Server uji memakai sertifikat "
+                         "self-signed, sehingga harness dijalankan dgn "
+                         "--ignore-certificate-errors dan trafik latar tidak "
+                         "memverifikasi sertifikat")
     ap.add_argument("--https-port", type=int, default=8443)
     ap.add_argument("--iface", default="eth0")
     ap.add_argument("--pi5-user", default="hafidz")

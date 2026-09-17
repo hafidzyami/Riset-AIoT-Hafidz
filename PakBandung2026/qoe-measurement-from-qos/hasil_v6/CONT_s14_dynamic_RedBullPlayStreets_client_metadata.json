@@ -1,0 +1,207 @@
+{
+  "run_id": "CONT_s14_dynamic_RedBullPlayStreets",
+  "mpd": "https://192.168.50.10:8443/RedBullPlayStreets/RedBull_4_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-15T04:21:43.955Z",
+  "media_duration": 284.854,
+  "playback_start_epoch": 1789445802.758,
+  "fps_assumed": 29.97002997002997,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "dynamic",
+    "effective": "abrDynamic"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 5936,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.232,
+      "bitrate_kbps": 892,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.08,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 32.778,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 36.225,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 238.434,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 240.295,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 272.458,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 284.417,
+      "bitrate_kbps": 201,
+      "width": 480,
+      "height": 360
+    }
+  ],
+  "stalls": [
+    {
+      "position": 3.962,
+      "duration": 6.779,
+      "t_epoch": 1789445806.72
+    },
+    {
+      "position": 59.99,
+      "duration": 0.657,
+      "t_epoch": 1789445869.526
+    },
+    {
+      "position": 176.12,
+      "duration": 1.052,
+      "t_epoch": 1789445986.313
+    },
+    {
+      "position": 180.126,
+      "duration": 1.76,
+      "t_epoch": 1789445991.372
+    },
+    {
+      "position": 184.132,
+      "duration": 1.511,
+      "t_epoch": 1789445997.138
+    },
+    {
+      "position": 200.136,
+      "duration": 0.483,
+      "t_epoch": 1789446014.654
+    },
+    {
+      "position": 204.152,
+      "duration": 1.584,
+      "t_epoch": 1789446019.154
+    },
+    {
+      "position": 208.159,
+      "duration": 1.955,
+      "t_epoch": 1789446024.745
+    },
+    {
+      "position": 212.146,
+      "duration": 0.561,
+      "t_epoch": 1789446030.686
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      3.962
+    ],
+    [
+      "playing",
+      3.963
+    ],
+    [
+      "waiting",
+      59.99
+    ],
+    [
+      "playing",
+      59.99
+    ],
+    [
+      "waiting",
+      176.12
+    ],
+    [
+      "playing",
+      176.12
+    ],
+    [
+      "waiting",
+      180.126
+    ],
+    [
+      "playing",
+      180.126
+    ],
+    [
+      "waiting",
+      184.132
+    ],
+    [
+      "playing",
+      184.132
+    ],
+    [
+      "waiting",
+      200.136
+    ],
+    [
+      "playing",
+      200.137
+    ],
+    [
+      "waiting",
+      204.152
+    ],
+    [
+      "playing",
+      204.153
+    ],
+    [
+      "waiting",
+      208.159
+    ],
+    [
+      "playing",
+      208.16
+    ],
+    [
+      "waiting",
+      212.146
+    ],
+    [
+      "playing",
+      212.146
+    ]
+  ]
+}

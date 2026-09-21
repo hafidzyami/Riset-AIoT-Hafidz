@@ -1,10 +1,11 @@
 {
-  "run_id": "UJI_B",
-  "mpd": "http://192.168.50.10:8080/Valkaama/Valkaama_4s_simple_2014_05_09.mpd",
-  "captured_at": "2026-09-21T03:04:04.368Z",
-  "media_duration": 120.203,
-  "playback_start_epoch": 1789959724.158,
-  "fps_assumed": 29.97002997002997,
+  "run_id": "UJI_dash",
+  "mpd": "http://192.168.50.10:8080/BigBuckBunny/BigBuckBunny_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-21T11:43:19.895Z",
+  "media_duration": 60.196,
+  "playback_start_epoch": 1789990939.701,
+  "fps_assumed": 24,
+  "player": "dash",
   "quic_forced": null,
   "spki_pinned": false,
   "codec": "h264",
@@ -24,30 +25,24 @@
   "quality_timeline": [
     {
       "t_media": 0,
-      "bitrate_kbps": 4561,
-      "width": 1440,
+      "bitrate_kbps": 3936,
+      "width": 1920,
       "height": 1080
     },
     {
-      "t_media": 0.067,
-      "bitrate_kbps": 983,
+      "t_media": 0.215,
+      "bitrate_kbps": 783,
       "width": 1280,
       "height": 720
     },
     {
-      "t_media": 4.053,
-      "bitrate_kbps": 4561,
-      "width": 1440,
+      "t_media": 4.209,
+      "bitrate_kbps": 3936,
+      "width": 1920,
       "height": 1080
     }
   ],
-  "stalls": [
-    {
-      "position": 0,
-      "duration": 0.205,
-      "t_epoch": 1789959723.953
-    }
-  ],
+  "stalls": [],
   "events_raw": [
     [
       "waiting",
@@ -55,15 +50,7 @@
     ],
     [
       "playing",
-      0.003
-    ],
-    [
-      "waiting",
-      119.766
-    ],
-    [
-      "playing",
-      119.766
+      0.001
     ]
   ]
 }

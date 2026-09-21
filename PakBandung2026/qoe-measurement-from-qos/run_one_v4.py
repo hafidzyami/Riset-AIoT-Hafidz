@@ -107,8 +107,15 @@ def bangun_perintah(a):
     # Mode ABR masuk ke run_id pada rancangan bersilang, karena satu seed kini
     # dijalankan dengan beberapa mode dan tanpa penanda itu berkasnya bertabrakan.
     # Rancangan lama (satu mode per seed) tetap memakai format tanpa penanda.
-    rid = (f"CONT_s{a.seed}_{a.title}" if not a.tandai_abr
-           else f"CONT_s{a.seed}_{a.abr}_{a.title}")
+    # Rancangan banyak klien memakai awalan MC supaya run-nya tidak pernah
+    # tertukar dengan koleksi sesi tunggal bila kedua folder digabung. Tiap sesi
+    # mendapat run_id SENDIRI, sehingga seluruh pipeline setelah agen (pelabelan,
+    # penyelarasan, penggabungan) bekerja tanpa perubahan sama sekali.
+    awal = "MC" if a.title2 else "CONT"
+    rid = (f"{awal}_s{a.seed}_{a.title}" if not a.tandai_abr
+           else f"{awal}_s{a.seed}_{a.abr}_{a.title}")
+    rid2 = (f"{awal}_s{a.seed}_{a.abr}_{a.title2}" if a.title2 and a.tandai_abr
+            else (f"{awal}_s{a.seed}_{a.title2}" if a.title2 else None))
     # QUIC juga memakai skema https; yang membedakan hanya port dan bendera
     # pemaksaan di sisi Chromium. Tanpa pemaksaan, Chromium menunggu header
     # Alt-Svc lewat TCP lebih dulu sehingga sebagian trafik awal tetap TCP dan
@@ -120,6 +127,12 @@ def bangun_perintah(a):
     else:
         proto, port = "http", a.port
     mpd = f"{proto}://{a.server_ip}:{port}/{a.title}/{MPD[a.title]}"
+    # Sesi kedua memakai PORT SERVER BERBEDA. Itu yang memungkinkan agen
+    # memisahkan kedua sesi lewat --split-port, karena kedua klien berbagi
+    # alamat IP yang sama pada satu laptop.
+    port2 = a.port2
+    mpd2 = (f"{proto}://{a.server_ip}:{port2}/{a.title2}/{MPD[a.title2]}"
+            if a.title2 else None)
 
     # -n melepas stdin dari kanal SSH; tanpa ini sesi menggantung meski
     # prosesnya sudah dilatarbelakangi.
@@ -134,7 +147,13 @@ def bangun_perintah(a):
         "tclog": f"tc_s{a.seed}_{a.title}.jsonl",
         # Berkas lama dihapus karena agen menulis dalam mode append; tanpa ini
         # cuplikan run sebelumnya akan ikut terbawa.
-        "bersih5": ssh5 + [f"cd {a.pi5_dir} && rm -f qos_samples.csv qos_features.csv agen.log"],
+        # Pola qos_samples*.csv WAJIB memakai bintang. Agen menulis berkas per
+        # port (qos_samples_8080.csv dan seterusnya) dalam mode TAMBAH, dan tanpa
+        # bintang berkas itu tidak terhapus sehingga run berikutnya menumpuk di
+        # atas run sebelumnya. Gejalanya tidak memunculkan kesalahan apa pun:
+        # cuplikan menjadi dua kali lipat dan volume byte membengkak.
+        "bersih5": ssh5 + [f"cd {a.pi5_dir} && rm -f qos_samples*.csv "
+                           f"qos_features.csv agen.log"],
         # Memuat ulang sensor mengosongkan map eBPF. Tanpa ini, entri menumpuk
         # sepanjang koleksi sehingga biaya pembacaan naik dan laju cuplik menurun
         # (terukur 9,5 Hz pada map bersih berbanding 2,1 Hz pada map menumpuk).
@@ -151,7 +170,8 @@ def bangun_perintah(a):
         "agen": ssh5 + [
             f"cd {a.pi5_dir} && setsid nohup sudo /usr/bin/python3 qos_agent.py "
             f"--run-id {rid} --poll {a.poll} --window {a.window} "
-            f"--duration {total} < /dev/null > agen.log 2>&1 & echo mulai"],
+            + (f"--split-port {port},{port2} " if a.title2 else "")
+            + f"--duration {total} < /dev/null > agen.log 2>&1 & echo mulai"],
         "tc": ssh4 + [
             # Dipanggil lewat interpreter, BUKAN lewat shebang. Berkas yang
             # disalin dari Windows sering berakhiran CRLF sehingga baris shebang
@@ -172,8 +192,15 @@ def bangun_perintah(a):
         # lewat TLS sementara trafik latar lewat HTTP polos, kabel berisi campuran
         # dua jenis trafik dan perbandingan terenkripsi lawan tidak terenkripsi
         # menjadi tidak sah.
+        # Pada rancangan banyak klien, trafik latar HARUS berjalan di port
+        # tersendiri. Bila ia memakai port sesi A, cuplikan per port sesi A ikut
+        # memuat trafik yang bukan miliknya sementara sesi B tidak, sehingga
+        # kedua sesi tidak lagi sebanding. Pada uji pertama hal ini membuat
+        # sesi A tampak menerima 33,9 MB berbanding 14,8 MB pada sesi B, padahal
+        # porsi video keduanya hampir sama.
         "bg": [sys.executable, "bg_traffic.py", "--server",
-               f"{proto}://{a.server_ip}:{port}", "--seed", str(a.seed),
+               f"{proto}://{a.server_ip}:{a.bg_port if a.title2 else port}",
+               "--seed", str(a.seed),
                "--duration", str(a.duration), "--streams", str(a.streams),
                "--max-mbps", str(a.bg_max_mbps),
                "--log", os.path.join(a.results, f"bg_s{a.seed}_{a.title}.jsonl")],
@@ -182,9 +209,33 @@ def bangun_perintah(a):
                      "--out", os.path.join(a.results, f"{rid}_client_metadata.json")]
                     + (["--quic", f"{a.server_ip}:{a.quic_port}"] if a.quic else [])
                     + (["--spki", a.spki] if a.quic and a.spki else [])),
+        # Pada rancangan banyak klien, cuplikan yang dipakai adalah berkas PER
+        # PORT, bukan agregat. Berkas agregat tetap ditarik sebagai pembanding
+        # "pandangan middlebox atas seluruh kabel".
         "tarik_smp": ["scp", "-o", "BatchMode=yes",
-                      f"{a.pi5_user}@{a.pi5_host}:{a.pi5_dir}/qos_samples.csv",
+                      f"{a.pi5_user}@{a.pi5_host}:{a.pi5_dir}/"
+                      + (f"qos_samples_{port}.csv" if a.title2 else "qos_samples.csv"),
                       os.path.join(a.results, f"{rid}_qos_samples.csv")],
+        "tarik_smp2": (["scp", "-o", "BatchMode=yes",
+                        f"{a.pi5_user}@{a.pi5_host}:{a.pi5_dir}/qos_samples_{port2}.csv",
+                        os.path.join(a.results, f"{rid2}_qos_samples.csv")]
+                       if a.title2 else None),
+        "tarik_smp_agregat": (["scp", "-o", "BatchMode=yes",
+                               f"{a.pi5_user}@{a.pi5_host}:{a.pi5_dir}/qos_samples.csv",
+                               os.path.join(a.results, f"{rid}_agregat_qos_samples.csv")]
+                              if a.title2 else None),
+        "harness2": ([["node", "harness.js", "--mpd", mpd2, "--duration",
+                       str(a.duration), "--run-id", rid2, "--abr", a.abr,
+                       "--display", a.display, "--out",
+                       os.path.join(a.results, f"{rid2}_client_metadata.json")]
+                      + (["--quic", f"{a.server_ip}:{a.quic_port}"] if a.quic else [])
+                      + (["--spki", a.spki] if a.quic and a.spki else [])][0]
+                     if a.title2 else None),
+        "label2": ([sys.executable, "label_from_metadata.py",
+                    os.path.join(a.results, f"{rid2}_client_metadata.json"),
+                    "--device", "mobile", "--window", str(a.window),
+                    "--out-prefix", os.path.join(a.results, rid2)]
+                   if a.title2 else None),
         "tarik_agenlog": ["scp", "-o", "BatchMode=yes",
                           f"{a.pi5_user}@{a.pi5_host}:{a.pi5_dir}/agen.log",
                           os.path.join(a.results, f"{rid}_agen.log")],
@@ -200,6 +251,12 @@ def bangun_perintah(a):
                   os.path.join(a.results, f"{rid}_qos_samples.csv"),
                   "--window", str(a.window),
                   "--out", os.path.join(a.results, f"{rid}_qos_aligned.csv")],
+        "align2": ([sys.executable, "align_qos.py",
+                    os.path.join(a.results, f"{rid2}_client_metadata.json"),
+                    os.path.join(a.results, f"{rid2}_qos_samples.csv"),
+                    "--window", str(a.window),
+                    "--out", os.path.join(a.results, f"{rid2}_qos_aligned.csv")]
+                   if a.title2 else None),
     }
 
 
@@ -209,6 +266,7 @@ def self_test():
         poll = 0.1; window = 10.0; streams = 1; display = "1280x720"
         bg_max_mbps = 1.5; tandai_abr = False; restart_sensor = False
         quic = False; quic_port = 8444; spki = ""
+        title2 = None; port2 = 8081; bg_port = 8082
         server_ip = "192.168.50.10"; port = 8080; https = False; https_port = 8443
         iface = "eth0"; results = "hasil_v4"
         pi5_user = "hafidz"; pi5_host = "192.168.18.234"; pi5_dir = "~/x/ebpf"
@@ -241,8 +299,10 @@ def self_test():
     print(f"  [OK] agen {c['total']}s dan tc {300+JEDA_AKHIR+TAMBAHAN}s, "
           f"keduanya melampaui pemutaran 300s + jeda akhir {JEDA_AKHIR}s")
 
-    assert "rm -f qos_samples.csv" in " ".join(c["bersih5"])
-    print("  [OK] berkas cuplikan lama dihapus (agen memakai mode append)")
+    b5 = " ".join(c["bersih5"])
+    assert "rm -f qos_samples*.csv" in b5, b5
+    print("  [OK] berkas cuplikan lama dihapus termasuk berkas PER PORT "
+          "(agen memakai mode append)")
     rs = " ".join(c["restart5"])
     assert "sudo -n" in rs and "restart qos-sensor" in rs
     print("  [OK] muat ulang sensor memakai sudo -n, gagal cepat bila kata sandi "
@@ -271,6 +331,56 @@ def self_test():
 
     assert "--abr bola" in " ".join(c["harness"])
     print("  [OK] mode ABR diteruskan ke harness")
+
+    class MC(A):
+        title2 = "Valkaama"; tandai_abr = True
+    cm = bangun_perintah(MC())
+    # tiap sesi punya run_id SENDIRI, sehingga pipeline setelahnya tidak berubah
+    assert "MC_s3_bola_RedBullPlayStreets" in " ".join(cm["harness"])
+    assert "MC_s3_bola_Valkaama" in " ".join(cm["harness2"])
+    print("  [OK] dua sesi, dua run_id berawalan MC")
+    # kedua sesi memakai PORT BERBEDA, itu dasar pemisahan oleh agen
+    assert ":8080/RedBullPlayStreets/" in cm["mpd"]
+    assert ":8081/Valkaama/" in " ".join(cm["harness2"])
+    print("  [OK] sesi kedua memakai port 8081, sesi pertama 8080")
+    # agen harus diberi kedua port
+    assert "--split-port 8080,8081" in " ".join(cm["agen"])
+    print("  [OK] agen diberi --split-port utk kedua port")
+    # cuplikan yg ditarik adalah berkas PER PORT, bukan agregat
+    assert "qos_samples_8080.csv" in " ".join(cm["tarik_smp"])
+    assert "qos_samples_8081.csv" in " ".join(cm["tarik_smp2"])
+    assert "_agregat_qos_samples.csv" in " ".join(cm["tarik_smp_agregat"])
+    print("  [OK] cuplikan per port ditarik, agregat tetap disimpan terpisah")
+    # mode sesi tunggal TIDAK boleh berubah perilakunya
+    assert cm["harness2"] is not None and c.get("harness2") is None
+    assert "qos_samples.csv" in " ".join(c["tarik_smp"])
+    assert "CONT_" in " ".join(c["harness"]) and "MC_" not in " ".join(c["harness"])
+    print("  [OK] mode sesi tunggal tidak berubah: awalan CONT, cuplikan agregat")
+    # sesi B harus punya rantai LENGKAP sendiri: label dan penyelarasan
+    for k in ("label2", "align2"):
+        assert cm[k] is not None and c.get(k) is None, k
+        assert "MC_s3_bola_Valkaama" in " ".join(cm[k])
+    print("  [OK] sesi B punya rantai label dan penyelarasan sendiri")
+    assert "--out-prefix" in cm["label2"] and "--outdir" not in cm["label2"]
+    print("  [OK] pelabelan sesi B memakai --out-prefix, argumen yg benar")
+    # trafik latar TIDAK boleh memakai port sesi mana pun
+    bgm = " ".join(cm["bg"])
+    assert ":8082" in bgm and ":8080" not in bgm and ":8081" not in bgm, bgm
+    print("  [OK] trafik latar di port 8082, terpisah dari kedua sesi")
+    # pada sesi tunggal, trafik latar tetap di port video spt sebelumnya
+    assert ":8080" in " ".join(c["bg"]), " ".join(c["bg"])
+    print("  [OK] mode sesi tunggal: trafik latar tetap di port video")
+    # judul kedua TIDAK boleh sama dgn yang pertama, kalau sama kedua sesi
+    # menghasilkan run_id identik dan berkasnya saling menimpa
+    class Sama(A):
+        title2 = "RedBullPlayStreets"; tandai_abr = True
+    cs = bangun_perintah(Sama())
+    assert cs["mpd"].split("/")[-2] == "RedBullPlayStreets"
+    rid_a = [x for x in cs["harness"] if x.startswith("MC_")][0]
+    rid_b = [x for x in cs["harness2"] if x.startswith("MC_")][0]
+    assert rid_a == rid_b, "judul sama -> run_id bertabrakan, harus ditolak"
+    print("  [OK] judul kedua yang SAMA menghasilkan run_id bertabrakan "
+          "(dijaga oleh pemeriksaan di main)")
 
     class Q(A):
         quic = True; spki = "ABC="
@@ -334,6 +444,17 @@ def main():
     ap.add_argument("--results", default="hasil_v4")
     ap.add_argument("--server-ip", default="192.168.50.10")
     ap.add_argument("--port", type=int, default=8080)
+    ap.add_argument("--title2", default=None, choices=sorted(MPD),
+                    help="judul sesi KEDUA. Bila diberikan, dua klien berjalan "
+                         "bersamaan dan agen memisahkan cuplikannya per port "
+                         "server. Tiap sesi menjadi run_id tersendiri berawalan MC")
+    ap.add_argument("--bg-port", type=int, default=8082,
+                    help="port trafik latar pada rancangan banyak klien; harus "
+                         "BERBEDA dari kedua port sesi agar tidak mencemari "
+                         "cuplikan salah satunya")
+    ap.add_argument("--port2", type=int, default=8081,
+                    help="port server untuk sesi kedua; konten yang sama harus "
+                         "disajikan di port ini")
     ap.add_argument("--quic", action="store_true",
                     help="sajikan lewat HTTP/3 di atas QUIC. Menuntut server "
                          "Caddy dari setup_quic.py dan sensor versi QUIC, karena "
@@ -361,6 +482,12 @@ def main():
 
     if a.self_test:
         sys.exit(0 if self_test() else 1)
+    # Judul kedua yang sama dgn yang pertama menghasilkan run_id identik,
+    # sehingga metadata, cuplikan, label, dan berkas selaras SALING MENIMPA
+    # tanpa satu pun pesan kesalahan.
+    if a.title2 and a.title2 == a.title:
+        sys.exit("--title2 tidak boleh sama dengan --title: keduanya akan "
+                 "menghasilkan run_id identik dan berkasnya saling menimpa")
     if a.seed is None or a.title is None:
         ap.error("--seed dan --title wajib diberikan (kecuali dengan --self-test)")
 
@@ -432,14 +559,36 @@ def main():
                               stderr=subprocess.DEVNULL)
         print(" jalan")
 
+        # Pada rancangan banyak klien, sesi KEDUA diluncurkan lebih dulu sebagai
+        # proses latar, lalu sesi pertama dijalankan menunggu. Keduanya harus
+        # BERSAMAAN, karena kontensi yang diukur justru saat keduanya bersaing.
+        h2 = None
+        if c.get("harness2"):
+            print(f"   harness sesi B ...", end="", flush=True)
+            h2 = subprocess.Popen(c["harness2"], stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE, text=True)
+            print(" jalan")
+
         print(f"   harness {a.duration:.0f}s ...", flush=True)
         r = subprocess.run(c["harness"], capture_output=True, text=True,
                            timeout=a.duration + 240)
         for ln in (r.stdout or "").strip().split("\n")[-3:]:
             if ln.strip():
-                print(f"     {ln.strip()}")
+                print(f"     A: {ln.strip()}")
         if r.returncode != 0:
-            print(f"     harness GAGAL: {(r.stderr or '')[:200]}")
+            print(f"     harness A GAGAL: {(r.stderr or '')[:200]}")
+
+        if h2 is not None:
+            try:
+                o2, e2 = h2.communicate(timeout=240)
+            except Exception:
+                h2.kill()
+                o2, e2 = "", "timeout"
+            for ln in (o2 or "").strip().split("\n")[-3:]:
+                if ln.strip():
+                    print(f"     B: {ln.strip()}")
+            if h2.returncode != 0:
+                print(f"     harness B GAGAL: {(e2 or '')[:200]}")
     finally:
         # Beri waktu agen menutupi ekor window yang tergeser oleh stalling.
         print(f"   jeda akhir {JEDA_AKHIR}s (menutupi ekor akibat stall) ...",
@@ -460,13 +609,19 @@ def main():
 
     time.sleep(2)                       # beri waktu agen menutup berkas
     print("   tarik berkas ...", end="", flush=True)
-    for k in ("tarik_smp", "tarik_agenlog", "tarik_tclog"):
+    for k in ("tarik_smp", "tarik_smp2", "tarik_smp_agregat",
+              "tarik_agenlog", "tarik_tclog"):
+        if not c.get(k):
+            continue
         rr = sh(c[k], cek=False)
         if rr.returncode != 0:
             print(f"\n     PERINGATAN {k}: {rr.stderr.strip()[:120]}")
     print(" selesai")
 
-    for k, nama in (("label", "label"), ("align", "selaras")):
+    for k, nama in (("label", "label A"), ("label2", "label B"),
+                    ("align", "selaras A"), ("align2", "selaras B")):
+        if not c.get(k):
+            continue
         rr = sh(c[k], cek=False)
         tag = "OK" if rr.returncode == 0 else "GAGAL"
         ekor = (rr.stdout or rr.stderr or "").strip().split("\n")

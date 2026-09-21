@@ -1,0 +1,197 @@
+{
+  "run_id": "MC_s14_bola_Valkaama",
+  "mpd": "http://192.168.50.10:8081/Valkaama/Valkaama_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-21T08:03:53.360Z",
+  "media_duration": 281.529,
+  "playback_start_epoch": 1789977538.768,
+  "fps_assumed": 29.97002997002997,
+  "quic_forced": null,
+  "spki_pinned": false,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 46,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 229.393,
+      "bitrate_kbps": 86,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 232.308,
+      "bitrate_kbps": 46,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 234.7,
+      "bitrate_kbps": 86,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 236.491,
+      "bitrate_kbps": 46,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 268.361,
+      "bitrate_kbps": 86,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 272.34,
+      "bitrate_kbps": 119,
+      "width": 320,
+      "height": 240
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 6.551,
+      "t_epoch": 1789977532.217
+    },
+    {
+      "position": 88.038,
+      "duration": 1.055,
+      "t_epoch": 1789977626.807
+    },
+    {
+      "position": 96.023,
+      "duration": 3.885,
+      "t_epoch": 1789977635.847
+    },
+    {
+      "position": 168.087,
+      "duration": 1.23,
+      "t_epoch": 1789977711.811
+    },
+    {
+      "position": 172.123,
+      "duration": 1.947,
+      "t_epoch": 1789977717.078
+    },
+    {
+      "position": 176.125,
+      "duration": 1.36,
+      "t_epoch": 1789977723.027
+    },
+    {
+      "position": 208.131,
+      "duration": 1.179,
+      "t_epoch": 1789977756.393
+    },
+    {
+      "position": 216.16,
+      "duration": 1.637,
+      "t_epoch": 1789977765.601
+    },
+    {
+      "position": 236.171,
+      "duration": 0.753,
+      "t_epoch": 1789977787.25
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      88.038
+    ],
+    [
+      "playing",
+      88.038
+    ],
+    [
+      "waiting",
+      96.023
+    ],
+    [
+      "playing",
+      96.023
+    ],
+    [
+      "waiting",
+      109.479
+    ],
+    [
+      "playing",
+      109.479
+    ],
+    [
+      "waiting",
+      168.087
+    ],
+    [
+      "playing",
+      168.087
+    ],
+    [
+      "waiting",
+      172.123
+    ],
+    [
+      "playing",
+      172.123
+    ],
+    [
+      "waiting",
+      176.125
+    ],
+    [
+      "playing",
+      176.126
+    ],
+    [
+      "waiting",
+      208.131
+    ],
+    [
+      "playing",
+      208.131
+    ],
+    [
+      "waiting",
+      216.16
+    ],
+    [
+      "playing",
+      216.16
+    ],
+    [
+      "waiting",
+      236.171
+    ],
+    [
+      "playing",
+      236.172
+    ]
+  ]
+}

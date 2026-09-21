@@ -41,6 +41,18 @@ const CODEC = arg("codec", "h264");
 const DISPLAY = arg("display", "1920x1080");
 // dash.js DIPIN ke v4: v5 mengganti getBitrateInfoListFor -> getRepresentationsByType.
 const DASHJS = arg("dashjs", "https://cdn.dashjs.org/v4.7.4/dash.all.min.js");
+// Mode hls.js untuk lengan leave-one-player-out. Segmen fMP4 yang dipakai
+// playlist HLS SAMA PERSIS dgn yang dipakai DASH, sehingga byte di kabel
+// praktis identik; yang berubah hanya format manifest dan pemutarnya.
+//
+// Konsekuensi yang harus dinyatakan: hls.js memakai algoritma ABR-nya SENDIRI.
+// Opsi --abr tidak berlaku di sini, dan itulah variabel yang sebenarnya diuji.
+const PLAYER = String(arg("player", "dash")).toLowerCase();
+if (!["dash", "hls"].includes(PLAYER)) {
+  console.error("--player harus dash atau hls");
+  process.exit(2);
+}
+const HLSJS = arg("hlsjs", "https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js");
 
 // Pemilih ABR. Ini menjawab kritik bahwa label nyaris merupakan fungsi
 // deterministik dari throughput: aturan berbasis throughput memilih representasi
@@ -107,13 +119,97 @@ const [dispW, dispH] = DISPLAY.split("x").map(Number);
 
 // ---------------- halaman player (disajikan via server lokal) ----------------
 const PAGE_HTML = `<!doctype html><html><head><meta charset="utf-8">
-<script src="${DASHJS}"></script></head>
+<script src="${PLAYER === "hls" ? HLSJS : DASHJS}"></script></head>
 <body style="margin:0;background:#000">
 <video id="v" muted playsinline style="width:${dispW}px;height:${dispH}px"></video>
 <script>
 window.__t = { quality_timeline: [], stalls: [], events: [], playback_start_epoch: null };
 (function () {
   var v = document.getElementById('v');
+  var MODE_HLS = ${JSON.stringify(PLAYER === "hls")};
+
+  // Deteksi stall memakai event native <video>, sehingga sama persis pada kedua
+  // pemutar. Yang berbeda hanya cara membaca representasi yang sedang diputar.
+  var started = false, stallStartWall = null, stallPos = null, stallEpoch = null;
+
+  function pasangStall() {
+    v.addEventListener('waiting', function () {
+      stallStartWall = performance.now();
+      stallEpoch = Date.now() / 1000;
+      stallPos = v.currentTime || 0;
+      window.__t.events.push(['waiting', +(+stallPos).toFixed(3)]);
+    });
+    v.addEventListener('playing', function () {
+      window.__t.events.push(['playing', +(+(v.currentTime || 0)).toFixed(3)]);
+      if (!started) {
+        started = true;
+        window.__t.playback_start_epoch = Date.now() / 1000;
+        if (window.__t.quality_timeline.length === 0) seedKualitas();
+      }
+      if (stallStartWall !== null) {
+        var dur = (performance.now() - stallStartWall) / 1000;
+        if (dur > 0.05) window.__t.stalls.push({ position: +(+stallPos).toFixed(3),
+                                                duration: +dur.toFixed(3),
+                                                t_epoch: stallEpoch });
+        stallStartWall = null; stallPos = null; stallEpoch = null;
+      }
+    });
+  }
+
+  function catatKualitas(bitrate_bps, w, h, tMedia) {
+    if (!bitrate_bps) return;
+    var last = window.__t.quality_timeline[window.__t.quality_timeline.length - 1];
+    var kbps = Math.round(bitrate_bps / 1000);
+    if (last && last.bitrate_kbps === kbps && last.width === w &&
+        last.height === h) return;
+    window.__t.quality_timeline.push({
+      t_media: +(+tMedia).toFixed(3), bitrate_kbps: kbps, width: w, height: h
+    });
+  }
+
+  var seedKualitas = function () {};
+
+  if (MODE_HLS) {
+    if (!window.Hls || !Hls.isSupported()) {
+      window.__t.fatal = 'hls.js tidak didukung di peramban ini';
+      return;
+    }
+    var hls = new Hls({ enableWorker: true });
+    window.__player = hls;
+    window.__t.abr_mode = 'hlsjs-default';
+    // hls.js tidak menyediakan pilihan strategi ABR seperti dash.js. Nilai ini
+    // direkam apa adanya supaya analisis tidak salah mengira mode ABR yang
+    // diminta benar-benar diterapkan.
+    window.__t.abr_effective = 'hlsjs-internal';
+
+    function levelSaatIni() {
+      try {
+        var i = hls.currentLevel >= 0 ? hls.currentLevel : hls.loadLevel;
+        return (hls.levels && hls.levels[i]) || null;
+      } catch (e) { return null; }
+    }
+    seedKualitas = function () {
+      var L = levelSaatIni();
+      if (L) catatKualitas(L.bitrate, L.width, L.height, 0);
+    };
+    hls.on(Hls.Events.LEVEL_SWITCHED, function (ev, data) {
+      var L = (hls.levels && hls.levels[data.level]) || null;
+      if (L) catatKualitas(L.bitrate, L.width, L.height, v.currentTime || 0);
+    });
+    hls.on(Hls.Events.ERROR, function (ev, data) {
+      if (data && data.fatal) window.__t.fatal = String(data.type) + '/' +
+                                                 String(data.details);
+    });
+    pasangStall();
+    hls.loadSource(${JSON.stringify(MPD)});
+    hls.attachMedia(v);
+    hls.on(Hls.Events.MANIFEST_PARSED, function () {
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {});
+    });
+    return;
+  }
+
   var player = dashjs.MediaPlayer().create();
   // ABR digerakkan bandwidth, bukan ukuran viewport.
   // ABR_MODE menentukan aturan pemilihan representasi; lihat catatan di CLI.
@@ -139,51 +235,21 @@ window.__t = { quality_timeline: [], stalls: [], events: [], playback_start_epoc
   function recordQuality(qi, tMedia) {
     var info = bitrateList().find(function (b) { return b.qualityIndex === qi; });
     if (!info) return;
-    var last = window.__t.quality_timeline[window.__t.quality_timeline.length - 1];
-    if (last && last.bitrate_kbps === Math.round(info.bitrate / 1000) &&
-        last.width === info.width && last.height === info.height) return; // dedupe kualitas sama
-    window.__t.quality_timeline.push({
-      t_media: +(+tMedia).toFixed(3),
-      bitrate_kbps: Math.round(info.bitrate / 1000),   // bitrate dash.js dalam bit/s -> kbps
-      width: info.width, height: info.height
-    });
+    catatKualitas(info.bitrate, info.width, info.height, tMedia);
   }
-
-  var started = false, stallStartWall = null, stallPos = null, stallEpoch = null;
+  seedKualitas = function () { recordQuality(player.getQualityFor('video'), 0); };
 
   player.on(dashjs.MediaPlayer.events.QUALITY_CHANGE_RENDERED, function (e) {
     if (e && e.mediaType === 'video') recordQuality(e.newQuality, v.currentTime || 0);
   });
 
-  // Stalling via event native <video> (stabil lintas-versi dash.js).
-  v.addEventListener('waiting', function () {
-    stallStartWall = performance.now();
-    stallEpoch = Date.now() / 1000;          // epoch: untuk penyelarasan dgn agen QoS
-    stallPos = v.currentTime || 0;
-    window.__t.events.push(['waiting', +(+stallPos).toFixed(3)]);
-  });
-  v.addEventListener('playing', function () {
-    window.__t.events.push(['playing', +(+(v.currentTime || 0)).toFixed(3)]);
-    if (!started) {
-      started = true;
-      window.__t.playback_start_epoch = Date.now() / 1000;   // media t=0 terjadi di sini
-      // Seed kualitas awal HANYA bila belum ada entri. Event 'playing' dan
-      // QUALITY_CHANGE_RENDERED saling berlomba; bila seed (yang memaksa
-      // t_media=0) menyala setelah event kualitas pertama, timeline jadi tidak
-      // urut dan setelah diurutkan kualitas awal yang rendah akan terentang
-      // ke seluruh sesi -> label sistematis terlalu rendah.
-      if (window.__t.quality_timeline.length === 0) {
-        recordQuality(player.getQualityFor('video'), 0);
-      }
-    }
-    if (stallStartWall !== null) {                    // tutup satu event stall
-      var dur = (performance.now() - stallStartWall) / 1000;
-      if (dur > 0.05) window.__t.stalls.push({ position: +(+stallPos).toFixed(3),
-                                              duration: +dur.toFixed(3),
-                                              t_epoch: stallEpoch });
-      stallStartWall = null; stallPos = null; stallEpoch = null;
-    }
-  });
+  // Stalling dipasang lewat pasangStall(), yang dipakai KEDUA pemutar, sehingga
+  // definisi stall identik pada lengan DASH maupun HLS. Seed kualitas awal hanya
+  // berjalan bila timeline masih kosong: event 'playing' dan event perpindahan
+  // kualitas saling berlomba, dan bila seed yang memaksa t_media=0 menyala
+  // belakangan, timeline jadi tidak urut sehingga setelah diurutkan kualitas
+  // awal yang rendah terentang ke seluruh sesi.
+  pasangStall();
 
   player.initialize(v, ${JSON.stringify(MPD)}, true);   // autoplay = true
 })();
@@ -226,9 +292,15 @@ function ambilTeks(url) {
 }
 
 async function detectFps(mpdUrl) {
-  const xml = await ambilTeks(mpdUrl);
-  const m = xml.match(/frameRate="([^"]+)"/);
-  return m ? parseFrameRate(m[1]) : null;
+  const teks = await ambilTeks(mpdUrl);
+  // MPD memakai atribut frameRate pada Representation. Master playlist HLS
+  // memakai FRAME-RATE di dalam EXT-X-STREAM-INF, dan nilainya sudah desimal.
+  // Tanpa cabang kedua ini, mode hls selalu gagal mendeteksi fps lalu berhenti.
+  const mDash = teks.match(/frameRate="([^"]+)"/);
+  if (mDash) return parseFrameRate(mDash[1]);
+  const mHls = teks.match(/FRAME-RATE=([\d.]+)/);
+  if (mHls) return parseFrameRate(mHls[1]);
+  return null;
 }
 
 // ---------------- driver ----------------
@@ -341,6 +413,7 @@ async function detectFps(mpdUrl) {
       media_duration: +tel.mediaDuration.toFixed(3),
       playback_start_epoch: tel.data.playback_start_epoch,   // untuk penyelarasan X<->y
       fps_assumed: FPS,
+      player: PLAYER,
       quic_forced: QUIC || null,
       spki_pinned: SPKI ? true : false,
       codec: CODEC,

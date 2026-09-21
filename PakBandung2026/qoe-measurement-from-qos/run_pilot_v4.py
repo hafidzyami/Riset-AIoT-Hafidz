@@ -92,15 +92,36 @@ def rencana_bersilang(seeds, judul, modes):
     return [(s, t, m) for t in judul for s in seeds for m in modes]
 
 
-def nama_run(seed, judul, abr, bersilang):
-    return f"CONT_s{seed}_{abr}_{judul}" if bersilang else f"CONT_s{seed}_{judul}"
+def rencana_banyak_klien(seeds, pasangan, modes):
+    """[(seed, judulA, judulB, abr)] untuk rancangan dua klien bersamaan.
+
+    Tiap pasangan judul dijalankan dgn setiap mode ABR pada setiap seed, sehingga
+    lintasan bandwidth tetap menjadi variabel terkendali seperti pada rancangan
+    bersilang. Satu run menghasilkan DUA sesi, masing-masing dgn run_id sendiri.
+    """
+    return [(s, a, b, m) for (a, b) in pasangan for s in seeds for m in modes]
 
 
-def sudah_ada(results, seed, judul, abr=None, bersilang=False):
-    """True bila run ini sudah menghasilkan berkas fitur selaras."""
-    rid = nama_run(seed, judul, abr, bersilang)
-    return (os.path.exists(os.path.join(results, f"{rid}_qos_aligned.csv"))
-            and os.path.getsize(os.path.join(results, f"{rid}_qos_aligned.csv")) > 200)
+def nama_run(seed, judul, abr, bersilang, banyak_klien=False):
+    awal = "MC" if banyak_klien else "CONT"
+    return (f"{awal}_s{seed}_{abr}_{judul}" if bersilang or banyak_klien
+            else f"{awal}_s{seed}_{judul}")
+
+
+def sudah_ada(results, seed, judul, abr=None, bersilang=False,
+              banyak_klien=False, judul2=None):
+    """True bila run ini sudah menghasilkan berkas fitur selaras.
+
+    Pada rancangan banyak klien, KEDUA sesi harus sudah ada. Memeriksa satu saja
+    membuat run yang separuh gagal dianggap selesai, dan sesi yang hilang tidak
+    pernah diulang.
+    """
+    def utuh(j):
+        p = os.path.join(results,
+                         f"{nama_run(seed, j, abr, bersilang, banyak_klien)}"
+                         f"_qos_aligned.csv")
+        return os.path.exists(p) and os.path.getsize(p) > 200
+    return utuh(judul) and (utuh(judul2) if judul2 else True)
 
 
 def ringkas(results):
@@ -168,6 +189,45 @@ def self_test():
     _r.Random(7).shuffle(a2)
     assert a1 == a2 and sorted(a1) == sorted(asli) and a1 != asli
     print(f"  [OK] pengacakan reprodusibel per seed, {len(a1)} run utuh tanpa hilang")
+
+    # rancangan dua klien
+    pas = [("BigBuckBunny", "Valkaama"), ("TearsOfSteel", "RedBullPlayStreets")]
+    mk = rencana_banyak_klien([1, 2, 3], pas, ["bola", "dynamic"])
+    assert len(mk) == 3 * 2 * 2 == 12, len(mk)
+    assert all(x[1] != x[2] for x in mk), "kedua judul dalam satu run harus beda"
+    print(f"  [OK] rancangan dua klien: {len(mk)} run, tiap run dua judul berbeda")
+
+    # tiap sesi mendapat run_id sendiri berawalan MC
+    ra = nama_run(3, "BigBuckBunny", "bola", True, True)
+    rb = nama_run(3, "Valkaama", "bola", True, True)
+    assert ra == "MC_s3_bola_BigBuckBunny" and rb == "MC_s3_bola_Valkaama"
+    assert ra != rb
+    print("  [OK] dua run_id berawalan MC, tidak tertukar dgn koleksi CONT")
+
+    # pemeriksaan "sudah ada" harus menuntut KEDUA sesi utuh
+    import tempfile as _t
+    d = _t.mkdtemp()
+    for rid in (ra,):
+        with open(os.path.join(d, f"{rid}_qos_aligned.csv"), "w") as f:
+            f.write("x" * 500)
+    assert not sudah_ada(d, 3, "BigBuckBunny", "bola", True, True, "Valkaama")
+    with open(os.path.join(d, f"{rb}_qos_aligned.csv"), "w") as f:
+        f.write("x" * 500)
+    assert sudah_ada(d, 3, "BigBuckBunny", "bola", True, True, "Valkaama")
+    print("  [OK] run dianggap selesai HANYA bila kedua sesi utuh")
+
+    # Pemeriksaan pasca-run harus memakai awalan yang SAMA dgn yang dihasilkan.
+    # Bug ini pernah membuat seluruh 56 run dianggap gagal meski berhasil.
+    assert not sudah_ada(d, 3, "BigBuckBunny", "bola", True, False)
+    assert sudah_ada(d, 3, "BigBuckBunny", "bola", True, True, "Valkaama")
+    print("  [OK] pemeriksaan pasca-run membedakan awalan CONT dan MC")
+
+    # baris label dan selaras sesi A maupun B harus lolos penyaring keluaran
+    pola = ("verifikasi", "label", "selaras", "OK:", "PERINGATAN", "harness GAGAL")
+    for ln in ("   label A: OK", "   label B: OK", "   selaras A: OK",
+               "   selaras B: OK"):
+        assert any(k in ln for k in pola), ln
+    print("  [OK] keluaran label dan selaras kedua sesi ikut ditampilkan")
     # tanpa pengacakan, judul mengelompok di awal; dgn pengacakan, menyebar
     posisi_awal = [i for i, (_, t, _) in enumerate(asli) if t == "BigBuckBunny"]
     posisi_acak = [i for i, (_, t, _) in enumerate(a1) if t == "BigBuckBunny"]
@@ -194,6 +254,11 @@ def main():
                     help="dipisah koma, atau 'semua'")
     ap.add_argument("--bola-seeds", default="3,4",
                     help="rancangan LAMA: seed yang memakai BOLA, sisanya dynamic")
+    ap.add_argument("--pasangan", default=None,
+                    help="rancangan DUA KLIEN bersamaan. Daftar pasangan judul "
+                         "dipisah koma, tiap pasangan dipisah titik dua, mis. "
+                         "BigBuckBunny:Valkaama,TearsOfSteel:RedBullPlayStreets. "
+                         "Satu run menghasilkan dua sesi ber-run_id sendiri")
     ap.add_argument("--abr-modes", default=None,
                     help="rancangan BERSILANG: daftar mode ABR dipisah koma, mis. "
                          "throughput,dynamic,bola. Tiap seed dijalankan dengan "
@@ -257,6 +322,28 @@ def main():
         daftar = rencana(seeds, judul, bola)
         bersilang = False
         modes = sorted({m for _, _, m in daftar})
+    # Rancangan dua klien menggantikan daftar judul dgn daftar PASANGAN judul.
+    # Tiap entri menghasilkan dua sesi ber-run_id sendiri, sehingga seluruh
+    # pipeline setelah agen bekerja tanpa perubahan.
+    banyak = bool(a.pasangan)
+    pasangan = []
+    if banyak:
+        for blok in a.pasangan.split(","):
+            bagian = [x.strip() for x in blok.split(":") if x.strip()]
+            if len(bagian) != 2:
+                ap.error(f"pasangan harus berbentuk JudulA:JudulB, dapat: {blok!r}")
+            if bagian[0] == bagian[1]:
+                ap.error(f"pasangan {blok!r}: kedua judul sama akan menghasilkan "
+                         f"run_id identik dan berkasnya saling menimpa")
+            for j in bagian:
+                if j not in JUDUL_SEMUA:
+                    ap.error(f"judul tidak dikenal: {j}")
+            pasangan.append(tuple(bagian))
+        if not a.abr_modes:
+            ap.error("--pasangan menuntut --abr-modes")
+        daftar = rencana_banyak_klien(seeds, pasangan, modes)
+        bersilang = True
+
     ekstra = a.extra.split() if a.extra.strip() else []
 
     if a.fresh and os.path.isdir(a.results) and not a.dry_run:
@@ -292,11 +379,25 @@ def main():
             sys.exit(1)
         print()
 
-    lewati = [x for x in daftar if sudah_ada(a.results, x[0], x[1], x[2], bersilang)]
+    if banyak:
+        lewati = [x for x in daftar
+                  if sudah_ada(a.results, x[0], x[1], x[3], True, True, x[2])]
+    else:
+        lewati = [x for x in daftar
+                  if sudah_ada(a.results, x[0], x[1], x[2], bersilang)]
     kerja = [x for x in daftar if x not in lewati]
     # satu run kira-kira durasi pemutaran + jeda muka + jeda akhir + overhead
     per_run = a.duration + 75
-    if bersilang:
+    if banyak:
+        print(f">> RANCANGAN DUA KLIEN: {len(pasangan)} pasangan x {len(seeds)} "
+              f"seed x {len(modes)} mode = {len(daftar)} run")
+        print(f"   pasangan  : "
+              + "; ".join(f"{x}+{y}" for x, y in pasangan))
+        print(f"   mode ABR  : {', '.join(modes)}")
+        print("   tiap run menghasilkan DUA sesi ber-run_id sendiri berawalan MC")
+        print("   trafik latar berjalan di port terpisah agar tidak mencemari")
+        print("   cuplikan salah satu sesi")
+    elif bersilang:
         print(f">> RANCANGAN BERSILANG: {len(judul)} judul x {len(seeds)} seed x "
               f"{len(modes)} mode = {len(daftar)} run")
         print(f"   mode ABR  : {', '.join(modes)}")
@@ -322,20 +423,33 @@ def main():
     print()
 
     if a.dry_run:
-        for i, (s, t, m) in enumerate(daftar, 1):
-            tag = "LEWATI" if (s, t, m) in lewati else "jalan "
-            print(f"  [{i:>3}/{len(daftar)}] {tag}  {nama_run(s, t, m, bersilang)}")
+        for i, x in enumerate(daftar, 1):
+            tag = "LEWATI" if x in lewati else "jalan "
+            if banyak:
+                s, t, t2, m = x
+                print(f"  [{i:>3}/{len(daftar)}] {tag}  "
+                      f"{nama_run(s, t, m, True, True)} + {t2}")
+            else:
+                s, t, m = x
+                print(f"  [{i:>3}/{len(daftar)}] {tag}  "
+                      f"{nama_run(s, t, m, bersilang)}")
         return
 
     t0 = time.time()
     ok = gagal = 0
-    for i, (s, t, m) in enumerate(kerja, 1):
+    for i, x in enumerate(kerja, 1):
+        if banyak:
+            s, t, t2, m = x
+        else:
+            (s, t, m), t2 = x, None
         sisa = (len(kerja) - i + 1) * per_run
-        print(f"[{i}/{len(kerja)}] {nama_run(s, t, m, bersilang)}   "
-              f"(perkiraan sisa {sisa/3600:.1f} jam)")
+        print(f"[{i}/{len(kerja)}] {nama_run(s, t, m, bersilang, banyak)}"
+              + (f" + {t2}" if t2 else "")
+              + f"   (perkiraan sisa {sisa/3600:.1f} jam)")
         cmd = ([sys.executable, "run_one_v4.py", "--seed", str(s), "--title", t,
                 "--abr", m, "--duration", str(a.duration),
                 "--results", a.results]
+               + (["--title2", t2] if t2 else [])
                + (["--tandai-abr"] if bersilang else [])
                + (["--restart-sensor"] if a.restart_sensor else [])
                + (["--https", "--https-port", str(a.https_port)]
@@ -351,10 +465,17 @@ def main():
             r = subprocess.run(cmd, capture_output=True, text=True,
                                timeout=a.duration + 600)
             for ln in (r.stdout or "").strip().split("\n"):
-                if any(k in ln for k in ("verifikasi", "label:", "selaras:",
+                # Pola harus mencakup "label A:" dan "selaras B:" pd rancangan
+                # dua klien, bukan hanya "label:" dan "selaras:".
+                if any(k in ln for k in ("verifikasi", "label", "selaras",
                                          "OK:", "PERINGATAN", "harness GAGAL")):
                     print(f"    {ln.strip()}")
-            if r.returncode == 0 and sudah_ada(a.results, s, t, m, bersilang):
+            # Argumen banyak_klien dan judul2 WAJIB diteruskan. Tanpa itu,
+            # pemeriksaan mencari berkas berawalan CONT sementara rancangan dua
+            # klien menghasilkan MC, sehingga SETIAP run dianggap gagal meski
+            # pemutarannya berhasil, diulang sekali, lalu dilewati.
+            if r.returncode == 0 and sudah_ada(a.results, s, t, m, bersilang,
+                                               banyak, t2):
                 berhasil = True
                 break
             pesan = (r.stderr or "").strip().split("\n")

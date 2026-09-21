@@ -109,8 +109,16 @@ def bangun_perintah(a):
     # Rancangan lama (satu mode per seed) tetap memakai format tanpa penanda.
     rid = (f"CONT_s{a.seed}_{a.title}" if not a.tandai_abr
            else f"CONT_s{a.seed}_{a.abr}_{a.title}")
-    proto = "https" if a.https else "http"
-    port = a.https_port if a.https else a.port
+    # QUIC juga memakai skema https; yang membedakan hanya port dan bendera
+    # pemaksaan di sisi Chromium. Tanpa pemaksaan, Chromium menunggu header
+    # Alt-Svc lewat TCP lebih dulu sehingga sebagian trafik awal tetap TCP dan
+    # perbandingan protokol menjadi tercampur.
+    if a.quic:
+        proto, port = "https", a.quic_port
+    elif a.https:
+        proto, port = "https", a.https_port
+    else:
+        proto, port = "http", a.port
     mpd = f"{proto}://{a.server_ip}:{port}/{a.title}/{MPD[a.title]}"
 
     # -n melepas stdin dari kanal SSH; tanpa ini sesi menggantung meski
@@ -169,9 +177,11 @@ def bangun_perintah(a):
                "--duration", str(a.duration), "--streams", str(a.streams),
                "--max-mbps", str(a.bg_max_mbps),
                "--log", os.path.join(a.results, f"bg_s{a.seed}_{a.title}.jsonl")],
-        "harness": ["node", "harness.js", "--mpd", mpd, "--duration", str(a.duration),
-                    "--run-id", rid, "--abr", a.abr, "--display", a.display,
-                    "--out", os.path.join(a.results, f"{rid}_client_metadata.json")],
+        "harness": (["node", "harness.js", "--mpd", mpd, "--duration", str(a.duration),
+                     "--run-id", rid, "--abr", a.abr, "--display", a.display,
+                     "--out", os.path.join(a.results, f"{rid}_client_metadata.json")]
+                    + (["--quic", f"{a.server_ip}:{a.quic_port}"] if a.quic else [])
+                    + (["--spki", a.spki] if a.quic and a.spki else [])),
         "tarik_smp": ["scp", "-o", "BatchMode=yes",
                       f"{a.pi5_user}@{a.pi5_host}:{a.pi5_dir}/qos_samples.csv",
                       os.path.join(a.results, f"{rid}_qos_samples.csv")],
@@ -198,6 +208,7 @@ def self_test():
         seed = 3; title = "RedBullPlayStreets"; abr = "bola"; duration = 300
         poll = 0.1; window = 10.0; streams = 1; display = "1280x720"
         bg_max_mbps = 1.5; tandai_abr = False; restart_sensor = False
+        quic = False; quic_port = 8444; spki = ""
         server_ip = "192.168.50.10"; port = 8080; https = False; https_port = 8443
         iface = "eth0"; results = "hasil_v4"
         pi5_user = "hafidz"; pi5_host = "192.168.18.234"; pi5_dir = "~/x/ebpf"
@@ -261,6 +272,22 @@ def self_test():
     assert "--abr bola" in " ".join(c["harness"])
     print("  [OK] mode ABR diteruskan ke harness")
 
+    class Q(A):
+        quic = True; spki = "ABC="
+    cq = bangun_perintah(Q())
+    assert cq["mpd"].startswith("https://") and ":8444/" in cq["mpd"], cq["mpd"]
+    hq = " ".join(cq["harness"])
+    assert "--quic 192.168.50.10:8444" in hq and "--spki ABC=" in hq
+    # trafik latar HARUS mengikuti port yang sama, kalau tidak kabel berisi
+    # campuran QUIC dan TCP dan perbandingan protokol tidak lagi sah
+    assert ":8444" in " ".join(cq["bg"]), " ".join(cq["bg"])
+    print("  [OK] mode QUIC: MPD, harness, dan trafik latar memakai port 8444")
+
+    class QT(A):
+        quic = True; https = True
+    assert ":8444/" in bangun_perintah(QT())["mpd"]
+    print("  [OK] --quic mengalahkan --https bila keduanya diberikan")
+
     A.https = True
     c2 = bangun_perintah(A())
     assert c2["mpd"].startswith("https://") and ":8443/" in c2["mpd"], c2["mpd"]
@@ -307,6 +334,14 @@ def main():
     ap.add_argument("--results", default="hasil_v4")
     ap.add_argument("--server-ip", default="192.168.50.10")
     ap.add_argument("--port", type=int, default=8080)
+    ap.add_argument("--quic", action="store_true",
+                    help="sajikan lewat HTTP/3 di atas QUIC. Menuntut server "
+                         "Caddy dari setup_quic.py dan sensor versi QUIC, karena "
+                         "reorder dan RTT tidak tersedia di atas UDP")
+    ap.add_argument("--quic-port", type=int, default=8444)
+    ap.add_argument("--spki", default="",
+                    help="sidik jari SPKI sertifikat; diperlukan karena verifikasi "
+                         "sertifikat pada jalur QUIC lebih ketat")
     ap.add_argument("--https", action="store_true",
                     help="sajikan lewat TLS. Server uji memakai sertifikat "
                          "self-signed, sehingga harness dijalankan dgn "

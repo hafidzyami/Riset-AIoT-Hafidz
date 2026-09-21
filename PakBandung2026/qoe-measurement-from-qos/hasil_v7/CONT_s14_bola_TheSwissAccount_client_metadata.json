@@ -1,0 +1,254 @@
+{
+  "run_id": "CONT_s14_bola_TheSwissAccount",
+  "mpd": "https://192.168.50.10:8444/TheSwissAccount/TheSwissAccount_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-20T04:33:11.942Z",
+  "media_duration": 266.33,
+  "playback_start_epoch": 1789878495.358,
+  "fps_assumed": 29.97002997002997,
+  "quic_forced": "192.168.50.10:8444",
+  "spki_pinned": true,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 0.106,
+      "bitrate_kbps": 930,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.092,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 32.534,
+      "bitrate_kbps": 128,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 36.254,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 37.047,
+      "bitrate_kbps": 128,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 40.27,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 120.193,
+      "bitrate_kbps": 128,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 128.161,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 261.612,
+      "bitrate_kbps": 128,
+      "width": 320,
+      "height": 240
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 4.396,
+      "t_epoch": 1789878490.962
+    },
+    {
+      "position": 39.963,
+      "duration": 0.226,
+      "t_epoch": 1789878535.32
+    },
+    {
+      "position": 84.026,
+      "duration": 0.477,
+      "t_epoch": 1789878579.609
+    },
+    {
+      "position": 88.04,
+      "duration": 3.036,
+      "t_epoch": 1789878584.101
+    },
+    {
+      "position": 92.045,
+      "duration": 1.643,
+      "t_epoch": 1789878591.142
+    },
+    {
+      "position": 156.096,
+      "duration": 12.554,
+      "t_epoch": 1789878656.848
+    },
+    {
+      "position": 160.108,
+      "duration": 3.446,
+      "t_epoch": 1789878673.414
+    },
+    {
+      "position": 164.096,
+      "duration": 0.342,
+      "t_epoch": 1789878680.847
+    },
+    {
+      "position": 180.12,
+      "duration": 3.126,
+      "t_epoch": 1789878697.214
+    },
+    {
+      "position": 184.135,
+      "duration": 2.906,
+      "t_epoch": 1789878704.355
+    },
+    {
+      "position": 188.121,
+      "duration": 1.076,
+      "t_epoch": 1789878711.246
+    },
+    {
+      "position": 236.176,
+      "duration": 1.409,
+      "t_epoch": 1789878760.378
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      39.963
+    ],
+    [
+      "playing",
+      39.963
+    ],
+    [
+      "waiting",
+      84.026
+    ],
+    [
+      "playing",
+      84.026
+    ],
+    [
+      "waiting",
+      88.04
+    ],
+    [
+      "playing",
+      88.04
+    ],
+    [
+      "waiting",
+      92.045
+    ],
+    [
+      "playing",
+      92.046
+    ],
+    [
+      "waiting",
+      111.15
+    ],
+    [
+      "playing",
+      111.15
+    ],
+    [
+      "waiting",
+      156.096
+    ],
+    [
+      "playing",
+      156.097
+    ],
+    [
+      "waiting",
+      160.108
+    ],
+    [
+      "playing",
+      160.108
+    ],
+    [
+      "waiting",
+      164.096
+    ],
+    [
+      "playing",
+      164.096
+    ],
+    [
+      "waiting",
+      180.12
+    ],
+    [
+      "playing",
+      180.12
+    ],
+    [
+      "waiting",
+      184.135
+    ],
+    [
+      "playing",
+      184.135
+    ],
+    [
+      "waiting",
+      188.121
+    ],
+    [
+      "playing",
+      188.121
+    ],
+    [
+      "waiting",
+      236.176
+    ],
+    [
+      "playing",
+      236.176
+    ]
+  ]
+}

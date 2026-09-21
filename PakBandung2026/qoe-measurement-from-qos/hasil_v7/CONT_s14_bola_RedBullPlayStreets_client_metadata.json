@@ -1,0 +1,257 @@
+{
+  "run_id": "CONT_s14_bola_RedBullPlayStreets",
+  "mpd": "https://192.168.50.10:8444/RedBullPlayStreets/RedBull_4_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-20T04:26:48.436Z",
+  "media_duration": 253.396,
+  "playback_start_epoch": 1789878107.516,
+  "fps_assumed": 29.97002997002997,
+  "quic_forced": "192.168.50.10:8444",
+  "spki_pinned": true,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "bola",
+    "effective": "abrBola"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 4979,
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "t_media": 0.19,
+      "bitrate_kbps": 892,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 4.054,
+      "bitrate_kbps": 101,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 252.49,
+      "bitrate_kbps": 149,
+      "width": 320,
+      "height": 240
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 0.077,
+      "t_epoch": 1789878107.438
+    },
+    {
+      "position": 3.977,
+      "duration": 4.972,
+      "t_epoch": 1789878111.493
+    },
+    {
+      "position": 64.003,
+      "duration": 0.254,
+      "t_epoch": 1789878176.491
+    },
+    {
+      "position": 79.999,
+      "duration": 5.856,
+      "t_epoch": 1789878192.74
+    },
+    {
+      "position": 84.034,
+      "duration": 3.817,
+      "t_epoch": 1789878202.631
+    },
+    {
+      "position": 88.025,
+      "duration": 1.258,
+      "t_epoch": 1789878210.439
+    },
+    {
+      "position": 108.055,
+      "duration": 0.345,
+      "t_epoch": 1789878231.738
+    },
+    {
+      "position": 144.092,
+      "duration": 3.906,
+      "t_epoch": 1789878268.121
+    },
+    {
+      "position": 148.094,
+      "duration": 3.037,
+      "t_epoch": 1789878276.029
+    },
+    {
+      "position": 152.073,
+      "duration": 4.971,
+      "t_epoch": 1789878283.045
+    },
+    {
+      "position": 156.11,
+      "duration": 1.554,
+      "t_epoch": 1789878292.053
+    },
+    {
+      "position": 160.097,
+      "duration": 2.197,
+      "t_epoch": 1789878297.595
+    },
+    {
+      "position": 176.115,
+      "duration": 11.222,
+      "t_epoch": 1789878315.81
+    },
+    {
+      "position": 180.134,
+      "duration": 2.151,
+      "t_epoch": 1789878331.051
+    },
+    {
+      "position": 228.164,
+      "duration": 1.97,
+      "t_epoch": 1789878381.233
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      3.977
+    ],
+    [
+      "playing",
+      3.978
+    ],
+    [
+      "waiting",
+      64.003
+    ],
+    [
+      "playing",
+      64.003
+    ],
+    [
+      "waiting",
+      79.999
+    ],
+    [
+      "playing",
+      79.999
+    ],
+    [
+      "waiting",
+      84.034
+    ],
+    [
+      "playing",
+      84.034
+    ],
+    [
+      "waiting",
+      88.025
+    ],
+    [
+      "playing",
+      88.026
+    ],
+    [
+      "waiting",
+      104.705
+    ],
+    [
+      "playing",
+      104.705
+    ],
+    [
+      "waiting",
+      108.055
+    ],
+    [
+      "playing",
+      108.056
+    ],
+    [
+      "waiting",
+      144.092
+    ],
+    [
+      "playing",
+      144.092
+    ],
+    [
+      "waiting",
+      148.094
+    ],
+    [
+      "playing",
+      148.095
+    ],
+    [
+      "waiting",
+      152.073
+    ],
+    [
+      "playing",
+      152.074
+    ],
+    [
+      "waiting",
+      156.11
+    ],
+    [
+      "playing",
+      156.11
+    ],
+    [
+      "waiting",
+      160.097
+    ],
+    [
+      "playing",
+      160.097
+    ],
+    [
+      "waiting",
+      176.115
+    ],
+    [
+      "playing",
+      176.115
+    ],
+    [
+      "waiting",
+      180.134
+    ],
+    [
+      "playing",
+      180.134
+    ],
+    [
+      "waiting",
+      228.164
+    ],
+    [
+      "playing",
+      228.164
+    ]
+  ]
+}

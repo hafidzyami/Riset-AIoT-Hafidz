@@ -170,7 +170,11 @@ MS = ["tp_slot_akhir", "tp_pendek_mean", "tp_pendek_std", "tp_pendek_max",
       "tp_delta_prev", "tp_rasio_prev", "pkt_delta_prev",
       "tp_kumulatif", "tp_rasio_kumulatif", "bytes_kumulatif", "rasio_diam"]
 SET_FITUR = {"dasar": DASAR, "semua": DASAR + JR_RTT,
-             "multiskala": DASAR + MS, "lengkap": DASAR + JR_RTT + MS}
+             "multiskala": DASAR + MS, "lengkap": DASAR + JR_RTT + MS,
+             # Set untuk sensor QUIC. Reorder dan RTT SELALU nol di atas UDP,
+             # sehingga menyertakannya berarti memberi model lima fitur konstan
+             # nol yang tidak pernah ada saat pelatihan.
+             "quic": DASAR + ["jitter_mean", "jitter_p95"] + MS}
 
 
 def p95(v):
@@ -205,7 +209,7 @@ def hitung_fitur(samples, set_fitur="dasar", riwayat=None, pendek_detik=3.0):
          "total_bytes": tb, "total_packets": tp,
          "active_flows": max(s[6] for s in samples)}
 
-    if set_fitur in ("semua", "lengkap"):
+    if set_fitur in ("semua", "lengkap", "quic"):
         jit = [s[3] / 1e6 for s in samples]               # ns -> ms
         rtt = [s[4] / 1e6 for s in samples if s[4] > 0]
         tr = sum(s[2] for s in samples)
@@ -220,7 +224,7 @@ def hitung_fitur(samples, set_fitur="dasar", riwayat=None, pendek_detik=3.0):
                        if rtt else 0.0,
         })
 
-    if set_fitur in ("multiskala", "lengkap"):
+    if set_fitur in ("multiskala", "lengkap", "quic"):
         if riwayat is None:
             riwayat = {}
         f["tp_slot_akhir"] = round(mbps[-1], 6)
@@ -316,6 +320,15 @@ def self_test():
 
     assert len(hitung_fitur(s, "lengkap", {})) == 25
     print("  [OK] set 'lengkap': 25 fitur")
+
+    fq = hitung_fitur(s, "quic", {})
+    assert len(fq) == 20, len(fq)
+    kq = SET_FITUR["quic"]
+    assert not ({"reorder_rate", "reorder_count", "rtt_mean", "rtt_p95",
+                 "rtt_std"} & set(kq))
+    i_j = kq.index("jitter_mean")
+    assert abs(fq[i_j] - 2.0) < 1e-6, fq[i_j]
+    print(f"  [OK] set 'quic': 20 fitur, jitter {fq[i_j]} ms, tanpa reorder/RTT")
 
     kb = struct.pack("<IIHH", 171092160, 338864320, 36895, 11577)
     vb = struct.pack("<QQ", 500, 3)
@@ -509,7 +522,7 @@ def main():
     # Diperiksa sekali pada window bertrafik pertama, bukan diperingatkan di muka.
     # Peringatan yang selalu tercetak melatih orang mengabaikannya; yang berguna
     # adalah memeriksa apakah jitter dan RTT benar-benar terisi.
-    perlu_periksa_sensor = a.features in ("semua", "lengkap")
+    perlu_periksa_sensor = a.features in ("semua", "lengkap", "quic")
     t_sasaran = time.time() + a.poll
     try:
         while not _stop:
@@ -559,8 +572,18 @@ def main():
                     perlu_periksa_sensor = False
                     kol = SET_FITUR[a.features]
                     jm = f[kol.index("jitter_mean")]
-                    rm = f[kol.index("rtt_mean")]
-                    if jm == 0 and rm == 0:
+                    # Pada set quic, RTT memang TIDAK ADA di daftar fitur karena
+                    # tidak terukur di atas UDP. Memeriksanya akan selalu gagal.
+                    if a.features == "quic":
+                        if jm == 0:
+                            print(">> PERINGATAN: jitter NOL pada window bertrafik.")
+                            print("   Sensor QUIC seharusnya mengisinya. Periksa")
+                            print("   apakah qos_sensor_quic terpasang, bukan versi")
+                            print("   TCP yang tidak melihat UDP sama sekali.")
+                        else:
+                            print(f">> sensor QUIC terkonfirmasi: jitter {jm:.3f} ms "
+                                  f"(RTT dan reorder memang tidak tersedia di UDP)")
+                    elif jm == 0 and f[kol.index("rtt_mean")] == 0:
                         print(">> PERINGATAN: jitter dan RTT keduanya NOL pada window")
                         print("   bertrafik. Kemungkinan sensor yang terpasang versi")
                         print("   ringan, atau TCP timestamp nonaktif di klien.")
@@ -568,7 +591,7 @@ def main():
                         print("   prediksinya TIDAK bermakna.")
                     else:
                         print(f">> sensor lengkap terkonfirmasi: jitter {jm:.3f} ms, "
-                              f"RTT {rm:.3f} ms")
+                              f"RTT {f[kol.index('rtt_mean')]:.3f} ms")
 
                 m_fit = (t2 - t1) * 1000
                 m_inf = (t3 - t2) * 1000

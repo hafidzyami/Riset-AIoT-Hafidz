@@ -49,12 +49,45 @@ MS = ["tp_slot_akhir", "tp_pendek_mean", "tp_pendek_std", "tp_pendek_max",
       "tp_delta_prev", "tp_rasio_prev", "pkt_delta_prev",
       "tp_kumulatif", "tp_rasio_kumulatif", "bytes_kumulatif", "rasio_diam"]
 
+# Requet: 20 jendela (10..200 detik) x 3 metrik, ditambah 5 metrik chunk terakhir.
+REQUET = ([f"rq_{k}_{w}s" for w in range(10, 201, 10)
+           for k in ("n_chunk", "ukuran_rata", "unduh_rata")]
+          + [f"rq_akhir_{k}" for k in ("ukuran", "durasi", "unduh", "slack",
+                                       "laju_efektif")])
+# ViCrypt: 27 fitur x 3 jendela (slot, trend, sesi) ditambah indeks slot.
+_VC_DASAR = ["n_paket", "n_byte", "n_slot_aktif", "rasio_aktif", "t_ke_pertama",
+             "t_stlh_terakhir", "durasi_burst", "tp_rata", "tp_burst",
+             "reg_slope", "reg_intercept"]
+_VC_MOMEN = ["mean", "var", "std", "cvar", "skew", "kurt", "min", "maks"]
+VICRYPT = ([f"vc_{w}_{k}" for w in ("slot", "trend", "sesi")
+            for k in _VC_DASAR]
+           + [f"vc_{w}_{m}_{s}" for w in ("slot", "trend", "sesi")
+              for m in ("vol", "pkt") for s in _VC_MOMEN]
+           + ["vc_indeks_slot"])
+
 SET_FITUR = {"dasar": DASAR, "jr": DASAR + JR, "rtt": DASAR + RTT,
              "semua": DASAR + JR + RTT,
              # hanya 7 throughput + 11 multi-cakupan, tanpa lapisan jaringan
              "multiskala": DASAR + MS,
              # seluruhnya: 7 throughput + 7 lapisan jaringan + 11 multi-cakupan
-             "lengkap": DASAR + JR + RTT + MS}
+             "lengkap": DASAR + JR + RTT + MS,
+             # Yang MASIH terukur di atas QUIC. Reorder menuntut sequence number
+             # dan RTT menuntut opsi TCP timestamp; keduanya tidak ada pada UDP.
+             # Jitter tetap ada karena hanya menuntut waktu antar-kedatangan.
+             "quic": DASAR + ["jitter_mean", "jitter_p95"] + MS,
+             # Set fitur karya terdahulu, diimplementasi ulang dari deskripsi
+             # paper. Keduanya BUKAN reproduksi setia; tabel keterbatasannya ada
+             # di kepala fitur_requet.py dan fitur_vicrypt.py, dan WAJIB
+             # dilaporkan bersama angka apa pun yang dihasilkan di sini.
+             # Requet: 65 dari 127 fitur (60 fitur audio tidak ada pd konten ini)
+             "requet": REQUET,
+             # ViCrypt: 82 dari 208 fitur (data per paket tidak direkam sensor)
+             "vicrypt": VICRYPT,
+             # Gabungan 25 + 82. Menguji apakah fitur lapisan jaringan (jitter,
+             # reorder, RTT) masih menyumbang sesuatu yang TIDAK ditangkap
+             # struktur tiga jendela ViCrypt. Menuntut berkas hasil
+             # gabung_dataset.py yang memuat kedua kelompok kolom.
+             "gabungan": DASAR + JR + RTT + MS + VICRYPT}
 
 # Nilai kritis rentang terstudentisasi untuk uji Nemenyi pada alpha 0,05,
 # derajat bebas tak hingga, dibagi akar dua sesuai rumus baku Demsar (2006).
@@ -237,9 +270,19 @@ def skor_per_lipatan(X, y, g, nama, repeats, folds, seed0=0, per_run=False,
             pred_terakhir)
 
 
-def muat(path, fitur):
+def muat(path, fitur, kunci=None):
+    """Muat dataset; bila `kunci` diberikan, ambil HANYA baris pada kunci itu.
+
+    Argumen kunci dipakai untuk memotong dua dataset ke irisan (run_id,
+    window_index) yang sama sebelum dibandingkan. Tanpa itu, penyaringan window
+    tanpa trafik dapat menyisakan himpunan baris yang sedikit berbeda antar
+    berkas, dan uji berpasangan lalu membandingkan skor dari sampel yang bukan
+    sampel yang sama.
+    """
     baris = [r for r in csv.DictReader(open(path, encoding="utf-8"))
              if float(r["throughput_mean"]) >= 0.01]
+    if kunci is not None:
+        baris = [r for r in baris if (r["run_id"], r["window_index"]) in kunci]
     X = np.array([[float(r[c]) for c in fitur] for r in baris])
     for i, c in enumerate(fitur):
         if c.startswith("rtt"):
@@ -247,6 +290,13 @@ def muat(path, fitur):
     y = np.array([r["label"] for r in baris])
     g = np.array([r["run_id"] for r in baris])
     return X, y, g
+
+
+def kunci_baris(path):
+    """Himpunan (run_id, window_index) yang lolos penyaringan pada satu berkas."""
+    return {(r["run_id"], r["window_index"])
+            for r in csv.DictReader(open(path, encoding="utf-8"))
+            if float(r["throughput_mean"]) >= 0.01}
 
 
 # ------------------------------------------------------------------ uji
@@ -318,6 +368,46 @@ def self_test():
 
     assert len(SET_FITUR["multiskala"]) == 18, len(SET_FITUR["multiskala"])
     assert len(SET_FITUR["lengkap"]) == 25, len(SET_FITUR["lengkap"])
+    # pemotongan ke irisan kunci
+    import tempfile as _tf
+    _d = _tf.mkdtemp()
+    _p1, _p2 = os.path.join(_d, "a.csv"), os.path.join(_d, "b.csv")
+    for _p, _tp in ((_p1, ["1.0", "2.0", "0.005"]), (_p2, ["1.0", "0.004", "3.0"])):
+        with open(_p, "w", newline="", encoding="utf-8") as _f:
+            _w = csv.writer(_f)
+            _w.writerow(["run_id", "window_index", "throughput_mean", "label"])
+            for _i, _v in enumerate(_tp):
+                _w.writerow(["R1", _i, _v, "Good"])
+    _ka, _kb = kunci_baris(_p1), kunci_baris(_p2)
+    assert _ka == {("R1", "0"), ("R1", "1")}, _ka
+    assert _kb == {("R1", "0"), ("R1", "2")}, _kb
+    assert _ka & _kb == {("R1", "0")}
+    _X, _y, _g = muat(_p1, ["throughput_mean"], _ka & _kb)
+    assert len(_y) == 1, len(_y)
+    print("  [OK] irisan kunci baris memotong kedua dataset ke window yang sama")
+
+    assert len(REQUET) == 65, len(REQUET)
+    assert len(VICRYPT) == 82, len(VICRYPT)
+    for nm, st_ in (("requet", REQUET), ("vicrypt", VICRYPT)):
+        assert len(set(st_)) == len(st_), f"kolom duplikat pd {nm}"
+    # ketiga set fitur tidak boleh beririsan, kalau beririsan perbandingannya
+    # bukan lagi antar pendekatan melainkan antar himpunan yg tumpang tindih
+    assert not (set(REQUET) & set(VICRYPT))
+    assert not (set(REQUET) & set(SET_FITUR["lengkap"]))
+    assert not (set(VICRYPT) & set(SET_FITUR["lengkap"]))
+    gab = SET_FITUR["gabungan"]
+    assert len(gab) == 25 + 82 == 107, len(gab)
+    assert len(set(gab)) == len(gab), "kolom duplikat pd set gabungan"
+    assert set(gab) == set(SET_FITUR["lengkap"]) | set(VICRYPT)
+    print(f"  [OK] set gabungan {len(gab)} fitur = 25 lengkap + 82 vicrypt")
+    print(f"  [OK] set requet {len(REQUET)} dan vicrypt {len(VICRYPT)} fitur, "
+          f"tidak beririsan dgn set lengkap")
+    q = SET_FITUR["quic"]
+    assert len(q) == 20, len(q)
+    for t in ("reorder_rate", "reorder_count", "rtt_mean", "rtt_p95", "rtt_std"):
+        assert t not in q, t
+    assert "jitter_mean" in q and "jitter_p95" in q
+    print(f"  [OK] set quic: {len(q)} fitur, tanpa reorder dan RTT, jitter tetap ada")
     print(f"  [OK] set lengkap: 7 throughput + 7 lapisan jaringan + 11 multi-cakupan "
           f"= {len(SET_FITUR['lengkap'])} fitur")
     assert SET_FITUR["multiskala"][:7] == DASAR
@@ -413,7 +503,15 @@ def jalankan_perbandingan(a, fitur, Xa, ya, ga, kelas=("Excellent", "Good",
     Lipatan tetap ditentukan hanya oleh run_id sehingga skornya berpasangan.
     """
     fitur_b = SET_FITUR[a.compare_features] if a.compare_features else fitur
-    Xb, yb, gb = muat(a.compare_dataset, fitur_b)
+    # Kedua dataset dipotong ke IRISAN kunci barisnya lebih dulu, supaya uji
+    # berpasangan benar-benar membandingkan window yang sama.
+    ka, kb = kunci_baris(a.dataset), kunci_baris(a.compare_dataset)
+    irisan = ka & kb
+    if irisan != ka or irisan != kb:
+        print(f"  irisan baris: {len(irisan):,} dari {len(ka):,} (A) dan "
+              f"{len(kb):,} (B); keduanya dipotong ke irisan agar berpasangan")
+    Xa, ya, ga = muat(a.dataset, fitur, irisan)
+    Xb, yb, gb = muat(a.compare_dataset, fitur_b, irisan)
     J = a.repeats * a.folds
     print(f"A: {os.path.basename(a.dataset)} -> {len(ya)} window, {len(set(ga))} run, "
           f"{len(fitur)} fitur ({a.features})")

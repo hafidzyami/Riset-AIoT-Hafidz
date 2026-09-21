@@ -1,0 +1,159 @@
+{
+  "run_id": "CONT_s3_throughput_TearsOfSteel",
+  "mpd": "https://192.168.50.10:8444/TearsOfSteel/TearsOfSteel_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-20T11:14:59.304Z",
+  "media_duration": 283.954,
+  "playback_start_epoch": 1789902601.784,
+  "fps_assumed": 24,
+  "quic_forced": "192.168.50.10:8444",
+  "spki_pinned": true,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "throughput",
+    "effective": "abrThroughput"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0.083,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 4.021,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    },
+    {
+      "t_media": 76.037,
+      "bitrate_kbps": 505,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 80.02,
+      "bitrate_kbps": 807,
+      "width": 640,
+      "height": 360
+    },
+    {
+      "t_media": 84.004,
+      "bitrate_kbps": 253,
+      "width": 480,
+      "height": 270
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 2.311,
+      "t_epoch": 1789902599.473
+    },
+    {
+      "position": 10.944,
+      "duration": 0.196,
+      "t_epoch": 1789902612.684
+    },
+    {
+      "position": 14.943,
+      "duration": 4.733,
+      "t_epoch": 1789902616.862
+    },
+    {
+      "position": 18.943,
+      "duration": 1.178,
+      "t_epoch": 1789902625.576
+    },
+    {
+      "position": 26.943,
+      "duration": 3.017,
+      "t_epoch": 1789902634.745
+    },
+    {
+      "position": 30.943,
+      "duration": 3.691,
+      "t_epoch": 1789902641.744
+    },
+    {
+      "position": 34.943,
+      "duration": 0.896,
+      "t_epoch": 1789902649.416
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.085
+    ],
+    [
+      "waiting",
+      10.944
+    ],
+    [
+      "playing",
+      11.003
+    ],
+    [
+      "waiting",
+      14.943
+    ],
+    [
+      "playing",
+      15.003
+    ],
+    [
+      "waiting",
+      18.943
+    ],
+    [
+      "playing",
+      19.004
+    ],
+    [
+      "waiting",
+      22.943
+    ],
+    [
+      "playing",
+      22.964
+    ],
+    [
+      "waiting",
+      26.943
+    ],
+    [
+      "playing",
+      27.004
+    ],
+    [
+      "waiting",
+      30.943
+    ],
+    [
+      "playing",
+      31.004
+    ],
+    [
+      "waiting",
+      34.943
+    ],
+    [
+      "playing",
+      35.004
+    ]
+  ]
+}

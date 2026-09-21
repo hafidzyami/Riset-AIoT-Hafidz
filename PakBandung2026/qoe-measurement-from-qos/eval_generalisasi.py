@@ -49,7 +49,8 @@ MS = ["tp_slot_akhir", "tp_pendek_mean", "tp_pendek_std", "tp_pendek_max",
       "tp_kumulatif", "tp_rasio_kumulatif", "bytes_kumulatif", "rasio_diam"]
 SET_FITUR = {"dasar": DASAR, "jr": DASAR + JR, "rtt": DASAR + RTT,
              "semua": DASAR + JR + RTT, "multiskala": DASAR + MS,
-             "lengkap": DASAR + JR + RTT + MS}
+             "lengkap": DASAR + JR + RTT + MS,
+             "quic": DASAR + ["jitter_mean", "jitter_p95"] + MS}
 KELAS = ["Excellent", "Good", "Degraded", "Critical"]
 MODEL = ["RandomForest", "SVM RBF", "LogReg", "DecisionTree"]
 

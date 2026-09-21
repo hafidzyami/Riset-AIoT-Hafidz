@@ -203,6 +203,12 @@ def main():
     ap.add_argument("--https", action="store_true",
                     help="sajikan lewat TLS; diteruskan ke run_one_v4.py")
     ap.add_argument("--https-port", type=int, default=8443)
+    ap.add_argument("--quic", action="store_true",
+                    help="sajikan lewat HTTP/3 di atas QUIC; menuntut sensor "
+                         "versi QUIC dan model tanpa reorder serta RTT")
+    ap.add_argument("--quic-port", type=int, default=8444)
+    ap.add_argument("--spki", default="",
+                    help="sidik jari SPKI sertifikat untuk jalur QUIC")
     ap.add_argument("--shuffle", type=int, default=None, metavar="SEED",
                     help="acak urutan run dengan seed tertentu. Urutan bawaan "
                          "menempatkan judul di perulangan terluar, sehingga bila "
@@ -210,6 +216,13 @@ def main():
                          "laju cuplik menurun karena map eBPF menumpuk), judul "
                          "menjadi terkonfound dengan penyimpangan itu. Pengacakan "
                          "menyebarkannya merata ke seluruh judul, seed, dan mode")
+    ap.add_argument("--harap-sensor", default=None, metavar="OBJ",
+                    help="nama berkas .bpf.o yang HARUS aktif di RPi 5, mis. "
+                         "qos_sensor_quic.bpf.o. Diperiksa sekali sebelum koleksi "
+                         "dimulai, dan koleksi dibatalkan bila tidak cocok")
+    ap.add_argument("--pi5-user", default="hafidz")
+    ap.add_argument("--pi5-host", default="192.168.18.234")
+    ap.add_argument("--pi5-dir", default="~/RisetPakBandung2026/ebpf")
     ap.add_argument("--restart-sensor", action="store_true",
                     help="muat ulang layanan sensor di RPi 5 sebelum tiap run, agar "
                          "map eBPF selalu bersih dan laju cuplik tetap. UJI DULU "
@@ -255,6 +268,30 @@ def main():
         import random as _rnd
         _rnd.Random(a.shuffle).shuffle(daftar)
 
+    # Pemeriksaan sensor dijalankan SEBELUM run pertama, bukan diasumsikan.
+    # Satu koleksi 40 jam pernah terbuang karena `systemctl restart qos-sensor`
+    # memuat objek yang tertulis di unit systemd, bukan objek yang dipasang
+    # manual dengan bpftool. Sensor TCP tidak melihat UDP sama sekali, sehingga
+    # seluruh koleksi QUIC hanya mengukur trafik latar tanpa satu pun tanda.
+    if a.harap_sensor:
+        import subprocess as _sp
+        r = _sp.run(["ssh", "-n", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10",
+                     f"{a.pi5_user}@{a.pi5_host}",
+                     # sudo -n /usr/bin/python3 dipakai karena bpftool menuntut
+                     # root untuk membaca daftar program; tanpa itu pemeriksaan
+                     # tidak dapat membuktikan sensor benar-benar terpasang
+                     f"cd {a.pi5_dir} && sudo -n /usr/bin/python3 sensor_ctl.py "
+                     f"--status --harap {a.harap_sensor}"],
+                    capture_output=True, text=True)
+        for ln in (r.stdout or r.stderr or "").strip().split("\n"):
+            print(f"   {ln}")
+        if r.returncode != 0:
+            print("\n>> DIBATALKAN: sensor aktif di RPi 5 bukan yang diharapkan.")
+            print("   Perbaiki dulu, karena koleksi akan berjalan sampai selesai")
+            print("   tanpa memunculkan kesalahan apa pun meski datanya salah.")
+            sys.exit(1)
+        print()
+
     lewati = [x for x in daftar if sudah_ada(a.results, x[0], x[1], x[2], bersilang)]
     kerja = [x for x in daftar if x not in lewati]
     # satu run kira-kira durasi pemutaran + jeda muka + jeda akhir + overhead
@@ -278,6 +315,10 @@ def main():
         print("   sensor    : dimuat ulang sebelum tiap run agar laju cuplik tetap")
     if a.https:
         print(f"   transport : TLS pada port {a.https_port} (trafik terenkripsi)")
+    if a.quic:
+        print(f"   transport : HTTP/3 di atas QUIC pada port {a.quic_port} (UDP)")
+        print("   PASTIKAN sensor versi QUIC terpasang dan model dilatih tanpa")
+        print("   reorder serta RTT; keduanya tidak tersedia di atas UDP")
     print()
 
     if a.dry_run:
@@ -298,7 +339,10 @@ def main():
                + (["--tandai-abr"] if bersilang else [])
                + (["--restart-sensor"] if a.restart_sensor else [])
                + (["--https", "--https-port", str(a.https_port)]
-                  if a.https else []) + ekstra)
+                  if a.https else [])
+               + (["--quic", "--quic-port", str(a.quic_port)]
+                  + (["--spki", a.spki] if a.spki else [])
+                  if a.quic else []) + ekstra)
         berhasil = False
         for coba in range(1 + max(0, a.retry)):
             if coba:

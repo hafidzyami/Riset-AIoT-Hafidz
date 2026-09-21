@@ -1,0 +1,328 @@
+{
+  "run_id": "CONT_s10_l2a_BigBuckBunny",
+  "mpd": "https://192.168.50.10:8444/BigBuckBunny/BigBuckBunny_4s_simple_2014_05_09.mpd",
+  "captured_at": "2026-09-20T01:59:35.999Z",
+  "media_duration": 291.096,
+  "playback_start_epoch": 1789869277.691,
+  "fps_assumed": 24,
+  "quic_forced": "192.168.50.10:8444",
+  "spki_pinned": true,
+  "codec": "h264",
+  "display": {
+    "width": 1280,
+    "height": 720
+  },
+  "throttle": {
+    "preset": "none",
+    "downloadThroughput_Bps": -1,
+    "latency_ms": 0
+  },
+  "abr": {
+    "requested": "l2a",
+    "effective": "abrL2A"
+  },
+  "quality_timeline": [
+    {
+      "t_media": 0,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 16.036,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 20.019,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 36.224,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 40.21,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 56.143,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 60.122,
+      "bitrate_kbps": 1009,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 68.163,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 72.161,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 76.141,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 80.124,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 84.108,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 88.096,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 92.085,
+      "bitrate_kbps": 578,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 93.147,
+      "bitrate_kbps": 783,
+      "width": 1280,
+      "height": 720
+    },
+    {
+      "t_media": 104.011,
+      "bitrate_kbps": 509,
+      "width": 854,
+      "height": 480
+    },
+    {
+      "t_media": 132.078,
+      "bitrate_kbps": 323,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 140.072,
+      "bitrate_kbps": 129,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 144.056,
+      "bitrate_kbps": 218,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 148.044,
+      "bitrate_kbps": 323,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 152.036,
+      "bitrate_kbps": 378,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 196.151,
+      "bitrate_kbps": 218,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 200.144,
+      "bitrate_kbps": 177,
+      "width": 480,
+      "height": 360
+    },
+    {
+      "t_media": 208.103,
+      "bitrate_kbps": 129,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 216.081,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 216.872,
+      "bitrate_kbps": 129,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 276.225,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 280.216,
+      "bitrate_kbps": 45,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 284.197,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 285.785,
+      "bitrate_kbps": 129,
+      "width": 320,
+      "height": 240
+    },
+    {
+      "t_media": 288.108,
+      "bitrate_kbps": 89,
+      "width": 320,
+      "height": 240
+    }
+  ],
+  "stalls": [
+    {
+      "position": 0,
+      "duration": 2.753,
+      "t_epoch": 1789869274.938
+    },
+    {
+      "position": 11.959,
+      "duration": 0.436,
+      "t_epoch": 1789869289.65
+    },
+    {
+      "position": 63.928,
+      "duration": 1.08,
+      "t_epoch": 1789869342.056
+    },
+    {
+      "position": 79.932,
+      "duration": 0.071,
+      "t_epoch": 1789869359.139
+    },
+    {
+      "position": 95.935,
+      "duration": 0.17,
+      "t_epoch": 1789869375.213
+    },
+    {
+      "position": 135.918,
+      "duration": 4.34,
+      "t_epoch": 1789869415.378
+    },
+    {
+      "position": 275.915,
+      "duration": 0.49,
+      "t_epoch": 1789869559.715
+    },
+    {
+      "position": 287.933,
+      "duration": 0.614,
+      "t_epoch": 1789869572.222
+    }
+  ],
+  "events_raw": [
+    [
+      "waiting",
+      0
+    ],
+    [
+      "playing",
+      0.001
+    ],
+    [
+      "waiting",
+      11.959
+    ],
+    [
+      "playing",
+      11.959
+    ],
+    [
+      "waiting",
+      63.928
+    ],
+    [
+      "playing",
+      63.929
+    ],
+    [
+      "waiting",
+      79.932
+    ],
+    [
+      "playing",
+      79.932
+    ],
+    [
+      "waiting",
+      95.935
+    ],
+    [
+      "playing",
+      95.935
+    ],
+    [
+      "waiting",
+      116.405
+    ],
+    [
+      "playing",
+      116.405
+    ],
+    [
+      "waiting",
+      135.918
+    ],
+    [
+      "playing",
+      135.918
+    ],
+    [
+      "waiting",
+      275.915
+    ],
+    [
+      "playing",
+      275.915
+    ],
+    [
+      "waiting",
+      287.933
+    ],
+    [
+      "playing",
+      287.933
+    ]
+  ]
+}

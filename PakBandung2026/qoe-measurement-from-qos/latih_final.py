@@ -39,7 +39,10 @@ MS = ["tp_slot_akhir", "tp_pendek_mean", "tp_pendek_std", "tp_pendek_max",
       "tp_kumulatif", "tp_rasio_kumulatif", "bytes_kumulatif", "rasio_diam"]
 SET_FITUR = {"dasar": DASAR, "jr": DASAR + JR, "rtt": DASAR + RTT,
              "semua": DASAR + JR + RTT, "multiskala": DASAR + MS,
-             "lengkap": DASAR + JR + RTT + MS}
+             "lengkap": DASAR + JR + RTT + MS,
+             # tersedia di atas QUIC: tanpa reorder (butuh sequence number) dan
+             # tanpa RTT (butuh opsi TCP timestamp), jitter tetap ada
+             "quic": DASAR + ["jitter_mean", "jitter_p95"] + MS}
 
 GRID = {
     "SVM RBF": {"C": [10, 100, 1000], "gamma": ["scale", 0.05, 0.1]},
@@ -140,6 +143,10 @@ def self_test():
         for rid, wi, k, tp in rows:
             w_.writerow([rid, wi, k, round(tp, 5), round(tp * .4, 5), 0,
                          round(tp * 2, 5), int(tp * 1.25e6), int(tp * 830), 3])
+
+    assert len(SET_FITUR["quic"]) == 20
+    assert not ({"reorder_rate", "rtt_mean"} & set(SET_FITUR["quic"]))
+    print("  [OK] set quic tersedia: 20 fitur tanpa reorder dan RTT")
 
     X, y, g = muat(p, DASAR)
     assert X.shape == (len(rows), 7) and len(set(g)) == n_run

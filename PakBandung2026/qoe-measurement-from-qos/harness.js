@@ -61,6 +61,24 @@ const DASHJS = arg("dashjs", "https://cdn.dashjs.org/v4.7.4/dash.all.min.js");
 // yang dijelaskan pada publikasi aslinya. Disediakan untuk eksplorasi, bukan untuk
 // klaim. Periksa medan abr.effective pada metadata keluaran: bila berbunyi
 // "default", versi dash.js yang dipakai tidak mengenali strategi itu.
+// Chromium TIDAK memakai HTTP/3 secara otomatis untuk host baru: ia menunggu
+// header Alt-Svc pada koneksi TCP lebih dulu, lalu baru mencoba QUIC pada
+// permintaan BERIKUTNYA. Untuk sesi 5 menit itu berarti sebagian trafik awal
+// tetap lewat TCP, dan perbandingan protokol menjadi tercampur. Bendera
+// --origin-to-force-quic-on memaksa QUIC sejak permintaan pertama.
+const QUIC = arg("quic", "") ? String(arg("quic", "")) : "";
+
+// Chromium memverifikasi sertifikat pada jalur QUIC secara BERBEDA, dan
+// --ignore-certificate-errors saja tidak selalu cukup. Bila origin dipaksa ke
+// QUIC lalu koneksinya ditolak, Chromium TIDAK kembali ke TCP sehingga seluruh
+// permintaan mati dan gejalanya terlihat seperti MPD tidak dapat diputar.
+// --ignore-certificate-errors-spki-list menerima sidik jari SPKI dan bekerja
+// pada kedua jalur. Ambil nilainya dengan:
+//   openssl x509 -in dash.crt -pubkey -noout \
+//     | openssl pkey -pubin -outform der \
+//     | openssl dgst -sha256 -binary | openssl enc -base64
+const SPKI = arg("spki", "") ? String(arg("spki", "")) : "";
+
 const ABR_SAH = ["throughput", "dynamic", "bola"];
 const ABR_EKSPLORASI = ["l2a", "lolp"];
 const ABR = String(arg("abr", "dynamic")).toLowerCase();
@@ -252,7 +270,12 @@ async function detectFps(mpdUrl) {
     // quality_timeline keluar kosong tanpa pesan yang jelas.
     args: ["--no-sandbox", "--disable-dev-shm-usage",
            "--autoplay-policy=no-user-gesture-required",
-           "--ignore-certificate-errors"],
+           "--ignore-certificate-errors",
+           // --quic-version SENGAJA tidak diberikan. Nilai yang tidak dikenal
+           // versi Chromium yang dipakai justru mematikan QUIC sepenuhnya, dan
+           // membiarkannya dinegosiasikan lebih aman.
+           ...(QUIC ? ["--enable-quic", `--origin-to-force-quic-on=${QUIC}`] : []),
+           ...(SPKI ? [`--ignore-certificate-errors-spki-list=${SPKI}`] : [])],
   });
   try {
     const page = await browser.newPage();
@@ -318,6 +341,8 @@ async function detectFps(mpdUrl) {
       media_duration: +tel.mediaDuration.toFixed(3),
       playback_start_epoch: tel.data.playback_start_epoch,   // untuk penyelarasan X<->y
       fps_assumed: FPS,
+      quic_forced: QUIC || null,
+      spki_pinned: SPKI ? true : false,
       codec: CODEC,
       display: { width: dispW, height: dispH },
       throttle: { preset: THROTTLE, downloadThroughput_Bps: dlBps, latency_ms: LATENCY },

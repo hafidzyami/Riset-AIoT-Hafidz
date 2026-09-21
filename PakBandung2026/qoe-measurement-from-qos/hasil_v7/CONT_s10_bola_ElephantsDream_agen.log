@@ -1,0 +1,43 @@
+>> run_id=CONT_s10_bola_ElephantsDream | map=flows | poll=0.1s | window=10.0s -> qos_features.csv
+>> menghitung SEMUA flow TCP yang lewat (Ctrl-C untuk berhenti)
+>> XDP terpasang di eth0: prog id=5813
+>> membaca 1 map bernama 'flows': id [1595]
+>> entri awal di map: 0  (0 = belum ada trafik TCP yang tertangkap)
+  w0      0.001 Mbps (std  0.002)  jit   0.012 ms  reord  0.00%  rtt    0.00 ms        5 pkt  1 flow
+  w1      0.001 Mbps (std  0.002)  jit   0.077 ms  reord  0.00%  rtt    0.00 ms        5 pkt  1 flow
+  w2      0.001 Mbps (std  0.004)  jit   0.143 ms  reord  0.00%  rtt    0.00 ms        8 pkt  1 flow
+  w3      0.001 Mbps (std  0.003)  jit   0.179 ms  reord  0.00%  rtt    0.00 ms        6 pkt  1 flow
+  w4      0.113 Mbps (std  0.330)  jit   1.144 ms  reord  0.00%  rtt    0.00 ms      234 pkt  4 flow
+  w5      1.023 Mbps (std  0.215)  jit  18.776 ms  reord  0.00%  rtt    0.00 ms    1,404 pkt  5 flow
+  w6      1.023 Mbps (std  0.311)  jit  24.326 ms  reord  0.00%  rtt    0.00 ms    1,351 pkt  5 flow
+  w7      1.067 Mbps (std  0.257)  jit  18.768 ms  reord  0.00%  rtt    0.00 ms    1,374 pkt  5 flow
+  w8      1.081 Mbps (std  0.310)  jit  39.094 ms  reord  0.00%  rtt    0.00 ms    1,385 pkt  6 flow
+  w9      1.080 Mbps (std  0.277)  jit  37.142 ms  reord  0.00%  rtt    0.00 ms    1,377 pkt  6 flow
+  w10     0.369 Mbps (std  0.536)  jit  12.298 ms  reord  0.00%  rtt    0.00 ms      505 pkt  2 flow
+  w11     0.404 Mbps (std  0.499)  jit  14.977 ms  reord  0.00%  rtt    0.00 ms      625 pkt  4 flow
+  w12     0.854 Mbps (std  0.207)  jit  39.188 ms  reord  0.00%  rtt    0.00 ms    1,165 pkt  5 flow
+  w13     0.839 Mbps (std  0.287)  jit  35.902 ms  reord  0.00%  rtt    0.00 ms    1,147 pkt  5 flow
+  w14     0.859 Mbps (std  0.334)  jit  19.706 ms  reord  0.00%  rtt    0.00 ms    1,135 pkt  3 flow
+  w15     0.598 Mbps (std  0.287)  jit  19.200 ms  reord  0.00%  rtt    0.00 ms      890 pkt  3 flow
+  w16     0.585 Mbps (std  0.249)  jit  21.970 ms  reord  0.00%  rtt    0.00 ms      854 pkt  3 flow
+  w17     0.584 Mbps (std  0.181)  jit  41.358 ms  reord  0.00%  rtt    0.00 ms      874 pkt  5 flow
+  w18     1.796 Mbps (std 12.920)  jit  71.720 ms  reord  0.00%  rtt    0.00 ms    1,996 pkt  5 flow
+  w19     0.316 Mbps (std  0.418)  jit  30.624 ms  reord  0.00%  rtt    0.00 ms      457 pkt  4 flow
+  w20     0.458 Mbps (std  0.320)  jit  29.818 ms  reord  0.00%  rtt    0.00 ms      659 pkt  3 flow
+  w21     0.462 Mbps (std  0.248)  jit  25.103 ms  reord  0.00%  rtt    0.00 ms      689 pkt  3 flow
+  w22     0.386 Mbps (std  0.342)  jit  22.873 ms  reord  0.00%  rtt    0.00 ms      570 pkt  3 flow
+  w23     0.212 Mbps (std  0.243)  jit  35.307 ms  reord  0.00%  rtt    0.00 ms      364 pkt  3 flow
+  w24     0.201 Mbps (std  0.209)  jit  55.816 ms  reord  0.00%  rtt    0.00 ms      298 pkt  3 flow
+  w25     0.202 Mbps (std  0.217)  jit  68.508 ms  reord  0.00%  rtt    0.00 ms      332 pkt  4 flow
+  w26     0.201 Mbps (std  0.255)  jit  50.105 ms  reord  0.00%  rtt    0.00 ms      315 pkt  3 flow
+  w27     0.176 Mbps (std  0.310)  jit  36.475 ms  reord  0.00%  rtt    0.00 ms      261 pkt  3 flow
+  w28     0.148 Mbps (std  0.255)  jit  54.346 ms  reord  0.00%  rtt    0.00 ms      233 pkt  3 flow
+  w29     0.141 Mbps (std  0.215)  jit  44.307 ms  reord  0.00%  rtt    0.00 ms      233 pkt  3 flow
+  w30     0.149 Mbps (std  0.257)  jit  45.777 ms  reord  0.00%  rtt    0.00 ms      227 pkt  3 flow
+  w31     0.144 Mbps (std  0.216)  jit  90.046 ms  reord  0.00%  rtt    0.00 ms      223 pkt  4 flow
+  w32     0.103 Mbps (std  0.179)  jit  80.168 ms  reord  0.00%  rtt    0.00 ms      161 pkt  4 flow
+  w33     0.003 Mbps (std  0.011)  jit  38.260 ms  reord  0.00%  rtt    0.00 ms       27 pkt  2 flow
+  w34     0.001 Mbps (std  0.002)  jit   0.270 ms  reord  0.00%  rtt    0.00 ms        5 pkt  1 flow
+  w35  (parsial, 99 cuplikan) 0.001 Mbps
+>> selesai: 36 window -> qos_features.csv
+>>          cuplikan mentah -> qos_samples.csv (untuk align_qos.py)
